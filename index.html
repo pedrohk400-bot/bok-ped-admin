@@ -1,144 +1,95 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-    <meta
-        name="theme-color"
-        content="#111111">
+    <meta name="theme-color" content="#090909">
 
     <title>BOK PEDRO - لوحة الإدارة</title>
 
+    <link rel="stylesheet" href="style.css">
 
-    <link
-        rel="stylesheet"
-        href="style.css">
-
-
-    <!-- OCR -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
-
 
 <body>
 
-
 <!-- =====================================================
-     LOGIN
+     LOGIN PAGE
 ===================================================== -->
 
-<div
-    id="loginPage"
-    class="page">
-
+<div id="loginPage" class="page">
 
     <div class="login-card">
-
 
         <div class="logo">
             BOK
         </div>
 
-
-        <h1>
-            BOK PEDRO
-        </h1>
-
+        <h1>BOK PEDRO</h1>
 
         <p>
             لوحة إدارة طلبات الحسابات
         </p>
 
-
         <input
             type="email"
             id="email"
             placeholder="البريد الإلكتروني"
-            autocomplete="email">
-
+            autocomplete="username"
+        >
 
         <input
             type="password"
             id="password"
             placeholder="كلمة المرور"
-            autocomplete="current-password">
+            autocomplete="current-password"
+        >
 
-
-        <button
-            id="loginBtn"
-            type="button">
-
+        <button id="loginBtn" type="button">
             تسجيل الدخول
-
         </button>
 
-
-        <div
-            id="loginError"
-            class="error">
-        </div>
-
+        <div id="loginError" class="error"></div>
 
     </div>
 
 </div>
 
 
-
 <!-- =====================================================
-     ADMIN
+     ADMIN PAGE
 ===================================================== -->
 
-<div
-    id="adminPage"
-    class="page"
-    style="display:none;">
+<div id="adminPage" class="page" style="display:none;">
 
+    <!-- TOPBAR -->
 
-    <div class="topbar">
-
+    <header class="topbar">
 
         <div>
-
-            <h2>
-                BOK PEDRO
-            </h2>
+            <h2>BOK PEDRO</h2>
 
             <span>
                 لوحة إدارة طلبات الحسابات
             </span>
-
         </div>
 
-
-        <button
-            id="logoutBtn"
-            type="button">
-
+        <button id="logoutBtn" type="button">
             تسجيل الخروج
-
         </button>
 
-
-    </div>
-
+    </header>
 
 
-    <!-- =================================================
-         STATS
-    ================================================== -->
+    <!-- STATS -->
 
-    <div class="stats">
-
+    <section class="stats">
 
         <div class="stat-card">
 
@@ -178,46 +129,42 @@
 
         </div>
 
-
-    </div>
-
+    </section>
 
 
-    <!-- =================================================
-         SEARCH
-    ================================================== -->
+    <!-- SEARCH -->
 
-    <div class="search-box">
+    <section class="search-box">
 
         <input
             type="search"
             id="searchInput"
             placeholder="ابحث برقم الحساب 7 أرقام"
-            inputmode="numeric">
+            inputmode="numeric"
+        >
 
-    </div>
+    </section>
 
 
+    <!-- LOADING -->
 
     <div id="loading">
         جاري تحميل الطلبات...
     </div>
 
 
-    <div
-        id="empty"
-        style="display:none;">
+    <!-- EMPTY -->
 
+    <div id="empty" style="display:none;">
         لا توجد طلبات.
-
     </div>
 
 
-    <div id="requestsList"></div>
+    <!-- REQUESTS -->
 
+    <main id="requestsList"></main>
 
 </div>
-
 
 
 <!-- =====================================================
@@ -227,32 +174,29 @@
 <div
     id="editModal"
     class="modal"
-    style="display:none;">
-
+    style="display:none;"
+>
 
     <div class="modal-content">
-
 
         <button
             id="closeModal"
             class="close-modal"
-            type="button">
-
+            type="button"
+        >
             ×
-
         </button>
 
 
         <h2>
-            إكمال بيانات الحساب
+            تعديل البيانات
         </h2>
 
 
         <div
             id="modalAccount"
-            class="modal-account">
-        </div>
-
+            class="modal-account"
+        ></div>
 
 
         <!-- =================================================
@@ -261,240 +205,162 @@
 
         <div class="ocr-box">
 
-
             <div class="ocr-title">
-
                 ⚡ استخراج سريع من الصورة
-
             </div>
-
 
             <div class="ocr-description">
-
-                اختر صورة من المعرض ثم حدد بإصبعك المنطقة التي تحتوي على بيانات الحساب.
-
+                اختر صورة من المعرض وسيتم استخراج بيانات الحساب
+                تلقائيًا بدون قص الصورة.
             </div>
 
-
-            <!--
-                لا يوجد capture
-                لذلك الاختيار من المعرض.
-            -->
 
             <input
                 type="file"
                 id="ocrImage"
                 accept="image/*"
-                hidden>
+                hidden
+            >
 
 
             <button
                 id="ocrBtn"
                 class="ocr-btn"
-                type="button">
-
-                🖼️ اختيار صورة من المعرض
-
-            </button>
-
-
-            <!-- =================================================
-                 CROP AREA
-            ================================================== -->
-
-            <div
-                id="cropContainer"
-                class="crop-container"
-                style="display:none;">
-
-
-                <canvas
-                    id="cropCanvas">
-                </canvas>
-
-
-                <div
-                    id="cropSelection"
-                    class="crop-selection">
-
-
-                    <div
-                        class="crop-handle top-left">
-                    </div>
-
-
-                    <div
-                        class="crop-handle top-right">
-                    </div>
-
-
-                    <div
-                        class="crop-handle bottom-left">
-                    </div>
-
-
-                    <div
-                        class="crop-handle bottom-right">
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- =================================================
-                 CROP BUTTON
-            ================================================== -->
-
-            <button
-                id="cropBtn"
-                class="ocr-btn"
                 type="button"
-                style="display:none;">
-
-                ✂️ استخراج المنطقة المحددة
-
+            >
+                🖼️ اختيار صورة من المعرض
             </button>
 
-
-            <!-- =================================================
-                 PREVIEW RESULT
-            ================================================== -->
 
             <img
                 id="ocrPreview"
-                alt="معاينة"
-                style="display:none;">
+                alt="معاينة الصورة"
+                style="display:none;"
+            >
 
 
             <div
                 id="ocrStatus"
-                class="ocr-status">
-            </div>
-
+                class="ocr-status"
+            ></div>
 
         </div>
 
 
-
         <!-- =================================================
-             ACCOUNT
+             ACCOUNT NUMBER
         ================================================== -->
 
-        <label>
+        <label for="accountNumber16">
             رقم الحساب 16 رقم
         </label>
-
 
         <input
             type="text"
             id="accountNumber16"
-            maxlength="16"
             inputmode="numeric"
-            placeholder="رقم الحساب 16 رقم">
-
+            maxlength="16"
+            placeholder="رقم الحساب"
+        >
 
 
         <!-- =================================================
              NAME
         ================================================== -->
 
-        <label>
+        <label for="accountName">
             الاسم
         </label>
-
 
         <input
             type="text"
             id="accountName"
-            placeholder="اسم صاحب الحساب">
+            placeholder="اسم صاحب الحساب"
+        >
 
+
+        <!-- =================================================
+             ACCOUNT TYPE
+        ================================================== -->
+
+        <label for="accountType">
+            نوع الحساب
+        </label>
+
+        <select id="accountType">
+
+            <option value="">
+                اختر نوع الحساب
+            </option>
+
+            <option value="حساب توفير">
+                حساب توفير
+            </option>
+
+            <option value="حساب جاري">
+                حساب جاري
+            </option>
+
+            <option value="توفير">
+                توفير
+            </option>
+
+            <option value="جاري">
+                جاري
+            </option>
+
+        </select>
 
 
         <!-- =================================================
              BRANCH
         ================================================== -->
 
-        <label>
+        <label for="accountBranch">
             الفرع
         </label>
-
 
         <input
             type="text"
             id="accountBranch"
-            placeholder="اسم الفرع">
-
+            placeholder="اسم الفرع"
+        >
 
 
         <!-- =================================================
-             TYPE
+             SAVE
         ================================================== -->
 
-        <label>
-            نوع الحساب
-        </label>
-
-
-        <select id="accountType">
-
-
-            <option value="">
-                اختر نوع الحساب
-            </option>
-
-
-            <option value="حساب توفير">
-                حساب توفير
-            </option>
-
-
-            <option value="حساب جاري">
-                حساب جاري
-            </option>
-
-
-            <option value="توفير مميز">
-                توفير مميز
-            </option>
-
-
-        </select>
+        <button
+            id="saveBtn"
+            type="button"
+        >
+            حفظ البيانات
+        </button>
 
 
         <div
             id="saveError"
-            class="error">
-        </div>
-
-
-        <button
-            id="saveBtn"
-            type="button">
-
-            حفظ وإكمال الطلب
-
-        </button>
-
+            class="error"
+        ></div>
 
     </div>
 
 </div>
 
 
+<!-- =====================================================
+     TOAST
+===================================================== -->
 
 <div id="toast"></div>
 
 
+<!-- =====================================================
+     FIREBASE APP
+===================================================== -->
 
-<script
-    type="module"
-    src="app.js">
-</script>
-
+<script type="module" src="app.js"></script>
 
 </body>
-
 </html>
