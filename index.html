@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOK PEDRO - لوحة الإدارة</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <section id="loginPage" class="page login-page">
+    <div class="login-card">
+      <div class="logo">BOK</div>
+      <h1>BOK PEDRO</h1>
+      <p class="muted">تسجيل دخول الإدارة</p>
+
+      <input id="email" type="email" placeholder="البريد الإلكتروني" autocomplete="email">
+      <input id="password" type="password" placeholder="كلمة المرور" autocomplete="current-password">
+      <button id="loginBtn" class="primary-btn">تسجيل الدخول</button>
+      <p id="loginError" class="error"></p>
+    </div>
+  </section>
+
+  <section id="adminPage" class="page hidden">
+    <header class="topbar">
+      <div>
+        <div class="brand">BOK PEDRO</div>
+        <div class="subtitle">لوحة إدارة طلبات الحسابات</div>
+      </div>
+      <button id="logoutBtn" class="logout-btn">تسجيل الخروج</button>
+    </header>
+
+    <main class="container">
+      <div class="stats">
+        <div class="stat-card">
+          <span>كل الطلبات</span>
+          <strong id="totalCount">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>قيد الانتظار</span>
+          <strong id="pendingCount">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>مكتملة</span>
+          <strong id="completedCount">0</strong>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input id="searchInput" type="search" placeholder="ابحث برقم الحساب 7 أرقام">
+      </div>
+
+      <div id="loading" class="message">جاري تحميل الطلبات...</div>
+      <div id="empty" class="message hidden">لا توجد طلبات.</div>
+      <div id="requestsList" class="requests-list"></div>
+    </main>
+  </section>
+
+  <div id="editModal" class="modal hidden">
+    <div class="modal-card">
+      <button id="closeModal" class="close-btn">×</button>
+      <h2>إكمال بيانات الحساب</h2>
+      <p id="modalAccount" class="modal-account"></p>
+
+      <label>الرقم البنكي 16 رقم</label>
+      <input id="accountNumber16" inputmode="numeric" maxlength="16" placeholder="0000000000000000">
+
+      <label>اسم صاحب الحساب</label>
+      <input id="accountName" placeholder="الاسم الكامل">
+
+      <label>الفرع</label>
+      <input id="accountBranch" placeholder="اسم الفرع">
+
+      <label>نوع الحساب</label>
+      <select id="accountType">
+        <option value="">اختر نوع الحساب</option>
+        <option value="توفير">توفير</option>
+        <option value="جاري">جاري</option>
+        <option value="حساب آخر">حساب آخر</option>
+      </select>
+
+      <button id="saveBtn" class="primary-btn">حفظ البيانات</button>
+      <p id="saveError" class="error"></p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
