@@ -7,9 +7,15 @@
 html {
     direction: rtl;
     scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100%;
 }
 
 body {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -31,17 +37,10 @@ body {
         ),
         #090909;
 
-    color: #ffffff;
-
-    min-height: 100vh;
+    color: #fff;
 
     overflow-x: hidden;
 }
-
-
-/* =====================================================
-   GENERAL
-===================================================== */
 
 button,
 input,
@@ -59,12 +58,8 @@ select {
     outline: none;
 }
 
-
-/* =====================================================
-   PAGE
-===================================================== */
-
 .page {
+    width: 100%;
     min-height: 100vh;
 }
 
@@ -74,13 +69,15 @@ select {
 ===================================================== */
 
 #loginPage {
+    min-height: 100vh;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     padding: 20px;
 }
-
 
 .login-card {
     width: 100%;
@@ -97,7 +94,8 @@ select {
             rgba(255,255,255,0.04)
         );
 
-    border: 1px solid
+    border:
+        1px solid
         rgba(255,255,255,0.12);
 
     box-shadow:
@@ -115,7 +113,6 @@ select {
 
     text-align: center;
 }
-
 
 .logo {
     width: 76px;
@@ -146,16 +143,17 @@ select {
         rgba(183,28,28,0.45);
 }
 
-
 .login-card h1 {
     font-size: 26px;
     margin-bottom: 7px;
 }
 
-
 .login-card p {
-    color: rgba(255,255,255,0.65);
+    color:
+        rgba(255,255,255,0.65);
+
     font-size: 14px;
+
     margin-bottom: 25px;
 }
 
@@ -167,10 +165,12 @@ select {
 input,
 select {
     width: 100%;
+    max-width: 100%;
 
     height: 52px;
 
-    border: 1px solid
+    border:
+        1px solid
         rgba(255,255,255,0.12);
 
     border-radius: 15px;
@@ -193,12 +193,10 @@ select {
         box-shadow .2s;
 }
 
-
 input::placeholder {
     color:
         rgba(255,255,255,0.42);
 }
-
 
 input:focus,
 select:focus {
@@ -212,7 +210,6 @@ select:focus {
         0 0 0 3px
         rgba(183,28,28,0.16);
 }
-
 
 select {
     appearance: none;
@@ -237,10 +234,8 @@ select {
         6px 6px,
         6px 6px;
 
-    background-repeat:
-        no-repeat;
+    background-repeat: no-repeat;
 }
-
 
 select option {
     background: #1b1b1b;
@@ -249,13 +244,12 @@ select option {
 
 
 /* =====================================================
-   MAIN BUTTON
+   BUTTONS
 ===================================================== */
 
 button {
     border: none;
 }
-
 
 #loginBtn,
 #saveBtn {
@@ -287,7 +281,6 @@ button {
         box-shadow .15s;
 }
 
-
 #loginBtn:hover,
 #saveBtn:hover {
     box-shadow:
@@ -295,13 +288,10 @@ button {
         rgba(183,28,28,0.48);
 }
 
-
 #loginBtn:active,
 #saveBtn:active {
-    transform:
-        scale(0.98);
+    transform: scale(0.98);
 }
-
 
 button:disabled {
     opacity: 0.55;
@@ -335,6 +325,7 @@ button:disabled {
 
     z-index: 50;
 
+    width: 100%;
     min-height: 76px;
 
     display: flex;
@@ -363,12 +354,10 @@ button:disabled {
         blur(20px);
 }
 
-
 .topbar h2 {
     font-size: 20px;
     margin-bottom: 3px;
 }
-
 
 .topbar span {
     font-size: 12px;
@@ -376,7 +365,6 @@ button:disabled {
     color:
         rgba(255,255,255,0.5);
 }
-
 
 #logoutBtn {
     min-height: 42px;
@@ -400,7 +388,6 @@ button:disabled {
     white-space: nowrap;
 }
 
-
 #logoutBtn:active {
     transform: scale(0.97);
 }
@@ -411,6 +398,8 @@ button:disabled {
 ===================================================== */
 
 .stats {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
@@ -424,8 +413,8 @@ button:disabled {
         12px;
 }
 
-
 .stat-card {
+    min-width: 0;
     min-height: 105px;
 
     padding: 18px 14px;
@@ -460,7 +449,6 @@ button:disabled {
     justify-content: center;
 }
 
-
 .stat-card span {
     color:
         rgba(255,255,255,0.55);
@@ -470,10 +458,8 @@ button:disabled {
     margin-bottom: 8px;
 }
 
-
 .stat-card strong {
     font-size: 27px;
-
     color: #fff;
 }
 
@@ -483,16 +469,16 @@ button:disabled {
 ===================================================== */
 
 .search-box {
+    width: 100%;
+
     padding:
         8px
         max(16px, 4vw)
         12px;
 }
 
-
 .search-box input {
     margin: 0;
-
     height: 54px;
 
     background:
@@ -506,9 +492,12 @@ button:disabled {
 
 #loading,
 #empty {
+    width: 100%;
+
     text-align: center;
 
-    padding: 30px 20px;
+    padding:
+        30px 20px;
 
     color:
         rgba(255,255,255,0.55);
@@ -523,11 +512,9 @@ button:disabled {
 
 #requestsList {
     width: 100%;
-
     max-width: 1100px;
 
-    margin:
-        0 auto;
+    margin: 0 auto;
 
     padding:
         5px
@@ -535,9 +522,9 @@ button:disabled {
         35px;
 }
 
-
 .request-card {
     width: 100%;
+    min-width: 0;
 
     margin-bottom: 14px;
 
@@ -567,7 +554,6 @@ button:disabled {
         blur(20px);
 }
 
-
 .request-header {
     display: flex;
 
@@ -586,11 +572,9 @@ button:disabled {
         rgba(255,255,255,0.08);
 }
 
-
 .request-header strong {
     font-size: 16px;
 }
-
 
 .status {
     padding:
@@ -609,7 +593,6 @@ button:disabled {
     white-space: nowrap;
 }
 
-
 .request-row {
     min-height: 43px;
 
@@ -626,11 +609,9 @@ button:disabled {
         rgba(255,255,255,0.055);
 }
 
-
 .request-row:last-of-type {
     border-bottom: none;
 }
-
 
 .request-row span {
     color:
@@ -638,7 +619,6 @@ button:disabled {
 
     font-size: 12px;
 }
-
 
 .request-row b {
     color: #fff;
@@ -651,7 +631,6 @@ button:disabled {
 
     word-break: break-word;
 }
-
 
 .edit-btn {
     width: 100%;
@@ -669,7 +648,8 @@ button:disabled {
         1px solid
         rgba(239,83,80,0.22);
 
-    color: #ff9a9a;
+    color:
+        #ff9a9a;
 
     font-weight: 700;
 
@@ -678,10 +658,8 @@ button:disabled {
         transform .15s;
 }
 
-
 .edit-btn:active {
-    transform:
-        scale(0.98);
+    transform: scale(0.98);
 }
 
 
@@ -699,7 +677,6 @@ button:disabled {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     padding: 15px;
@@ -716,12 +693,10 @@ button:disabled {
     overflow-y: auto;
 }
 
-
 .modal-content {
     position: relative;
 
     width: 100%;
-
     max-width: 560px;
 
     max-height:
@@ -752,23 +727,19 @@ button:disabled {
         rgba(0,0,0,0.65);
 }
 
-
 .modal-content h2 {
     font-size: 21px;
 
     margin-bottom: 12px;
 }
 
-
 .close-modal {
     position: absolute;
 
     top: 14px;
-
     left: 14px;
 
     width: 38px;
-
     height: 38px;
 
     border-radius: 50%;
@@ -783,9 +754,9 @@ button:disabled {
     line-height: 1;
 }
 
-
 .modal-account {
-    padding: 12px 14px;
+    padding:
+        12px 14px;
 
     margin-bottom: 18px;
 
@@ -826,14 +797,14 @@ button:disabled {
 
 
 /* =====================================================
-   OCR BOX
+   OCR
 ===================================================== */
 
 .ocr-box {
+    width: 100%;
+
     margin:
-        5px
-        0
-        20px;
+        5px 0 20px;
 
     padding: 17px;
 
@@ -855,7 +826,6 @@ button:disabled {
         rgba(255,255,255,0.04);
 }
 
-
 .ocr-title {
     font-size: 17px;
 
@@ -863,7 +833,6 @@ button:disabled {
 
     margin-bottom: 7px;
 }
-
 
 .ocr-description {
     color:
@@ -875,7 +844,6 @@ button:disabled {
 
     margin-bottom: 14px;
 }
-
 
 .ocr-btn {
     width: 100%;
@@ -909,181 +877,12 @@ button:disabled {
         opacity .15s;
 }
 
-
 .ocr-btn:active {
-    transform:
-        scale(0.98);
+    transform: scale(0.98);
 }
-
 
 .ocr-btn:disabled {
     opacity: 0.5;
-}
-
-
-/* =====================================================
-   MANUAL CROP AREA
-===================================================== */
-
-.crop-container {
-    position: relative;
-
-    width: 100%;
-
-    margin:
-        14px
-        auto;
-
-    overflow: hidden;
-
-    border-radius: 16px;
-
-    background: #050505;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.12);
-
-    box-shadow:
-        0 12px 30px
-        rgba(0,0,0,0.35);
-
-    touch-action: none;
-
-    user-select: none;
-
-    -webkit-user-select: none;
-}
-
-
-#cropCanvas {
-    display: block;
-
-    width: 100%;
-
-    height: auto;
-
-    touch-action: none;
-
-    cursor: crosshair;
-}
-
-
-/* =====================================================
-   CROP SELECTION
-===================================================== */
-
-.crop-selection {
-    position: absolute;
-
-    z-index: 5;
-
-    border:
-        2px solid
-        #00ff88;
-
-    background:
-        rgba(0,255,136,0.10);
-
-    box-shadow:
-        0 0 0 9999px
-        rgba(0,0,0,0.48);
-
-    pointer-events: none;
-
-    min-width: 10px;
-
-    min-height: 10px;
-}
-
-
-/* خطوط المنتصف */
-
-.crop-selection::before {
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 0;
-
-    bottom: 0;
-
-    width: 1px;
-
-    background:
-        rgba(255,255,255,0.35);
-
-    transform:
-        translateX(-50%);
-}
-
-
-.crop-selection::after {
-    content: "";
-
-    position: absolute;
-
-    top: 50%;
-
-    left: 0;
-
-    right: 0;
-
-    height: 1px;
-
-    background:
-        rgba(255,255,255,0.35);
-
-    transform:
-        translateY(-50%);
-}
-
-
-/* =====================================================
-   CROP HANDLES
-===================================================== */
-
-.crop-handle {
-    position: absolute;
-
-    width: 13px;
-
-    height: 13px;
-
-    border-radius: 50%;
-
-    background:
-        #00ff88;
-
-    box-shadow:
-        0 0 8px
-        rgba(0,255,136,0.7);
-}
-
-
-.top-left {
-    left: -7px;
-    top: -7px;
-}
-
-
-.top-right {
-    right: -7px;
-    top: -7px;
-}
-
-
-.bottom-left {
-    left: -7px;
-    bottom: -7px;
-}
-
-
-.bottom-right {
-    right: -7px;
-    bottom: -7px;
 }
 
 
@@ -1095,16 +894,14 @@ button:disabled {
     display: block;
 
     width: 100%;
-
-    max-width: 900px;
+    max-width: 100%;
 
     max-height: 350px;
 
     object-fit: contain;
 
     margin:
-        13px
-        auto;
+        13px auto 5px;
 
     border-radius: 14px;
 
@@ -1121,12 +918,13 @@ button:disabled {
 ===================================================== */
 
 .ocr-status {
+    width: 100%;
+
     min-height: 25px;
 
     margin-top: 10px;
 
-    padding:
-        5px;
+    padding: 5px;
 
     text-align: center;
 
@@ -1147,7 +945,6 @@ button:disabled {
     position: fixed;
 
     left: 50%;
-
     bottom: 25px;
 
     z-index: 300;
@@ -1160,7 +957,6 @@ button:disabled {
     pointer-events: none;
 
     min-width: 220px;
-
     max-width: 90%;
 
     padding:
@@ -1196,7 +992,6 @@ button:disabled {
         transform .25s;
 }
 
-
 #toast.show {
     opacity: 1;
 
@@ -1213,11 +1008,9 @@ button:disabled {
     width: 5px;
 }
 
-
 ::-webkit-scrollbar-track {
     background: transparent;
 }
-
 
 ::-webkit-scrollbar-thumb {
     background:
@@ -1231,26 +1024,31 @@ button:disabled {
    MOBILE
 ===================================================== */
 
-@media (
-    max-width: 600px
-) {
+@media (max-width: 600px) {
 
+    #loginPage {
+        padding: 14px;
+    }
+
+    .login-card {
+        padding:
+            28px 18px;
+
+        border-radius: 24px;
+    }
 
     .topbar {
         padding:
             11px 14px;
     }
 
-
     .topbar h2 {
         font-size: 17px;
     }
 
-
     .topbar span {
         font-size: 10px;
     }
-
 
     #logoutBtn {
         min-height: 38px;
@@ -1261,7 +1059,6 @@ button:disabled {
         font-size: 11px;
     }
 
-
     .stats {
         gap: 8px;
 
@@ -1270,7 +1067,6 @@ button:disabled {
             12px
             8px;
     }
-
 
     .stat-card {
         min-height: 92px;
@@ -1281,22 +1077,18 @@ button:disabled {
         border-radius: 17px;
     }
 
-
     .stat-card span {
         font-size: 10px;
     }
-
 
     .stat-card strong {
         font-size: 22px;
     }
 
-
     #requestsList {
         padding:
             5px 12px 30px;
     }
-
 
     .request-card {
         padding: 15px;
@@ -1304,18 +1096,15 @@ button:disabled {
         border-radius: 19px;
     }
 
-
     .request-row b {
         max-width: 60%;
 
         font-size: 12px;
     }
 
-
     .modal {
         padding: 8px;
     }
-
 
     .modal-content {
         max-height:
@@ -1329,18 +1118,15 @@ button:disabled {
         border-radius: 23px;
     }
 
-
     .ocr-box {
         padding: 13px;
 
         border-radius: 17px;
     }
 
-
-    .crop-container {
-        margin-top: 12px;
+    #ocrPreview {
+        max-height: 280px;
     }
-
 }
 
 
@@ -1348,16 +1134,12 @@ button:disabled {
    VERY SMALL PHONES
 ===================================================== */
 
-@media (
-    max-width: 360px
-) {
-
+@media (max-width: 360px) {
 
     .stats {
         grid-template-columns:
             1fr;
     }
-
 
     .stat-card {
         min-height: 70px;
@@ -1369,14 +1151,11 @@ button:disabled {
         justify-content: space-between;
     }
 
-
     .stat-card span {
         margin: 0;
     }
 
-
     .stat-card strong {
         font-size: 22px;
     }
-
 }
