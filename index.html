@@ -1,344 +1,306 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>  <html lang="ar" dir="rtl">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>BOK PEDRO - لوحة الإدارة</title>  
+  <link rel="stylesheet" href="style.css">  
+</head>  <body>    <!-- =====================================================  
+       LOGIN PAGE  
+  ====================================================== -->    <section id="loginPage" class="page login-page">  <div class="login-card">  
 
-<head>
-    <meta charset="UTF-8">
+  <div class="logo">  
+    BOK  
+  </div>  
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <h1>BOK PEDRO</h1>  
 
-    <meta name="theme-color" content="#b71c1c">
+  <p class="muted">  
+    تسجيل دخول الإدارة  
+  </p>  
 
-    <title>BOK PEDRO - لوحة الإدارة</title>
+  <input  
+    id="email"  
+    type="email"  
+    placeholder="البريد الإلكتروني"  
+    autocomplete="email"  
+  >  
 
-    <link rel="stylesheet"
-          href="style.css?v=20261005">
+  <input  
+    id="password"  
+    type="password"  
+    placeholder="كلمة المرور"  
+    autocomplete="current-password"  
+  >  
 
-</head>
+  <button  
+    id="loginBtn"  
+    class="primary-btn"  
+  >  
+    تسجيل الدخول  
+  </button>  
 
-<body>
+  <p  
+    id="loginError"  
+    class="error"  
+  ></p>  
 
-    <!-- ============================= -->
-    <!-- صفحة تسجيل الدخول -->
-    <!-- ============================= -->
+</div>
 
-    <section id="loginPage" class="page login-page">
+  </section>    <!-- =====================================================  
+       ADMIN PAGE  
+  ====================================================== -->    <section  
+    id="adminPage"  
+    class="page hidden"  
+  >  <header class="topbar">  
 
-        <div class="glass-card login-card">
+  <div>  
 
-            <div class="brand">
-                <div class="brand-logo">BOK</div>
-                <h1>BOK PEDRO</h1>
-                <p>لوحة إدارة طلبات الحسابات</p>
-            </div>
+    <div class="brand">  
+      BOK PEDRO  
+    </div>  
 
-            <div class="form-group">
-                <label for="email">البريد الإلكتروني</label>
+    <div class="subtitle">  
+      لوحة إدارة طلبات الحسابات  
+    </div>  
 
-                <input
-                    type="email"
-                    id="email"
-                    autocomplete="username"
-                    placeholder="أدخل البريد الإلكتروني">
-            </div>
+  </div>  
 
-            <div class="form-group">
-                <label for="password">كلمة المرور</label>
+  <button  
+    id="logoutBtn"  
+    class="logout-btn"  
+  >  
+    تسجيل الخروج  
+  </button>  
 
-                <input
-                    type="password"
-                    id="password"
-                    autocomplete="current-password"
-                    placeholder="أدخل كلمة المرور">
-            </div>
+</header>  
 
-            <button id="loginBtn" class="primary-btn">
-                تسجيل الدخول
-            </button>
 
-            <div id="loginError" class="error-message"></div>
+<main class="container">  
 
-        </div>
 
-    </section>
+  <!-- =================================================  
+       STATISTICS  
+  ================================================== -->  
 
+  <div class="stats">  
 
-    <!-- ============================= -->
-    <!-- لوحة الإدارة -->
-    <!-- ============================= -->
+    <div class="stat-card">  
 
-    <section id="adminPage" class="page admin-page hidden">
+      <span>  
+        كل الطلبات  
+      </span>  
 
-        <!-- Top Bar -->
+      <strong id="totalCount">  
+        0  
+      </strong>  
 
-        <header class="topbar">
+    </div>  
 
-            <div class="topbar-title">
-                <div class="mini-logo">BOK</div>
 
-                <div>
-                    <h2>BOK PEDRO</h2>
-                    <span>لوحة إدارة طلبات الحسابات</span>
-                </div>
-            </div>
+    <div class="stat-card">  
 
-            <button id="logoutBtn" class="logout-btn">
-                تسجيل الخروج
-            </button>
+      <span>  
+        قيد الانتظار  
+      </span>  
 
-        </header>
+      <strong id="pendingCount">  
+        0  
+      </strong>  
 
+    </div>  
 
-        <main class="container">
 
-            <!-- ============================= -->
-            <!-- الإحصائيات -->
-            <!-- ============================= -->
+    <div class="stat-card">  
 
-            <div class="stats-grid">
+      <span>  
+        مكتملة  
+      </span>  
 
-                <div class="stat-card">
-                    <span class="stat-title">كل الطلبات</span>
-                    <strong id="totalCount">0</strong>
-                </div>
+      <strong id="completedCount">  
+        0  
+      </strong>  
 
-                <div class="stat-card">
-                    <span class="stat-title">قيد الانتظار</span>
-                    <strong id="pendingCount">0</strong>
-                </div>
+    </div>  
 
-                <div class="stat-card">
-                    <span class="stat-title">مكتملة</span>
-                    <strong id="completedCount">0</strong>
-                </div>
+  </div>  
 
-            </div>
 
+  <!-- =================================================  
+       SEARCH  
+  ================================================== -->  
 
-            <!-- ============================= -->
-            <!-- البحث -->
-            <!-- ============================= -->
+  <div class="toolbar">  
 
-            <div class="search-box">
+    <input  
+      id="searchInput"  
+      type="search"  
+      placeholder="ابحث برقم الحساب 7 أرقام"  
+    >  
 
-                <input
-                    type="tel"
-                    id="searchInput"
-                    inputmode="numeric"
-                    maxlength="7"
-                    placeholder="ابحث برقم الحساب 7 أرقام">
+  </div>  
 
-            </div>
 
+  <!-- =================================================  
+       MESSAGES  
+  ================================================== -->  
 
-            <!-- ============================= -->
-            <!-- Loading -->
-            <!-- ============================= -->
+  <div  
+    id="loading"  
+    class="message"  
+  >  
+    جاري تحميل الطلبات...  
+  </div>  
 
-            <div id="loading" class="state-box">
-                جاري تحميل الطلبات...
-            </div>
 
+  <div  
+    id="empty"  
+    class="message hidden"  
+  >  
+    لا توجد طلبات.  
+  </div>  
 
-            <!-- ============================= -->
-            <!-- Empty -->
-            <!-- ============================= -->
 
-            <div id="empty" class="state-box hidden">
-                لا توجد طلبات.
-            </div>
+  <!-- =================================================  
+       REQUESTS  
+  ================================================== -->  
 
+  <div  
+    id="requestsList"  
+    class="requests-list"  
+  ></div>  
 
-            <!-- ============================= -->
-            <!-- Requests -->
-            <!-- ============================= -->
+</main>
 
-            <div id="requestsList" class="requests-list"></div>
+  </section>    <!-- =====================================================  
+       EDIT MODAL  
+  ====================================================== -->    <div  
+    id="editModal"  
+    class="modal hidden"  
+  >  <div class="modal-card">  
 
-        </main>
 
-    </section>
+  <!-- CLOSE -->  
 
+  <button  
+    id="closeModal"  
+    class="close-btn"  
+  >  
+    ×  
+  </button>  
 
-    <!-- ============================= -->
-    <!-- تعديل البيانات -->
-    <!-- ============================= -->
 
-    <div id="editModal" class="modal hidden">
+  <h2>  
+    إكمال بيانات الحساب  
+  </h2>  
 
-        <div class="modal-overlay" id="modalOverlay"></div>
 
-        <div class="modal-card">
+  <p  
+    id="modalAccount"  
+    class="modal-account"  
+  ></p>  
 
-            <div class="modal-header">
 
-                <div>
-                    <h2>تعديل البيانات</h2>
-                    <span id="modalAccount"></span>
-                </div>
+  <!-- =================================================  
+       ACCOUNT NUMBER 16  
+  ================================================== -->  
 
-                <button id="closeModal" class="close-btn">
-                    ×
-                </button>
+  <label>  
+    الرقم البنكي 16 رقم  
+  </label>  
 
-            </div>
+  <input  
+    id="accountNumber16"  
+    inputmode="numeric"  
+    maxlength="16"  
+    placeholder="0000000000000000"  
+  >  
 
 
-            <div class="modal-body">
+  <!-- =================================================  
+       NAME  
+  ================================================== -->  
 
-                <!-- ============================= -->
-                <!-- OCR -->
-                <!-- ============================= -->
+  <label>  
+    اسم صاحب الحساب  
+  </label>  
 
-                <div class="ocr-box">
+  <input  
+    id="accountName"  
+    placeholder="الاسم الكامل"  
+  >  
 
-                    <div class="ocr-title">
-                        استخراج البيانات من الصورة
-                    </div>
 
-                    <p class="ocr-description">
-                        اختر صورة كاملة من معرض الهاتف وسيتم قراءة البيانات تلقائياً.
-                    </p>
+  <!-- =================================================  
+       BRANCH  
+  ================================================== -->  
 
-                    <label class="image-picker">
+  <label>  
+    الفرع  
+  </label>  
 
-                        <span>
-                            اختيار صورة من المعرض
-                        </span>
+  <input  
+    id="accountBranch"  
+    placeholder="اسم الفرع"  
+  >  
 
-                        <input
-                            type="file"
-                            id="ocrImage"
-                            accept="image/*">
 
-                    </label>
+  <!-- =================================================  
+       ACCOUNT TYPE  
+  ================================================== -->  
 
-                    <div id="ocrPreview" class="ocr-preview hidden">
-                        <img id="ocrPreviewImage" alt="معاينة الصورة">
-                    </div>
+  <label>  
+    نوع الحساب  
+  </label>  
 
-                    <button
-                        id="ocrBtn"
-                        class="ocr-btn"
-                        type="button">
-                        قراءة الصورة
-                    </button>
+  <select id="accountType">  
 
-                    <div id="ocrStatus" class="ocr-status"></div>
+    <option value="">  
+      اختر نوع الحساب  
+    </option>  
 
-                </div>
+    <option value="حساب توفير">  
+      حساب توفير  
+    </option>  
 
+    <option value="حساب جاري">  
+      حساب جاري  
+    </option>  
 
-                <!-- ============================= -->
-                <!-- رقم الحساب -->
-                <!-- ============================= -->
+    <option value="توفير مميز">  
+      توفير مميز  
+    </option>  
 
-                <div class="form-group">
+  </select>  
 
-                    <label for="accountNumber16">
-                        رقم الحساب
-                    </label>
 
-                    <input
-                        type="tel"
-                        id="accountNumber16"
-                        inputmode="numeric"
-                        maxlength="16"
-                        placeholder="رقم الحساب 16 رقم">
+  <!-- =================================================  
+       SAVE  
+  ================================================== -->  
 
-                </div>
+  <button  
+    id="saveBtn"  
+    class="primary-btn"  
+  >  
+    حفظ البيانات  
+  </button>  
 
 
-                <!-- ============================= -->
-                <!-- الاسم -->
-                <!-- ============================= -->
+  <p  
+    id="saveError"  
+    class="error"  
+  ></p>  
 
-                <div class="form-group">
+</div>
 
-                    <label for="accountName">
-                        الاسم
-                    </label>
-
-                    <input
-                        type="text"
-                        id="accountName"
-                        placeholder="اسم صاحب الحساب">
-
-                </div>
-
-
-                <!-- ============================= -->
-                <!-- نوع الحساب -->
-                <!-- ============================= -->
-
-                <div class="form-group">
-
-                    <label for="accountType">
-                        نوع الحساب
-                    </label>
-
-                    <input
-                        type="text"
-                        id="accountType"
-                        placeholder="نوع الحساب">
-
-                </div>
-
-
-                <!-- ============================= -->
-                <!-- الفرع -->
-                <!-- ============================= -->
-
-                <div class="form-group">
-
-                    <label for="accountBranch">
-                        الفرع
-                    </label>
-
-                    <input
-                        type="text"
-                        id="accountBranch"
-                        placeholder="اسم الفرع">
-
-                </div>
-
-
-                <div id="saveError" class="error-message"></div>
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <button
-                    id="saveBtn"
-                    class="primary-btn">
-                    حفظ البيانات
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ============================= -->
-    <!-- Toast -->
-    <!-- ============================= -->
-
-    <div id="toast" class="toast"></div>
-
-
-    <!-- Tesseract -->
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-
-
-    <!-- Firebase / App -->
-    <script
-        type="module"
-        src="app.js?v=20261005">
-    </script>
-
-</body>
+  </div>    <!-- =====================================================  
+       TOAST  
+  ====================================================== -->    <div  
+    id="toast"  
+    class="toast"  
+  ></div>    <!-- =====================================================  
+       JAVASCRIPT  
+  ====================================================== -->    <script  
+    type="module"  
+    src="app.js"  
+  ></script>  </body>  
 </html>
