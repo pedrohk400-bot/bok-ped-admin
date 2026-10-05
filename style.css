@@ -1,87 +1,120 @@
+/* =========================================================
+   BOK PEDRO
+   FULL STYLE
+   ========================================================= */
+
+
+/* =========================================================
+   GOOGLE FONT
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: "Cairo", sans-serif !important;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html {
-    direction: rtl;
-    scroll-behavior: smooth;
+
+html,
+body {
     width: 100%;
     min-height: 100%;
 }
 
+
+html {
+    direction: rtl;
+}
+
+
 body {
-    width: 100%;
-    min-width: 0;
-    min-height: 100vh;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
-
+    direction: rtl;
     background:
         radial-gradient(
             circle at top right,
-            rgba(183, 28, 28, 0.35),
+            rgba(183, 28, 28, 0.28),
             transparent 35%
         ),
         radial-gradient(
             circle at bottom left,
-            rgba(120, 20, 20, 0.25),
+            rgba(120, 0, 0, 0.20),
             transparent 40%
         ),
-        #090909;
+        linear-gradient(
+            135deg,
+            #080808,
+            #120707,
+            #090909
+        );
 
-    color: #fff;
+    color: #ffffff;
+
+    min-height: 100vh;
 
     overflow-x: hidden;
+
+    font-family: "Cairo", sans-serif !important;
 }
 
+
+/* =========================================================
+   ALL TEXT
+   ========================================================= */
+
+body,
 button,
 input,
-select {
-    font-family: inherit;
+select,
+textarea,
+option,
+label,
+span,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b,
+small {
+    font-family: "Cairo", sans-serif !important;
 }
 
-button {
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
 
-input,
-select {
-    outline: none;
-}
-
-.page {
-    width: 100%;
-    min-height: 100vh;
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
 
 #loginPage {
+
+    width: 100%;
     min-height: 100vh;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     padding: 20px;
+
 }
 
+
 .login-card {
+
     width: 100%;
-    max-width: 420px;
+    max-width: 430px;
 
     padding: 32px 24px;
 
@@ -90,16 +123,15 @@ select {
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.12),
-            rgba(255,255,255,0.04)
+            rgba(255,255,255,0.11),
+            rgba(255,255,255,0.035)
         );
 
-    border:
-        1px solid
+    border: 1px solid
         rgba(255,255,255,0.12);
 
     box-shadow:
-        0 25px 70px
+        0 25px 80px
         rgba(0,0,0,0.55),
 
         inset 0 1px 0
@@ -111,222 +143,246 @@ select {
     -webkit-backdrop-filter:
         blur(25px);
 
-    text-align: center;
 }
 
-.logo {
-    width: 76px;
-    height: 76px;
+
+.login-logo {
+
+    width: 78px;
+    height: 78px;
 
     margin: 0 auto 18px;
+
+    border-radius: 22px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 24px;
-
     background:
         linear-gradient(
             145deg,
             #d32f2f,
-            #8e0000
+            #8b0000
         );
 
-    color: #fff;
+    box-shadow:
+        0 12px 30px
+        rgba(183,28,28,0.40);
 
-    font-size: 25px;
+    font-size: 28px;
+
     font-weight: 900;
 
-    box-shadow:
-        0 15px 35px
-        rgba(183,28,28,0.45);
 }
+
 
 .login-card h1 {
-    font-size: 26px;
-    margin-bottom: 7px;
+
+    text-align: center;
+
+    font-size: 27px;
+
+    font-weight: 900;
+
+    margin-bottom: 5px;
+
 }
 
-.login-card p {
-    color:
-        rgba(255,255,255,0.65);
+
+.login-card .subtitle {
+
+    text-align: center;
+
+    color: rgba(255,255,255,0.65);
 
     font-size: 14px;
 
-    margin-bottom: 25px;
+    margin-bottom: 28px;
+
 }
 
 
-/* =====================================================
-   INPUTS
-===================================================== */
+/* =========================================================
+   INPUT GROUP
+   ========================================================= */
 
-input,
-select {
-    width: 100%;
-    max-width: 100%;
+.input-group {
 
-    height: 52px;
+    margin-bottom: 16px;
 
-    border:
-        1px solid
-        rgba(255,255,255,0.12);
-
-    border-radius: 15px;
-
-    background:
-        rgba(255,255,255,0.07);
-
-    color: #fff;
-
-    padding:
-        0 16px;
-
-    margin-bottom: 14px;
-
-    font-size: 15px;
-
-    transition:
-        border-color .2s,
-        background .2s,
-        box-shadow .2s;
-}
-
-input::placeholder {
-    color:
-        rgba(255,255,255,0.42);
-}
-
-input:focus,
-select:focus {
-    border-color:
-        rgba(239,83,80,0.8);
-
-    background:
-        rgba(255,255,255,0.09);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(183,28,28,0.16);
-}
-
-select {
-    appearance: none;
-
-    background-image:
-        linear-gradient(
-            45deg,
-            transparent 50%,
-            #fff 50%
-        ),
-        linear-gradient(
-            135deg,
-            #fff 50%,
-            transparent 50%
-        );
-
-    background-position:
-        calc(100% - 20px) 22px,
-        calc(100% - 14px) 22px;
-
-    background-size:
-        6px 6px,
-        6px 6px;
-
-    background-repeat: no-repeat;
-}
-
-select option {
-    background: #1b1b1b;
-    color: #fff;
 }
 
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+.input-group label {
 
-button {
-    border: none;
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: rgba(255,255,255,0.82);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
 }
 
-#loginBtn,
-#saveBtn {
+
+.input-group input {
+
     width: 100%;
 
     height: 54px;
 
+    padding: 0 16px;
+
     border-radius: 16px;
+
+    border: 1px solid
+        rgba(255,255,255,0.12);
+
+    outline: none;
+
+    background:
+        rgba(0,0,0,0.28);
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+
+}
+
+
+.input-group input:focus {
+
+    border-color:
+        rgba(239,83,80,0.75);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(183,28,28,0.15);
+
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
+
+#loginBtn {
+
+    width: 100%;
+
+    height: 55px;
+
+    border: none;
+
+    border-radius: 17px;
 
     background:
         linear-gradient(
             135deg,
             #d32f2f,
-            #9b0000
+            #a31313
         );
 
-    color: #fff;
+    color: #ffffff;
 
     font-size: 16px;
+
     font-weight: 800;
 
+    cursor: pointer;
+
     box-shadow:
-        0 12px 28px
+        0 12px 30px
         rgba(183,28,28,0.35);
 
     transition:
-        transform .15s,
-        opacity .15s,
-        box-shadow .15s;
+        transform 0.15s,
+        opacity 0.15s;
+
 }
 
-#loginBtn:hover,
-#saveBtn:hover {
-    box-shadow:
-        0 16px 35px
-        rgba(183,28,28,0.48);
-}
 
-#loginBtn:active,
-#saveBtn:active {
+#loginBtn:active {
+
     transform: scale(0.98);
-}
 
-button:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
 }
 
 
-/* =====================================================
-   ERROR
-===================================================== */
+#loginBtn:disabled {
 
-.error {
-    color: #ff6b6b;
+    opacity: 0.65;
+
+    cursor: wait;
+
+}
+
+
+/* =========================================================
+   LOGIN ERROR
+   ========================================================= */
+
+#loginError {
+
+    min-height: 24px;
+
+    margin-top: 13px;
+
+    text-align: center;
+
+    color: #ff7676;
 
     font-size: 13px;
 
-    margin-top: 10px;
+    font-weight: 700;
 
-    line-height: 1.6;
 }
 
 
-/* =====================================================
-   TOPBAR
-===================================================== */
+/* =========================================================
+   ADMIN PAGE
+   ========================================================= */
+
+#adminPage {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    display: none;
+
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
 
 .topbar {
+
     position: sticky;
 
     top: 0;
 
-    z-index: 50;
+    z-index: 100;
 
     width: 100%;
-    min-height: 76px;
+
+    min-height: 72px;
+
+    padding:
+        12px
+        max(16px, env(safe-area-inset-right))
+        12px
+        max(16px, env(safe-area-inset-left));
 
     display: flex;
 
@@ -334,71 +390,139 @@ button:disabled {
 
     justify-content: space-between;
 
-    gap: 15px;
-
-    padding:
-        12px
-        max(16px, 4vw);
+    gap: 12px;
 
     background:
-        rgba(12,12,12,0.78);
+        rgba(12, 8, 8, 0.82);
 
     border-bottom:
         1px solid
         rgba(255,255,255,0.08);
 
     backdrop-filter:
-        blur(20px);
+        blur(22px);
 
     -webkit-backdrop-filter:
-        blur(20px);
+        blur(22px);
+
 }
 
-.topbar h2 {
-    font-size: 20px;
-    margin-bottom: 3px;
+
+.topbar-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+
 }
 
-.topbar span {
+
+.topbar-title strong {
+
+    font-size: 19px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
+
+}
+
+
+.topbar-title span {
+
     font-size: 12px;
 
     color:
-        rgba(255,255,255,0.5);
+        rgba(255,255,255,0.55);
+
 }
 
-#logoutBtn {
-    min-height: 42px;
 
-    padding:
-        0 16px;
+#logoutBtn {
+
+    border: 1px solid
+        rgba(255,255,255,0.10);
+
+    background:
+        rgba(255,255,255,0.06);
+
+    color: #ffffff;
 
     border-radius: 13px;
 
-    background:
-        rgba(255,255,255,0.08);
+    padding: 9px 13px;
 
-    border:
-        1px solid
-        rgba(255,255,255,0.1);
+    font-size: 12px;
 
-    color: #fff;
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.admin-container {
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding:
+        22px
+        max(16px, env(safe-area-inset-right))
+        40px
+        max(16px, env(safe-area-inset-left));
+
+}
+
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+
+.page-title {
+
+    margin-bottom: 18px;
+
+}
+
+
+.page-title h1 {
+
+    font-size: 26px;
+
+    font-weight: 900;
+
+}
+
+
+.page-title p {
+
+    margin-top: 4px;
+
+    color:
+        rgba(255,255,255,0.55);
 
     font-size: 13px;
 
-    white-space: nowrap;
-}
-
-#logoutBtn:active {
-    transform: scale(0.97);
 }
 
 
-/* =====================================================
+/* =========================================================
    STATS
-===================================================== */
+   ========================================================= */
 
 .stats {
-    width: 100%;
 
     display: grid;
 
@@ -407,24 +531,23 @@ button:disabled {
 
     gap: 12px;
 
-    padding:
-        18px
-        max(16px, 4vw)
-        12px;
+    margin-bottom: 18px;
+
 }
 
+
 .stat-card {
-    min-width: 0;
+
     min-height: 105px;
 
-    padding: 18px 14px;
+    padding: 17px;
 
     border-radius: 20px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.10),
+            rgba(255,255,255,0.09),
             rgba(255,255,255,0.035)
         );
 
@@ -433,100 +556,165 @@ button:disabled {
         rgba(255,255,255,0.08);
 
     box-shadow:
-        0 15px 35px
+        0 15px 40px
         rgba(0,0,0,0.22);
 
-    backdrop-filter:
-        blur(18px);
-
-    -webkit-backdrop-filter:
-        blur(18px);
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
 }
 
+
 .stat-card span {
+
+    display: block;
+
     color:
         rgba(255,255,255,0.55);
 
     font-size: 12px;
 
-    margin-bottom: 8px;
+    font-weight: 600;
+
+    margin-bottom: 6px;
+
 }
+
 
 .stat-card strong {
-    font-size: 27px;
-    color: #fff;
+
+    font-size: 28px;
+
+    font-weight: 900;
+
 }
 
 
-/* =====================================================
+/* =========================================================
    SEARCH
-===================================================== */
+   ========================================================= */
 
 .search-box {
+
     width: 100%;
 
-    padding:
-        8px
-        max(16px, 4vw)
-        12px;
+    margin-bottom: 18px;
+
 }
 
-.search-box input {
-    margin: 0;
-    height: 54px;
+
+#searchInput {
+
+    width: 100%;
+
+    height: 55px;
+
+    border-radius: 17px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.10);
+
+    outline: none;
 
     background:
-        rgba(255,255,255,0.075);
+        rgba(255,255,255,0.055);
+
+    color: #ffffff;
+
+    padding: 0 17px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    backdrop-filter:
+        blur(15px);
+
 }
 
 
-/* =====================================================
-   LOADING / EMPTY
-===================================================== */
+#searchInput::placeholder {
 
-#loading,
-#empty {
-    width: 100%;
+    color:
+        rgba(255,255,255,0.40);
+
+}
+
+
+#searchInput:focus {
+
+    border-color:
+        rgba(211,47,47,0.70);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(183,28,28,0.12);
+
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+#loading {
 
     text-align: center;
 
-    padding:
-        30px 20px;
+    padding: 35px 10px;
+
+    color:
+        rgba(255,255,255,0.60);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+#empty {
+
+    display: none;
+
+    text-align: center;
+
+    padding: 40px 15px;
 
     color:
         rgba(255,255,255,0.55);
 
     font-size: 14px;
+
+    font-weight: 700;
+
 }
 
 
-/* =====================================================
+/* =========================================================
    REQUEST LIST
-===================================================== */
+   ========================================================= */
 
 #requestsList {
+
     width: 100%;
-    max-width: 1100px;
 
-    margin: 0 auto;
+    display: grid;
 
-    padding:
-        5px
-        max(16px, 4vw)
-        35px;
+    gap: 13px;
+
 }
 
-.request-card {
-    width: 100%;
-    min-width: 0;
 
-    margin-bottom: 14px;
+/* =========================================================
+   REQUEST CARD
+   ========================================================= */
+
+.request-card {
+
+    width: 100%;
 
     padding: 18px;
 
@@ -535,7 +723,7 @@ button:disabled {
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.105),
+            rgba(255,255,255,0.085),
             rgba(255,255,255,0.035)
         );
 
@@ -544,17 +732,20 @@ button:disabled {
         rgba(255,255,255,0.09);
 
     box-shadow:
-        0 18px 40px
-        rgba(0,0,0,0.24);
+        0 18px 45px
+        rgba(0,0,0,0.25);
 
     backdrop-filter:
         blur(20px);
 
     -webkit-backdrop-filter:
         blur(20px);
+
 }
 
+
 .request-header {
+
     display: flex;
 
     align-items: center;
@@ -563,38 +754,55 @@ button:disabled {
 
     gap: 10px;
 
-    padding-bottom: 13px;
+    padding-bottom: 14px;
 
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 
     border-bottom:
         1px solid
         rgba(255,255,255,0.08);
+
 }
+
 
 .request-header strong {
-    font-size: 16px;
+
+    font-size: 20px;
+
+    font-weight: 900;
+
 }
 
-.status {
-    padding:
-        6px 10px;
 
-    border-radius: 20px;
+.status {
+
+    padding: 5px 10px;
+
+    border-radius: 10px;
 
     background:
         rgba(183,28,28,0.18);
 
-    color:
-        #ff8585;
+    border:
+        1px solid
+        rgba(239,83,80,0.20);
+
+    color: #ff8a8a;
 
     font-size: 11px;
 
-    white-space: nowrap;
+    font-weight: 800;
+
 }
 
+
+/* =========================================================
+   REQUEST ROW
+   ========================================================= */
+
 .request-row {
-    min-height: 43px;
+
+    min-height: 45px;
 
     display: flex;
 
@@ -607,555 +815,837 @@ button:disabled {
     border-bottom:
         1px solid
         rgba(255,255,255,0.055);
+
 }
+
 
 .request-row:last-of-type {
+
     border-bottom: none;
+
 }
+
 
 .request-row span {
+
     color:
-        rgba(255,255,255,0.5);
+        rgba(255,255,255,0.50);
 
     font-size: 12px;
+
+    font-weight: 600;
+
 }
 
+
 .request-row b {
-    color: #fff;
-
-    font-size: 13px;
-
-    text-align: left;
 
     max-width: 65%;
 
+    text-align: left;
+
+    direction: rtl;
+
     word-break: break-word;
-}
 
-.edit-btn {
-    width: 100%;
+    color: #ffffff;
 
-    height: 46px;
-
-    margin-top: 14px;
-
-    border-radius: 14px;
-
-    background:
-        rgba(183,28,28,0.18);
-
-    border:
-        1px solid
-        rgba(239,83,80,0.22);
-
-    color:
-        #ff9a9a;
+    font-size: 13px;
 
     font-weight: 700;
 
-    transition:
-        background .2s,
-        transform .15s;
-}
-
-.edit-btn:active {
-    transform: scale(0.98);
 }
 
 
-/* =====================================================
-   MODAL
-===================================================== */
+/* =========================================================
+   EDIT BUTTON
+   ========================================================= */
 
-.modal {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 100;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 15px;
-
-    background:
-        rgba(0,0,0,0.72);
-
-    backdrop-filter:
-        blur(12px);
-
-    -webkit-backdrop-filter:
-        blur(12px);
-
-    overflow-y: auto;
-}
-
-.modal-content {
-    position: relative;
+.edit-btn {
 
     width: 100%;
-    max-width: 560px;
 
-    max-height:
-        calc(100vh - 30px);
+    height: 48px;
 
-    overflow-y: auto;
+    margin-top: 15px;
 
-    padding:
-        25px
-        20px
-        30px;
-
-    border-radius: 27px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #1c1c1c,
-            #111111
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,0.1);
-
-    box-shadow:
-        0 30px 90px
-        rgba(0,0,0,0.65);
-}
-
-.modal-content h2 {
-    font-size: 21px;
-
-    margin-bottom: 12px;
-}
-
-.close-modal {
-    position: absolute;
-
-    top: 14px;
-    left: 14px;
-
-    width: 38px;
-    height: 38px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    color: #fff;
-
-    font-size: 25px;
-
-    line-height: 1;
-}
-
-.modal-account {
-    padding:
-        12px 14px;
-
-    margin-bottom: 18px;
-
-    border-radius: 13px;
-
-    background:
-        rgba(183,28,28,0.12);
-
-    border:
-        1px solid
-        rgba(183,28,28,0.18);
-
-    color:
-        #ff9a9a;
-
-    font-size: 13px;
-}
-
-
-/* =====================================================
-   LABELS
-===================================================== */
-
-.modal-content label {
-    display: block;
-
-    margin:
-        12px 3px
-        7px;
-
-    color:
-        rgba(255,255,255,0.68);
-
-    font-size: 13px;
-
-    font-weight: 600;
-}
-
-
-/* =====================================================
-   OCR
-===================================================== */
-
-.ocr-box {
-    width: 100%;
-
-    margin:
-        5px 0 20px;
-
-    padding: 17px;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(183,28,28,0.13),
-            rgba(255,255,255,0.035)
-        );
-
-    border:
-        1px solid
-        rgba(183,28,28,0.20);
-
-    box-shadow:
-        inset 0 1px 0
-        rgba(255,255,255,0.04);
-}
-
-.ocr-title {
-    font-size: 17px;
-
-    font-weight: 800;
-
-    margin-bottom: 7px;
-}
-
-.ocr-description {
-    color:
-        rgba(255,255,255,0.55);
-
-    font-size: 12px;
-
-    line-height: 1.7;
-
-    margin-bottom: 14px;
-}
-
-.ocr-btn {
-    width: 100%;
-
-    min-height: 48px;
-
-    padding:
-        10px 15px;
+    border: none;
 
     border-radius: 14px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(183,28,28,0.95),
-            rgba(120,0,0,0.95)
+            #c62828,
+            #8e1010
         );
 
-    color: #fff;
+    color: #ffffff;
 
     font-size: 14px;
 
     font-weight: 800;
 
+    cursor: pointer;
+
     box-shadow:
-        0 9px 22px
-        rgba(183,28,28,0.22);
+        0 10px 25px
+        rgba(183,28,28,0.25);
 
-    transition:
-        transform .15s,
-        opacity .15s;
-}
-
-.ocr-btn:active {
-    transform: scale(0.98);
-}
-
-.ocr-btn:disabled {
-    opacity: 0.5;
 }
 
 
-/* =====================================================
-   OCR PREVIEW
-===================================================== */
+.edit-btn:active {
 
-#ocrPreview {
-    display: block;
+    transform: scale(0.985);
+
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+#editModal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        15px
+        max(15px, env(safe-area-inset-right))
+        15px
+        max(15px, env(safe-area-inset-left));
+
+    background:
+        rgba(0,0,0,0.72);
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
+
+}
+
+
+.modal-content {
 
     width: 100%;
-    max-width: 100%;
 
-    max-height: 350px;
+    max-width: 520px;
 
-    object-fit: contain;
+    max-height: 92vh;
 
-    margin:
-        13px auto 5px;
+    overflow-y: auto;
 
-    border-radius: 14px;
+    border-radius: 27px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171111,
+            #0e0a0a
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,0.65);
+
+}
+
+
+.modal-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 17px;
+
+}
+
+
+.modal-header h2 {
+
+    font-size: 20px;
+
+    font-weight: 900;
+
+}
+
+
+#closeModal {
+
+    width: 38px;
+
+    height: 38px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,0.07);
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   MODAL ACCOUNT
+   ========================================================= */
+
+#modalAccount {
+
+    margin-bottom: 18px;
+
+    padding: 11px 13px;
+
+    border-radius: 13px;
+
+    background:
+        rgba(183,28,28,0.10);
+
+    border:
+        1px solid
+        rgba(183,28,28,0.16);
+
+    color:
+        #ff8a8a;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   MODAL INPUTS
+   ========================================================= */
+
+#editModal input,
+#editModal select,
+#editModal textarea {
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-bottom: 13px;
+
+    padding: 0 15px;
+
+    border-radius: 15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.10);
+
+    outline: none;
+
+    background:
+        rgba(255,255,255,0.055);
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+#editModal textarea {
+
+    height: 100px;
+
+    padding-top: 13px;
+
+    resize: vertical;
+
+}
+
+
+#editModal select option {
+
+    background: #171111;
+
+    color: #ffffff;
+
+}
+
+
+#editModal input:focus,
+#editModal select:focus,
+#editModal textarea:focus {
+
+    border-color:
+        rgba(211,47,47,0.75);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(183,28,28,0.12);
+
+}
+
+
+/* =========================================================
+   OCR BOX
+   ========================================================= */
+
+.ocr-box {
+
+    margin-top: 7px;
+
+    margin-bottom: 16px;
+
+    padding: 16px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(183,28,28,0.10),
+            rgba(255,255,255,0.035)
+        );
 
     border:
         1px solid
         rgba(255,255,255,0.08);
 
-    background: #050505;
 }
 
 
-/* =====================================================
-   OCR STATUS
-===================================================== */
+.ocr-box-title {
 
-.ocr-status {
-    width: 100%;
+    margin-bottom: 10px;
 
-    min-height: 25px;
+    color: #ffffff;
 
-    margin-top: 10px;
+    font-size: 14px;
 
-    padding: 5px;
+    font-weight: 800;
 
-    text-align: center;
+}
+
+
+.ocr-box-description {
+
+    margin-bottom: 13px;
 
     color:
-        rgba(255,255,255,0.72);
+        rgba(255,255,255,0.52);
 
     font-size: 12px;
 
-    line-height: 1.6;
+    line-height: 1.7;
+
 }
 
 
-/* =====================================================
+/* =========================================================
+   OCR BUTTON
+   ========================================================= */
+
+.ocr-btn {
+
+    width: 100%;
+
+    min-height: 49px;
+
+    border: 1px solid
+        rgba(239,83,80,0.22);
+
+    border-radius: 14px;
+
+    background:
+        rgba(183,28,28,0.16);
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+.ocr-btn:active {
+
+    transform: scale(0.985);
+
+}
+
+
+.ocr-btn:disabled {
+
+    opacity: 0.55;
+
+    cursor: wait;
+
+}
+
+
+/* =========================================================
+   OCR PREVIEW
+   ========================================================= */
+
+#ocrPreview {
+
+    width: 100%;
+
+    max-height: 280px;
+
+    margin-top: 13px;
+
+    border-radius: 15px;
+
+    object-fit: contain;
+
+    background: #000000;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+}
+
+
+/* =========================================================
+   OCR STATUS
+   ========================================================= */
+
+.ocr-status {
+
+    min-height: 22px;
+
+    margin-top: 10px;
+
+    color:
+        rgba(255,255,255,0.65);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================================
+   SAVE ERROR
+   ========================================================= */
+
+#saveError {
+
+    min-height: 23px;
+
+    margin: 3px 0 10px;
+
+    text-align: center;
+
+    color: #ff7777;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+#saveBtn {
+
+    width: 100%;
+
+    height: 54px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d32f2f,
+            #941313
+        );
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px
+        rgba(183,28,28,0.30);
+
+}
+
+
+#saveBtn:disabled {
+
+    opacity: 0.60;
+
+    cursor: wait;
+
+}
+
+
+/* =========================================================
    TOAST
-===================================================== */
+   ========================================================= */
 
 #toast {
+
     position: fixed;
 
     left: 50%;
-    bottom: 25px;
 
-    z-index: 300;
+    bottom:
+        calc(
+            22px +
+            env(safe-area-inset-bottom)
+        );
+
+    z-index: 2000;
 
     transform:
-        translate(-50%, 25px);
-
-    opacity: 0;
-
-    pointer-events: none;
+        translate(-50%, 20px);
 
     min-width: 220px;
-    max-width: 90%;
 
-    padding:
-        13px 18px;
+    max-width: calc(100% - 30px);
+
+    padding: 13px 17px;
 
     border-radius: 15px;
 
     background:
-        rgba(30,30,30,0.92);
+        rgba(30,30,30,0.94);
 
     border:
         1px solid
-        rgba(255,255,255,0.1);
+        rgba(255,255,255,0.10);
 
     box-shadow:
-        0 15px 40px
+        0 15px 45px
         rgba(0,0,0,0.45);
 
-    backdrop-filter:
-        blur(15px);
-
-    -webkit-backdrop-filter:
-        blur(15px);
-
-    color: #fff;
+    color: #ffffff;
 
     text-align: center;
 
     font-size: 13px;
 
+    font-weight: 800;
+
+    opacity: 0;
+
+    pointer-events: none;
+
     transition:
-        opacity .25s,
-        transform .25s;
+        opacity 0.2s,
+        transform 0.2s;
+
 }
 
+
 #toast.show {
+
     opacity: 1;
 
     transform:
         translate(-50%, 0);
+
 }
 
 
-/* =====================================================
+/* =========================================================
    SCROLLBAR
-===================================================== */
+   ========================================================= */
 
 ::-webkit-scrollbar {
+
     width: 5px;
+
 }
+
 
 ::-webkit-scrollbar-track {
+
     background: transparent;
+
 }
 
+
 ::-webkit-scrollbar-thumb {
+
     background:
         rgba(255,255,255,0.16);
 
-    border-radius: 10px;
+    border-radius: 20px;
+
 }
 
 
-/* =====================================================
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+
+    background:
+        rgba(183,28,28,0.55);
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================================
    MOBILE
-===================================================== */
+   ========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
-    #loginPage {
-        padding: 14px;
+    .admin-container {
+
+        padding-top: 17px;
+
+        padding-bottom: 30px;
+
     }
 
-    .login-card {
-        padding:
-            28px 18px;
-
-        border-radius: 24px;
-    }
 
     .topbar {
-        padding:
-            11px 14px;
+
+        min-height: 64px;
+
     }
 
-    .topbar h2 {
+
+    .topbar-title strong {
+
         font-size: 17px;
+
     }
 
-    .topbar span {
-        font-size: 10px;
+
+    .topbar-title span {
+
+        display: none;
+
     }
 
-    #logoutBtn {
-        min-height: 38px;
 
-        padding:
-            0 11px;
+    .page-title h1 {
 
-        font-size: 11px;
+        font-size: 23px;
+
     }
+
 
     .stats {
+
         gap: 8px;
 
-        padding:
-            14px
-            12px
-            8px;
     }
+
 
     .stat-card {
+
         min-height: 92px;
 
-        padding:
-            13px 9px;
-
-        border-radius: 17px;
-    }
-
-    .stat-card span {
-        font-size: 10px;
-    }
-
-    .stat-card strong {
-        font-size: 22px;
-    }
-
-    #requestsList {
-        padding:
-            5px 12px 30px;
-    }
-
-    .request-card {
-        padding: 15px;
-
-        border-radius: 19px;
-    }
-
-    .request-row b {
-        max-width: 60%;
-
-        font-size: 12px;
-    }
-
-    .modal {
-        padding: 8px;
-    }
-
-    .modal-content {
-        max-height:
-            calc(100vh - 16px);
-
-        padding:
-            23px
-            14px
-            25px;
-
-        border-radius: 23px;
-    }
-
-    .ocr-box {
         padding: 13px;
 
         border-radius: 17px;
+
     }
 
-    #ocrPreview {
-        max-height: 280px;
+
+    .stat-card span {
+
+        font-size: 10px;
+
     }
+
+
+    .stat-card strong {
+
+        font-size: 23px;
+
+    }
+
+
+    .request-card {
+
+        padding: 15px;
+
+        border-radius: 19px;
+
+    }
+
+
+    .request-header strong {
+
+        font-size: 18px;
+
+    }
+
+
+    .request-row {
+
+        min-height: 43px;
+
+    }
+
+
+    .request-row span {
+
+        font-size: 11px;
+
+    }
+
+
+    .request-row b {
+
+        font-size: 12px;
+
+    }
+
+
+    .modal-content {
+
+        padding: 18px;
+
+        border-radius: 23px;
+
+    }
+
 }
 
 
-/* =====================================================
+/* =========================================================
    VERY SMALL PHONES
-===================================================== */
+   ========================================================= */
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
+
+    .admin-container {
+
+        padding-left: 11px;
+
+        padding-right: 11px;
+
+    }
+
 
     .stats {
-        grid-template-columns:
-            1fr;
+
+        gap: 6px;
+
     }
+
 
     .stat-card {
-        min-height: 70px;
 
-        flex-direction: row;
+        padding: 11px 8px;
 
-        align-items: center;
-
-        justify-content: space-between;
     }
 
-    .stat-card span {
-        margin: 0;
-    }
 
     .stat-card strong {
-        font-size: 22px;
+
+        font-size: 21px;
+
     }
+
+
+    .request-card {
+
+        padding: 13px;
+
+    }
+
+
+    .request-row b {
+
+        max-width: 60%;
+
+        font-size: 11px;
+
+    }
+
+
+    .login-card {
+
+        padding:
+            26px 18px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SAFE AREA
+   ========================================================= */
+
+@supports (
+    padding: env(safe-area-inset-top)
+) {
+
+    #loginPage {
+
+        padding-top:
+            max(
+                20px,
+                env(safe-area-inset-top)
+            );
+
+        padding-bottom:
+            max(
+                20px,
+                env(safe-area-inset-bottom)
+            );
+
+    }
+
 }
