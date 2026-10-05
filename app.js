@@ -22,30 +22,14 @@ import {
 // =====================================================
 
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyDnvmZgT9l1p325V3TmCjIH-PnPfjJPPpk",
-
-    authDomain:
-        "bok-ped.firebaseapp.com",
-
-    databaseURL:
-        "https://bok-ped-default-rtdb.firebaseio.com/",
-
-    projectId:
-        "bok-ped",
-
-    storageBucket:
-        "bok-ped.firebasestorage.app",
-
-    messagingSenderId:
-        "812838230843",
-
-    appId:
-        "1:812838230843:web:f3bd5f59343db42b52b51e",
-
-    measurementId:
-        "G-26SMZR0QCC"
+    apiKey: "AIzaSyDnvmCjIH-PnPfjJPPpk",
+    authDomain: "bok-ped.firebaseapp.com",
+    databaseURL: "https://bok-ped-default-rtdb.firebaseio.com/",
+    projectId: "bok-ped",
+    storageBucket: "bok-ped.firebasestorage.app",
+    messagingSenderId: "812838230843",
+    appId: "1:812838230843:web:f3bd5f59343db42b52b51e",
+    measurementId: "G-26SMZR0QCC"
 };
 
 
@@ -184,125 +168,192 @@ function showToast(message) {
 
     toast.classList.add("show");
 
-    setTimeout(function () {
+    setTimeout(function() {
 
         toast.classList.remove("show");
 
     }, 2500);
+
 }
 
 
 // =====================================================
-// AUTH
+// AUTH STATE
 // =====================================================
 
-onAuthStateChanged(auth, async function(user) {
+onAuthStateChanged(
+    auth,
+    async function(user) {
 
-    if (!user) {
+        if (!user) {
 
-        currentUser = null;
+            currentUser = null;
 
-        loginPage.style.display = "flex";
+            loginPage.style.display = "flex";
 
-        adminPage.style.display = "none";
+            adminPage.style.display = "none";
 
-        return;
+            return;
+        }
+
+
+        // -------------------------------------------------
+        // ADMIN ONLY
+        // -------------------------------------------------
+
+        if (user.uid !== ADMIN_UID) {
+
+            await signOut(auth);
+
+            loginPage.style.display = "flex";
+
+            adminPage.style.display = "none";
+
+            loginError.textContent =
+                "هذا الحساب غير مصرح له بالدخول.";
+
+            return;
+        }
+
+
+        currentUser = user;
+
+        loginPage.style.display = "none";
+
+        adminPage.style.display = "block";
+
+        loginError.textContent = "";
+
+        startRequestsListener();
+
+        prepareOCR();
+
     }
-
-
-    if (user.uid !== ADMIN_UID) {
-
-        await signOut(auth);
-
-        loginPage.style.display = "flex";
-
-        adminPage.style.display = "none";
-
-        loginError.textContent =
-            "هذا الحساب غير مصرح له بالدخول.";
-
-        return;
-    }
-
-
-    currentUser = user;
-
-    loginPage.style.display = "none";
-
-    adminPage.style.display = "block";
-
-    loginError.textContent = "";
-
-    startRequestsListener();
-
-    prepareOCR();
-
-});
+);
 
 
 // =====================================================
 // LOGIN
 // =====================================================
 
-loginBtn.addEventListener("click", async function() {
+loginBtn.addEventListener(
+    "click",
+    async function() {
 
-    loginError.textContent = "";
-
-    const email =
-        emailInput.value.trim();
-
-    const password =
-        passwordInput.value;
+        loginError.textContent = "";
 
 
-    if (!email || !password) {
+        const email =
+            emailInput.value.trim();
 
-        loginError.textContent =
-            "أدخل البريد الإلكتروني وكلمة المرور.";
 
-        return;
+        const password =
+            passwordInput.value;
+
+
+        if (!email || !password) {
+
+            loginError.textContent =
+                "أدخل البريد الإلكتروني وكلمة المرور.";
+
+            return;
+        }
+
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+            "جاري تسجيل الدخول...";
+
+
+        try {
+
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Firebase Login Error:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "auth/invalid-credential"
+            ) {
+
+                loginError.textContent =
+                    "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+            } else if (
+                error.code ===
+                "auth/wrong-password"
+            ) {
+
+                loginError.textContent =
+                    "كلمة المرور غير صحيحة.";
+
+            } else if (
+                error.code ===
+                "auth/user-not-found"
+            ) {
+
+                loginError.textContent =
+                    "الحساب غير موجود.";
+
+            } else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                loginError.textContent =
+                    "البريد الإلكتروني غير صحيح.";
+
+            } else if (
+                error.code ===
+                "auth/too-many-requests"
+            ) {
+
+                loginError.textContent =
+                    "محاولات كثيرة. حاول لاحقًا.";
+
+            } else {
+
+                loginError.textContent =
+                    "تعذر تسجيل الدخول: " +
+                    error.message;
+
+            }
+
+        }
+
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
+            "تسجيل الدخول";
+
     }
-
-
-    loginBtn.disabled = true;
-
-    loginBtn.textContent =
-        "جاري تسجيل الدخول...";
-
-
-    try {
-
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-    } catch (error) {
-
-        loginError.textContent =
-            "بيانات تسجيل الدخول غير صحيحة.";
-
-    }
-
-
-    loginBtn.disabled = false;
-
-    loginBtn.textContent =
-        "تسجيل الدخول";
-
-});
+);
 
 
 // =====================================================
-// ENTER LOGIN
+// ENTER TO LOGIN
 // =====================================================
 
 passwordInput.addEventListener(
     "keydown",
     function(event) {
 
-        if (event.key === "Enter") {
+        if (
+            event.key === "Enter"
+        ) {
 
             loginBtn.click();
 
@@ -320,56 +371,78 @@ logoutBtn.addEventListener(
     "click",
     async function() {
 
-        await signOut(auth);
+        try {
+
+            await signOut(auth);
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+        }
 
     }
 );
 
 
 // =====================================================
-// REQUESTS LISTENER
+// LOAD REQUESTS
 // =====================================================
 
 function startRequestsListener() {
 
-    loading.style.display = "block";
+    loading.style.display =
+        "block";
+
 
     const requestsRef =
-        ref(db, "requests");
+        ref(
+            db,
+            "requests"
+        );
 
 
     onValue(
         requestsRef,
+
         function(snapshot) {
 
             const data =
                 snapshot.val() || {};
 
+
             allRequests = [];
 
 
-            Object.keys(data).forEach(function(id) {
+            Object.keys(data).forEach(
+                function(id) {
 
-                const item =
-                    data[id];
+                    const item =
+                        data[id];
 
-                if (!item) {
-                    return;
+
+                    if (!item) {
+                        return;
+                    }
+
+
+                    allRequests.push({
+
+                        id: id,
+
+                        ...item
+
+                    });
+
                 }
+            );
 
 
-                allRequests.push({
+            loading.style.display =
+                "none";
 
-                    id: id,
-
-                    ...item
-
-                });
-
-            });
-
-
-            loading.style.display = "none";
 
             updateStats();
 
@@ -378,6 +451,12 @@ function startRequestsListener() {
         },
 
         function(error) {
+
+            console.error(
+                "Firebase Requests Error:",
+                error
+            );
+
 
             loading.textContent =
                 "تعذر تحميل الطلبات.";
@@ -389,46 +468,57 @@ function startRequestsListener() {
 
 
 // =====================================================
-// STATS
+// UPDATE STATS
 // =====================================================
 
 function updateStats() {
 
-    let total = allRequests.length;
-
-    let pending = 0;
-
-    let completed = 0;
+    let total =
+        allRequests.length;
 
 
-    allRequests.forEach(function(item) {
+    let pending =
+        0;
 
-        const status =
-            String(item.status || "")
+
+    let completed =
+        0;
+
+
+    allRequests.forEach(
+        function(item) {
+
+            const status =
+                String(
+                    item.status || ""
+                )
                 .toLowerCase();
 
 
-        if (
-            status === "completed" ||
-            status === "مكتملة"
-        ) {
+            if (
+                status === "completed" ||
+                status === "مكتملة"
+            ) {
 
-            completed++;
+                completed++;
 
-        } else {
+            } else {
 
-            pending++;
+                pending++;
+
+            }
 
         }
-
-    });
+    );
 
 
     totalCount.textContent =
         total;
 
+
     pendingCount.textContent =
         pending;
+
 
     completedCount.textContent =
         completed;
@@ -443,11 +533,11 @@ function updateStats() {
 function renderRequests() {
 
     const search =
-        searchInput.value
-            .trim();
+        searchInput.value.trim();
 
 
-    requestsList.innerHTML = "";
+    requestsList.innerHTML =
+        "";
 
 
     const filtered =
@@ -465,172 +555,197 @@ function renderRequests() {
                     );
 
 
-                return account.includes(search);
+                return account.includes(
+                    search
+                );
 
             }
         );
 
 
-    if (filtered.length === 0) {
+    if (
+        filtered.length === 0
+    ) {
 
-        empty.style.display = "block";
+        empty.style.display =
+            "block";
 
         return;
 
     }
 
 
-    empty.style.display = "none";
+    empty.style.display =
+        "none";
 
 
-    filtered.forEach(function(item) {
+    filtered.forEach(
+        function(item) {
 
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "request-card";
-
-
-        const status =
-            String(item.status || "pending");
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        let statusText =
-            "قيد الانتظار";
+            card.className =
+                "request-card";
 
 
-        if (
-            status === "completed" ||
-            status === "مكتملة"
-        ) {
-
-            statusText =
-                "مكتملة";
-
-        }
+            const status =
+                String(
+                    item.status ||
+                    "pending"
+                );
 
 
-        card.innerHTML = `
-
-            <div class="request-header">
-
-                <strong>
-                    ${escapeHTML(
-                        item.accountNumber || "-"
-                    )}
-                </strong>
-
-                <span class="status">
-                    ${escapeHTML(statusText)}
-                </span>
-
-            </div>
+            let statusText =
+                "قيد الانتظار";
 
 
-            <div class="request-row">
+            if (
+                status === "completed" ||
+                status === "مكتملة"
+            ) {
 
-                <span>
-                    رقم الحساب
-                </span>
-
-                <b>
-                    ${escapeHTML(
-                        item.accountNumber || "-"
-                    )}
-                </b>
-
-            </div>
-
-
-            <div class="request-row">
-
-                <span>
-                    الاسم
-                </span>
-
-                <b>
-                    ${escapeHTML(
-                        item.name || "لم تتم الإضافة"
-                    )}
-                </b>
-
-            </div>
-
-
-            <div class="request-row">
-
-                <span>
-                    رقم الحساب 16
-                </span>
-
-                <b>
-                    ${escapeHTML(
-                        item.accountNumber16 || "لم تتم الإضافة"
-                    )}
-                </b>
-
-            </div>
-
-
-            <div class="request-row">
-
-                <span>
-                    الفرع
-                </span>
-
-                <b>
-                    ${escapeHTML(
-                        item.branch || "لم تتم الإضافة"
-                    )}
-                </b>
-
-            </div>
-
-
-            <div class="request-row">
-
-                <span>
-                    نوع الحساب
-                </span>
-
-                <b>
-                    ${escapeHTML(
-                        item.accountType || "لم تتم الإضافة"
-                    )}
-                </b>
-
-            </div>
-
-
-            <button
-                class="edit-btn"
-                type="button"
-                data-id="${escapeHTML(item.id)}"
-            >
-                ✏️ تعديل البيانات
-            </button>
-
-        `;
-
-
-        const editButton =
-            card.querySelector(".edit-btn");
-
-
-        editButton.addEventListener(
-            "click",
-            function() {
-
-                openEditModal(item);
+                statusText =
+                    "مكتملة";
 
             }
-        );
 
 
-        requestsList.appendChild(card);
+            card.innerHTML = `
 
-    });
+                <div class="request-header">
+
+                    <strong>
+                        ${escapeHTML(
+                            item.accountNumber || "-"
+                        )}
+                    </strong>
+
+                    <span class="status">
+                        ${escapeHTML(
+                            statusText
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="request-row">
+
+                    <span>
+                        رقم الحساب
+                    </span>
+
+                    <b>
+                        ${escapeHTML(
+                            item.accountNumber || "-"
+                        )}
+                    </b>
+
+                </div>
+
+
+                <div class="request-row">
+
+                    <span>
+                        الاسم
+                    </span>
+
+                    <b>
+                        ${escapeHTML(
+                            item.name ||
+                            "لم تتم الإضافة"
+                        )}
+                    </b>
+
+                </div>
+
+
+                <div class="request-row">
+
+                    <span>
+                        رقم الحساب 16
+                    </span>
+
+                    <b>
+                        ${escapeHTML(
+                            item.accountNumber16 ||
+                            "لم تتم الإضافة"
+                        )}
+                    </b>
+
+                </div>
+
+
+                <div class="request-row">
+
+                    <span>
+                        الفرع
+                    </span>
+
+                    <b>
+                        ${escapeHTML(
+                            item.branch ||
+                            "لم تتم الإضافة"
+                        )}
+                    </b>
+
+                </div>
+
+
+                <div class="request-row">
+
+                    <span>
+                        نوع الحساب
+                    </span>
+
+                    <b>
+                        ${escapeHTML(
+                            item.accountType ||
+                            "لم تتم الإضافة"
+                        )}
+                    </b>
+
+                </div>
+
+
+                <button
+                    class="edit-btn"
+                    type="button"
+                >
+                    ✏️ تعديل البيانات
+                </button>
+
+            `;
+
+
+            const editButton =
+                card.querySelector(
+                    ".edit-btn"
+                );
+
+
+            editButton.addEventListener(
+                "click",
+                function() {
+
+                    openEditModal(
+                        item
+                    );
+
+                }
+            );
+
+
+            requestsList.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
@@ -650,7 +765,7 @@ searchInput.addEventListener(
 
 
 // =====================================================
-// OPEN EDIT
+// OPEN EDIT MODAL
 // =====================================================
 
 function openEditModal(item) {
@@ -689,12 +804,17 @@ function openEditModal(item) {
     );
 
 
-    saveError.textContent = "";
+    saveError.textContent =
+        "";
 
-    ocrStatus.textContent = "";
+
+    ocrStatus.textContent =
+        "";
+
 
     ocrPreview.style.display =
         "none";
+
 
     ocrPreview.removeAttribute(
         "src"
@@ -712,7 +832,7 @@ function openEditModal(item) {
 
 
 // =====================================================
-// CLOSE EDIT
+// CLOSE MODAL
 // =====================================================
 
 function closeEditModal() {
@@ -720,24 +840,31 @@ function closeEditModal() {
     editModal.style.display =
         "none";
 
+
     document.body.style.overflow =
         "";
+
 
     selectedRequestId =
         null;
 
+
     saveError.textContent =
         "";
+
 
     ocrStatus.textContent =
         "";
 
+
     ocrPreview.style.display =
         "none";
+
 
     ocrPreview.removeAttribute(
         "src"
     );
+
 
     ocrImage.value =
         "";
@@ -752,7 +879,7 @@ closeModal.addEventListener(
 
 
 // =====================================================
-// CLOSE WHEN CLICK OUTSIDE
+// CLOSE OUTSIDE
 // =====================================================
 
 editModal.addEventListener(
@@ -760,7 +887,8 @@ editModal.addEventListener(
     function(event) {
 
         if (
-            event.target === editModal
+            event.target ===
+            editModal
         ) {
 
             closeEditModal();
@@ -781,7 +909,8 @@ document.addEventListener(
 
         if (
             event.key === "Escape" &&
-            editModal.style.display !== "none"
+            editModal.style.display !==
+            "none"
         ) {
 
             closeEditModal();
@@ -793,49 +922,27 @@ document.addEventListener(
 
 
 // =====================================================
-// SET ACCOUNT TYPE
+// ACCOUNT TYPE
 // =====================================================
 
 function setAccountType(value) {
 
     const clean =
-        String(value || "")
-            .trim();
+        String(
+            value || ""
+        ).trim();
 
 
-    const options =
-        Array.from(
-            accountType.options
+    const normalized =
+        normalizeArabicText(
+            clean
         );
-
-
-    const found =
-        options.find(
-            function(option) {
-
-                return normalizeArabicText(
-                    option.value
-                ) ===
-                normalizeArabicText(
-                    clean
-                );
-
-            }
-        );
-
-
-    if (found) {
-
-        accountType.value =
-            found.value;
-
-        return;
-
-    }
 
 
     if (
-        clean.includes("توفير")
+        normalized.includes(
+            "توفير"
+        )
     ) {
 
         accountType.value =
@@ -847,7 +954,9 @@ function setAccountType(value) {
 
 
     if (
-        clean.includes("جاري")
+        normalized.includes(
+            "جاري"
+        )
     ) {
 
         accountType.value =
@@ -865,17 +974,20 @@ function setAccountType(value) {
 
 
 // =====================================================
-// SAVE
+// SAVE DATA
 // =====================================================
 
 saveBtn.addEventListener(
     "click",
     async function() {
 
-        saveError.textContent = "";
+        saveError.textContent =
+            "";
 
 
-        if (!selectedRequestId) {
+        if (
+            !selectedRequestId
+        ) {
 
             saveError.textContent =
                 "لم يتم اختيار طلب.";
@@ -886,27 +998,31 @@ saveBtn.addEventListener(
 
 
         const number16 =
-            accountNumber16.value
-                .replace(/\D/g, "")
-                .trim();
+            convertArabicDigits(
+                accountNumber16.value
+            )
+            .replace(
+                /\D/g,
+                ""
+            )
+            .trim();
 
 
         const name =
-            accountName.value
-                .trim();
+            accountName.value.trim();
 
 
         const branch =
-            accountBranch.value
-                .trim();
+            accountBranch.value.trim();
 
 
         const type =
-            accountType.value
-                .trim();
+            accountType.value.trim();
 
 
-        if (number16.length !== 16) {
+        if (
+            number16.length !== 16
+        ) {
 
             saveError.textContent =
                 "رقم الحساب يجب أن يكون 16 رقمًا.";
@@ -948,6 +1064,7 @@ saveBtn.addEventListener(
 
         saveBtn.disabled =
             true;
+
 
         saveBtn.textContent =
             "جاري الحفظ...";
@@ -1002,6 +1119,12 @@ saveBtn.addEventListener(
 
         } catch (error) {
 
+            console.error(
+                "Save Error:",
+                error
+            );
+
+
             saveError.textContent =
                 "حدث خطأ أثناء حفظ البيانات.";
 
@@ -1011,6 +1134,7 @@ saveBtn.addEventListener(
         saveBtn.disabled =
             false;
 
+
         saveBtn.textContent =
             "حفظ البيانات";
 
@@ -1019,26 +1143,30 @@ saveBtn.addEventListener(
 
 
 // =====================================================
-// OCR - PREPARE WORKER
+// PREPARE OCR
 // =====================================================
 
 async function prepareOCR() {
 
-    if (ocrWorkerReady) {
+    if (
+        ocrWorkerReady
+    ) {
+
         return;
+
     }
 
 
-    if (ocrWorker) {
+    if (
+        ocrWorker
+    ) {
+
         return;
+
     }
 
 
     try {
-
-        ocrStatus.textContent =
-            "جاري تجهيز محرك القراءة...";
-
 
         ocrWorker =
             await Tesseract.createWorker(
@@ -1059,19 +1187,20 @@ async function prepareOCR() {
             true;
 
 
-        ocrStatus.textContent =
-            "";
-
     } catch (error) {
+
+        console.error(
+            "OCR Worker Error:",
+            error
+        );
+
 
         ocrWorker =
             null;
 
+
         ocrWorkerReady =
             false;
-
-        ocrStatus.textContent =
-            "تعذر تجهيز محرك القراءة.";
 
     }
 
@@ -1079,15 +1208,19 @@ async function prepareOCR() {
 
 
 // =====================================================
-// OCR IMAGE BUTTON
+// CHOOSE IMAGE
 // =====================================================
 
 ocrBtn.addEventListener(
     "click",
     function() {
 
-        if (ocrRunning) {
+        if (
+            ocrRunning
+        ) {
+
             return;
+
         }
 
 
@@ -1111,11 +1244,17 @@ ocrImage.addEventListener(
 
 
         if (!file) {
+
             return;
+
         }
 
 
-        if (!file.type.startsWith("image/")) {
+        if (
+            !file.type.startsWith(
+                "image/"
+            )
+        ) {
 
             ocrStatus.textContent =
                 "الملف المحدد ليس صورة.";
@@ -1125,7 +1264,9 @@ ocrImage.addEventListener(
         }
 
 
-        await runFullImageOCR(file);
+        await runFullImageOCR(
+            file
+        );
 
     }
 );
@@ -1135,10 +1276,16 @@ ocrImage.addEventListener(
 // FULL IMAGE OCR
 // =====================================================
 
-async function runFullImageOCR(file) {
+async function runFullImageOCR(
+    file
+) {
 
-    if (ocrRunning) {
+    if (
+        ocrRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1151,21 +1298,27 @@ async function runFullImageOCR(file) {
 
 
     ocrBtn.textContent =
-        "⚡ جاري استخراج البيانات...";
+        "⚡ جاري الاستخراج...";
 
 
     ocrStatus.textContent =
         "جاري قراءة الصورة كاملة...";
 
 
+    let previewUrl =
+        null;
+
+
     try {
 
         // -------------------------------------------------
-        // عرض الصورة للمستخدم
+        // PREVIEW
         // -------------------------------------------------
 
-        const previewUrl =
-            URL.createObjectURL(file);
+        previewUrl =
+            URL.createObjectURL(
+                file
+            );
 
 
         ocrPreview.src =
@@ -1177,25 +1330,21 @@ async function runFullImageOCR(file) {
 
 
         // -------------------------------------------------
-        // تجهيز الصورة للـ OCR
+        // PREPARE OCR
         // -------------------------------------------------
 
-        const processedCanvas =
-            await prepareImageForOCR(file);
-
-
-        // -------------------------------------------------
-        // تجهيز Worker إذا لم يكن جاهزًا
-        // -------------------------------------------------
-
-        if (!ocrWorkerReady) {
+        if (
+            !ocrWorkerReady
+        ) {
 
             await prepareOCR();
 
         }
 
 
-        if (!ocrWorker) {
+        if (
+            !ocrWorker
+        ) {
 
             throw new Error(
                 "OCR worker unavailable"
@@ -1204,12 +1353,22 @@ async function runFullImageOCR(file) {
         }
 
 
+        // -------------------------------------------------
+        // IMAGE PROCESSING
+        // -------------------------------------------------
+
+        const processedCanvas =
+            await prepareImageForOCR(
+                file
+            );
+
+
         ocrStatus.textContent =
-            "⚡ يتم استخراج البيانات الآن...";
+            "⚡ استخراج البيانات...";
 
 
         // -------------------------------------------------
-        // OCR للصورة كاملة
+        // OCR
         // -------------------------------------------------
 
         const result =
@@ -1226,15 +1385,17 @@ async function runFullImageOCR(file) {
 
 
         // -------------------------------------------------
-        // استخراج الحقول
+        // EXTRACT
         // -------------------------------------------------
 
         const extracted =
-            extractBankakData(text);
+            extractBankakData(
+                text
+            );
 
 
         // -------------------------------------------------
-        // تعبئة الخانات مباشرة
+        // FILL FORM
         // -------------------------------------------------
 
         fillExtractedFields(
@@ -1242,7 +1403,7 @@ async function runFullImageOCR(file) {
         );
 
 
-        const foundCount =
+        const found =
             [
                 extracted.accountNumber16,
                 extracted.name,
@@ -1252,35 +1413,47 @@ async function runFullImageOCR(file) {
             .filter(
                 function(value) {
 
-                    return value &&
-                        value.trim();
+                    return (
+                        value &&
+                        value.trim()
+                    );
 
                 }
             )
             .length;
 
 
-        if (foundCount === 4) {
+        if (
+            found === 4
+        ) {
 
             ocrStatus.textContent =
                 "✅ تم استخراج البيانات الأربعة بنجاح.";
 
-        } else if (foundCount > 0) {
+        } else if (
+            found > 0
+        ) {
 
             ocrStatus.textContent =
                 "⚠️ تم استخراج " +
-                foundCount +
-                " من 4 حقول. راجع البيانات قبل الحفظ.";
+                found +
+                " من 4 حقول. راجع البيانات.";
 
         } else {
 
             ocrStatus.textContent =
-                "❌ لم يتم التعرف على البيانات. جرّب صورة أوضح.";
+                "❌ لم يتم العثور على البيانات.";
 
         }
 
 
     } catch (error) {
+
+        console.error(
+            "OCR Error:",
+            error
+        );
+
 
         ocrStatus.textContent =
             "❌ حدث خطأ أثناء قراءة الصورة.";
@@ -1303,16 +1476,24 @@ async function runFullImageOCR(file) {
 
 
 // =====================================================
-// PREPARE IMAGE
+// IMAGE PREPARATION
 // =====================================================
 
-function prepareImageForOCR(file) {
+function prepareImageForOCR(
+    file
+) {
 
     return new Promise(
         function(resolve, reject) {
 
             const image =
                 new Image();
+
+
+            const objectUrl =
+                URL.createObjectURL(
+                    file
+                );
 
 
             image.onload =
@@ -1323,6 +1504,7 @@ function prepareImageForOCR(file) {
                         let width =
                             image.naturalWidth;
 
+
                         let height =
                             image.naturalHeight;
 
@@ -1332,11 +1514,17 @@ function prepareImageForOCR(file) {
                             !height
                         ) {
 
+                            URL.revokeObjectURL(
+                                objectUrl
+                            );
+
+
                             reject(
                                 new Error(
                                     "Invalid image"
                                 )
                             );
+
 
                             return;
 
@@ -1344,7 +1532,7 @@ function prepareImageForOCR(file) {
 
 
                         // ------------------------------------------------
-                        // حد أعلى مناسب للسرعة والدقة
+                        // MAX WIDTH
                         // ------------------------------------------------
 
                         const maxWidth =
@@ -1386,6 +1574,7 @@ function prepareImageForOCR(file) {
                         canvas.width =
                             width;
 
+
                         canvas.height =
                             height;
 
@@ -1410,7 +1599,7 @@ function prepareImageForOCR(file) {
 
 
                         // ------------------------------------------------
-                        // تحسين الصورة
+                        // GRAYSCALE + CONTRAST
                         // ------------------------------------------------
 
                         const imageData =
@@ -1435,28 +1624,27 @@ function prepareImageForOCR(file) {
                             const r =
                                 data[i];
 
+
                             const g =
                                 data[i + 1];
+
 
                             const b =
                                 data[i + 2];
 
 
-                            // Grayscale
                             const gray =
                                 Math.round(
-                                    (
-                                        r * 0.299 +
-                                        g * 0.587 +
-                                        b * 0.114
-                                    )
+                                    r * 0.299 +
+                                    g * 0.587 +
+                                    b * 0.114
                                 );
 
 
-                            // Contrast
                             let value =
                                 (
-                                    gray - 128
+                                    gray -
+                                    128
                                 ) *
                                 1.25 +
                                 128;
@@ -1475,8 +1663,10 @@ function prepareImageForOCR(file) {
                             data[i] =
                                 value;
 
+
                             data[i + 1] =
                                 value;
+
 
                             data[i + 2] =
                                 value;
@@ -1492,16 +1682,25 @@ function prepareImageForOCR(file) {
 
 
                         URL.revokeObjectURL(
-                            image.src
+                            objectUrl
                         );
 
 
-                        resolve(canvas);
+                        resolve(
+                            canvas
+                        );
 
 
                     } catch (error) {
 
-                        reject(error);
+                        URL.revokeObjectURL(
+                            objectUrl
+                        );
+
+
+                        reject(
+                            error
+                        );
 
                     }
 
@@ -1511,9 +1710,14 @@ function prepareImageForOCR(file) {
             image.onerror =
                 function() {
 
+                    URL.revokeObjectURL(
+                        objectUrl
+                    );
+
+
                     reject(
                         new Error(
-                            "Could not load image"
+                            "Image load error"
                         )
                     );
 
@@ -1521,7 +1725,7 @@ function prepareImageForOCR(file) {
 
 
             image.src =
-                URL.createObjectURL(file);
+                objectUrl;
 
         }
     );
@@ -1533,7 +1737,9 @@ function prepareImageForOCR(file) {
 // EXTRACT BANKAK DATA
 // =====================================================
 
-function extractBankakData(text) {
+function extractBankakData(
+    text
+) {
 
     const normalized =
         normalizeArabicText(
@@ -1559,7 +1765,9 @@ function extractBankakData(text) {
             .filter(
                 function(line) {
 
-                    return line.length > 0;
+                    return (
+                        line.length > 0
+                    );
 
                 }
             );
@@ -1620,13 +1828,19 @@ function extractBankakData(text) {
             ),
 
         name:
-            cleanName(name),
+            cleanName(
+                name
+            ),
 
         accountType:
-            cleanValue(accountType),
+            cleanValue(
+                accountType
+            ),
 
         branch:
-            cleanValue(branch)
+            cleanValue(
+                branch
+            )
 
     };
 
@@ -1634,10 +1848,12 @@ function extractBankakData(text) {
 
 
 // =====================================================
-// FIND 16 DIGIT ACCOUNT
+// FIND 16 DIGITS
 // =====================================================
 
-function find16DigitAccount(text) {
+function find16DigitAccount(
+    text
+) {
 
     const digitText =
         convertArabicDigits(
@@ -1652,33 +1868,35 @@ function find16DigitAccount(text) {
         );
 
 
-    let match =
+    const direct =
         compact.match(
             /\d{16}/
         );
 
 
-    if (match) {
+    if (direct) {
 
-        return match[0];
+        return direct[0];
 
     }
 
 
-    const groups =
+    const grouped =
         digitText.match(
             /\d{4}(?:\s*\d{4}){3}/g
         );
 
 
-    if (groups) {
+    if (
+        grouped &&
+        grouped.length
+    ) {
 
         const number =
-            groups[0]
-                .replace(
-                    /\D/g,
-                    ""
-                );
+            grouped[0].replace(
+                /\D/g,
+                ""
+            );
 
 
         if (
@@ -1695,7 +1913,7 @@ function find16DigitAccount(text) {
     }
 
 
-    const allDigits =
+    const numbers =
         digitText.match(
             /\d+/g
         ) || [];
@@ -1703,15 +1921,15 @@ function find16DigitAccount(text) {
 
     for (
         let i = 0;
-        i < allDigits.length;
+        i < numbers.length;
         i++
     ) {
 
         if (
-            allDigits[i].length === 16
+            numbers[i].length === 16
         ) {
 
-            return allDigits[i];
+            return numbers[i];
 
         }
 
@@ -1724,10 +1942,12 @@ function find16DigitAccount(text) {
 
 
 // =====================================================
-// ACCOUNT TYPE
+// FIND ACCOUNT TYPE
 // =====================================================
 
-function findAccountType(lines) {
+function findAccountType(
+    lines
+) {
 
     for (
         let i = 0;
@@ -1740,7 +1960,9 @@ function findAccountType(lines) {
 
 
         if (
-            line.includes("نوع الحساب")
+            line.includes(
+                "نوع الحساب"
+            )
         ) {
 
             const after =
@@ -1787,7 +2009,9 @@ function findAccountType(lines) {
 
 
         if (
-            line.includes("حساب توفير")
+            line.includes(
+                "حساب توفير"
+            )
         ) {
 
             return "حساب توفير";
@@ -1796,7 +2020,9 @@ function findAccountType(lines) {
 
 
         if (
-            line.includes("حساب جاري")
+            line.includes(
+                "حساب جاري"
+            )
         ) {
 
             return "حساب جاري";
@@ -1830,7 +2056,7 @@ function findAccountType(lines) {
 
 
 // =====================================================
-// FIND VALUE AFTER LABEL
+// FIND FIELD AFTER LABEL
 // =====================================================
 
 function findFieldAfterLabel(
@@ -1964,27 +2190,16 @@ function findNameLine(
     const excluded = [
 
         "رقم الحساب",
-
         "نوع الحساب",
-
         "الفرع",
-
         "اسم",
-
         "الحساب",
-
         "تاريخ",
-
         "المبلغ",
-
         "الرصيد",
-
         "بنكك",
-
         "bankak",
-
         "bank of khartoum",
-
         "بنك الخرطوم"
 
     ];
@@ -1996,9 +2211,8 @@ function findNameLine(
         i++
     ) {
 
-        let line =
-            lines[i]
-                .trim();
+        const line =
+            lines[i].trim();
 
 
         if (
@@ -2047,10 +2261,6 @@ function findNameLine(
         }
 
 
-        let lower =
-            line.toLowerCase();
-
-
         let skip =
             false;
 
@@ -2062,12 +2272,16 @@ function findNameLine(
         ) {
 
             if (
-                lower.includes(
-                    excluded[j].toLowerCase()
-                )
+                line
+                    .toLowerCase()
+                    .includes(
+                        excluded[j]
+                            .toLowerCase()
+                    )
             ) {
 
-                skip = true;
+                skip =
+                    true;
 
                 break;
 
@@ -2082,7 +2296,9 @@ function findNameLine(
 
 
         if (
-            containsNumber(line)
+            containsNumber(
+                line
+            )
         ) {
 
             continue;
@@ -2118,27 +2334,25 @@ function findNameLine(
 // CLEAN NAME
 // =====================================================
 
-function cleanName(value) {
+function cleanName(
+    value
+) {
 
     if (!value) {
         return "";
     }
 
 
-    let result =
-        String(value)
-            .replace(
-                /^(الاسم|اسم العميل|اسم صاحب الحساب|اسم الحساب)\s*[:：\-]?\s*/i,
-                ""
-            )
-            .replace(
-                /\s+/g,
-                " "
-            )
-            .trim();
-
-
-    return result;
+    return String(value)
+        .replace(
+            /^(الاسم|اسم العميل|اسم صاحب الحساب|اسم الحساب)\s*[:：\-]?\s*/i,
+            ""
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
 
 }
 
@@ -2147,7 +2361,9 @@ function cleanName(value) {
 // CLEAN VALUE
 // =====================================================
 
-function cleanValue(value) {
+function cleanValue(
+    value
+) {
 
     if (!value) {
         return "";
@@ -2172,7 +2388,9 @@ function cleanValue(value) {
 // CLEAN LABEL VALUE
 // =====================================================
 
-function cleanLabelValue(value) {
+function cleanLabelValue(
+    value
+) {
 
     if (!value) {
         return "";
@@ -2193,7 +2411,9 @@ function cleanLabelValue(value) {
 // CLEAN ACCOUNT NUMBER
 // =====================================================
 
-function cleanAccountNumber(value) {
+function cleanAccountNumber(
+    value
+) {
 
     if (!value) {
         return "";
@@ -2219,7 +2439,9 @@ function cleanAccountNumber(value) {
 // NORMALIZE ACCOUNT TYPE
 // =====================================================
 
-function normalizeAccountType(value) {
+function normalizeAccountType(
+    value
+) {
 
     const text =
         normalizeArabicText(
@@ -2228,7 +2450,9 @@ function normalizeAccountType(value) {
 
 
     if (
-        text.includes("توفير")
+        text.includes(
+            "توفير"
+        )
     ) {
 
         return "حساب توفير";
@@ -2237,7 +2461,9 @@ function normalizeAccountType(value) {
 
 
     if (
-        text.includes("جاري")
+        text.includes(
+            "جاري"
+        )
     ) {
 
         return "حساب جاري";
@@ -2245,16 +2471,20 @@ function normalizeAccountType(value) {
     }
 
 
-    return value.trim();
+    return String(
+        value || ""
+    ).trim();
 
 }
 
 
 // =====================================================
-// FILL OCR RESULTS
+// FILL FIELDS
 // =====================================================
 
-function fillExtractedFields(data) {
+function fillExtractedFields(
+    data
+) {
 
     if (
         data.accountNumber16
@@ -2296,37 +2526,6 @@ function fillExtractedFields(data) {
 
     }
 
-
-    // -------------------------------------------------
-    // وضع التركيز على أول خانة ناقصة
-    // -------------------------------------------------
-
-    if (
-        !accountNumber16.value.trim()
-    ) {
-
-        accountNumber16.focus();
-
-    } else if (
-        !accountName.value.trim()
-    ) {
-
-        accountName.focus();
-
-    } else if (
-        !accountType.value.trim()
-    ) {
-
-        accountType.focus();
-
-    } else if (
-        !accountBranch.value.trim()
-    ) {
-
-        accountBranch.focus();
-
-    }
-
 }
 
 
@@ -2334,85 +2533,93 @@ function fillExtractedFields(data) {
 // NORMALIZE ARABIC
 // =====================================================
 
-function normalizeArabicText(text) {
+function normalizeArabicText(
+    text
+) {
 
-    return String(text || "")
-        .replace(
-            /أ|إ|آ/g,
-            "ا"
-        )
-        .replace(
-            /ى/g,
-            "ي"
-        )
-        .replace(
-            /ة/g,
-            "ه"
-        )
-        .replace(
-            /ـ/g,
-            ""
-        )
-        .replace(
-            /[\u064B-\u065F]/g,
-            ""
-        )
-        .replace(
-            /\s+/g,
-            " "
-        )
-        .trim();
+    return String(
+        text || ""
+    )
+    .replace(
+        /أ|إ|آ/g,
+        "ا"
+    )
+    .replace(
+        /ى/g,
+        "ي"
+    )
+    .replace(
+        /ة/g,
+        "ه"
+    )
+    .replace(
+        /ـ/g,
+        ""
+    )
+    .replace(
+        /[\u064B-\u065F]/g,
+        ""
+    )
+    .replace(
+        /\s+/g,
+        " "
+    )
+    .trim();
 
 }
 
 
 // =====================================================
-// ARABIC DIGITS -> ENGLISH
+// ARABIC DIGITS
 // =====================================================
 
-function convertArabicDigits(text) {
+function convertArabicDigits(
+    text
+) {
 
-    return String(text || "")
-        .replace(
-            /٠/g,
-            "0"
-        )
-        .replace(
-            /١/g,
-            "1"
-        )
-        .replace(
-            /٢/g,
-            "2"
-        )
-        .replace(
-            /٣/g,
-            "3"
-        )
-        .replace(
-            /٤/g,
-            "4"
-        )
-        .replace(
-            /٥/g,
-            "5"
-        )
-        .replace(
-            /٦/g,
-            "6"
-        )
-        .replace(
-            /٧/g,
-            "7"
-        )
-        .replace(
-            /٨/g,
-            "8"
-        )
-        .replace(
-            /٩/g,
-            "9"
-        );
+    return String(
+        text || ""
+    )
+    .replace(
+        /٠/g,
+        "0"
+    )
+    .replace(
+        /١/g,
+        "1"
+    )
+    .replace(
+        /٢/g,
+        "2"
+    )
+    .replace(
+        /٣/g,
+        "3"
+    )
+    .replace(
+        /٤/g,
+        "4"
+    )
+    .replace(
+        /٥/g,
+        "5"
+    )
+    .replace(
+        /٦/g,
+        "6"
+    )
+    .replace(
+        /٧/g,
+        "7"
+    )
+    .replace(
+        /٨/g,
+        "8"
+    )
+    .replace(
+        /٩/g,
+        "9"
+    );
 
 }
 
@@ -2421,7 +2628,9 @@ function convertArabicDigits(text) {
 // CONTAINS NUMBER
 // =====================================================
 
-function containsNumber(text) {
+function containsNumber(
+    text
+) {
 
     return /\d|[٠-٩]/.test(
         String(text || "")
@@ -2434,35 +2643,39 @@ function containsNumber(text) {
 // ESCAPE HTML
 // =====================================================
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
-    return String(value ?? "")
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
 // =====================================================
-// KEEP ACCOUNT NUMBER NUMERIC
+// ACCOUNT NUMBER INPUT
 // =====================================================
 
 accountNumber16.addEventListener(
@@ -2487,18 +2700,20 @@ accountNumber16.addEventListener(
 
 
 // =====================================================
-// CLEANUP OCR WORKER
+// CLEAN OCR WORKER
 // =====================================================
 
 window.addEventListener(
     "beforeunload",
-    async function() {
+    function() {
 
-        if (ocrWorker) {
+        if (
+            ocrWorker
+        ) {
 
             try {
 
-                await ocrWorker.terminate();
+                ocrWorker.terminate();
 
             } catch (error) {
 
