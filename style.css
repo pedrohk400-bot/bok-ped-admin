@@ -1,729 +1,652 @@
-/* =========================================================
+/* ==========================================================
    BOK PEDRO
-   FULL STYLE
-   ========================================================= */
+   Full Responsive Red Glass Design
+   ========================================================== */
 
 
-/* =========================================================
-   GOOGLE FONT
-   ========================================================= */
+/* ==========================================================
+   Google Font
+   ========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+@import url(
+    'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap'
+);
 
 
-/* =========================================================
-   RESET
-   ========================================================= */
+/* ==========================================================
+   Global
+   ========================================================== */
 
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Cairo", sans-serif !important;
-    -webkit-tap-highlight-color: transparent;
-}
 
+    font-family:
+        "Cairo",
+        sans-serif !important;
 
-html,
-body {
-    width: 100%;
-    min-height: 100%;
+    -webkit-tap-highlight-color:
+        transparent;
 }
 
 
 html {
+    width: 100%;
+    min-height: 100%;
+
+    margin: 0;
+    padding: 0;
+
     direction: rtl;
+
+    background:
+        #160303;
 }
 
 
 body {
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
     direction: rtl;
+
+    color: #ffffff;
+
     background:
         radial-gradient(
             circle at top right,
-            rgba(183, 28, 28, 0.28),
+            rgba(183, 28, 28, 0.42),
             transparent 35%
         ),
         radial-gradient(
             circle at bottom left,
-            rgba(120, 0, 0, 0.20),
+            rgba(120, 0, 0, 0.30),
             transparent 40%
         ),
         linear-gradient(
             135deg,
-            #080808,
-            #120707,
-            #090909
+            #080101,
+            #170303 50%,
+            #090101
         );
 
-    color: #ffffff;
-
-    min-height: 100vh;
+    font-family:
+        "Cairo",
+        sans-serif !important;
 
     overflow-x: hidden;
 
-    font-family: "Cairo", sans-serif !important;
+    -webkit-font-smoothing:
+        antialiased;
 }
 
 
-/* =========================================================
-   ALL TEXT
-   ========================================================= */
+body.modal-open {
+    overflow: hidden;
+}
 
-body,
+
 button,
 input,
-select,
 textarea,
-option,
-label,
-span,
-div,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-strong,
-b,
-small {
-    font-family: "Cairo", sans-serif !important;
+select {
+    font-family:
+        "Cairo",
+        sans-serif !important;
 }
 
 
-/* =========================================================
-   LOGIN PAGE
-   ========================================================= */
+button {
+    border: none;
+    outline: none;
+}
 
-#loginPage {
 
+.hidden {
+    display: none !important;
+}
+
+
+/* ==========================================================
+   Page
+   ========================================================== */
+
+.page {
     width: 100%;
     min-height: 100vh;
+}
 
+
+/* ==========================================================
+   Login
+   ========================================================== */
+
+.login-page {
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    padding: 20px;
+    padding:
+        24px;
 
+    min-height:
+        100vh;
 }
 
 
-.login-card {
-
-    width: 100%;
-    max-width: 430px;
-
-    padding: 32px 24px;
-
-    border-radius: 28px;
-
+.glass-card {
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.11),
-            rgba(255,255,255,0.035)
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.045)
         );
 
-    border: 1px solid
-        rgba(255,255,255,0.12);
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
 
     box-shadow:
         0 25px 80px
-        rgba(0,0,0,0.55),
-
+        rgba(0,0,0,0.45),
         inset 0 1px 0
         rgba(255,255,255,0.08);
 
     backdrop-filter:
-        blur(25px);
+        blur(24px);
 
     -webkit-backdrop-filter:
-        blur(25px);
+        blur(24px);
 
+    border-radius:
+        28px;
 }
 
 
-.login-logo {
+.login-card {
+    width:
+        min(100%, 430px);
 
-    width: 78px;
-    height: 78px;
+    padding:
+        34px 26px;
 
-    margin: 0 auto 18px;
+    text-align:
+        center;
+}
 
-    border-radius: 22px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ==========================================================
+   Brand
+   ========================================================== */
+
+.brand {
+    margin-bottom:
+        30px;
+}
+
+
+.brand-logo {
+    width:
+        82px;
+
+    height:
+        82px;
+
+    margin:
+        0 auto 16px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        24px;
 
     background:
         linear-gradient(
             145deg,
             #d32f2f,
-            #8b0000
+            #8e0000
         );
 
     box-shadow:
-        0 12px 30px
-        rgba(183,28,28,0.40);
+        0 15px 35px
+        rgba(183,28,28,0.35);
 
-    font-size: 28px;
+    font-size:
+        25px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
+    letter-spacing:
+        1px;
 }
 
 
-.login-card h1 {
+.brand h1 {
+    margin:
+        0;
 
-    text-align: center;
+    font-size:
+        27px;
 
-    font-size: 27px;
-
-    font-weight: 900;
-
-    margin-bottom: 5px;
-
+    font-weight:
+        900;
 }
 
 
-.login-card .subtitle {
+.brand p {
+    margin:
+        7px 0 0;
 
-    text-align: center;
+    color:
+        rgba(255,255,255,0.62);
 
-    color: rgba(255,255,255,0.65);
+    font-size:
+        14px;
 
-    font-size: 14px;
-
-    margin-bottom: 28px;
-
+    font-weight:
+        500;
 }
 
 
-/* =========================================================
-   INPUT GROUP
-   ========================================================= */
+/* ==========================================================
+   Form
+   ========================================================== */
 
-.input-group {
+.form-group {
+    width:
+        100%;
 
-    margin-bottom: 16px;
+    margin-bottom:
+        18px;
 
+    text-align:
+        right;
 }
 
 
-.input-group label {
+.form-group label {
+    display:
+        block;
 
-    display: block;
+    margin-bottom:
+        8px;
 
-    margin-bottom: 8px;
+    color:
+        rgba(255,255,255,0.88);
 
-    color: rgba(255,255,255,0.82);
+    font-size:
+        14px;
 
-    font-size: 14px;
-
-    font-weight: 700;
-
+    font-weight:
+        700;
 }
 
 
-.input-group input {
+.form-group input {
+    width:
+        100%;
 
-    width: 100%;
+    min-height:
+        54px;
 
-    height: 54px;
+    padding:
+        0 16px;
 
-    padding: 0 16px;
+    border:
+        1px solid
+        rgba(255,255,255,0.13);
 
-    border-radius: 16px;
+    outline:
+        none;
 
-    border: 1px solid
-        rgba(255,255,255,0.12);
-
-    outline: none;
+    border-radius:
+        16px;
 
     background:
-        rgba(0,0,0,0.28);
+        rgba(0,0,0,0.25);
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    font-size: 15px;
+    font-size:
+        15px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 
-    transition: 0.2s;
-
+    transition:
+        0.2s ease;
 }
 
 
-.input-group input:focus {
+.form-group input::placeholder {
+    color:
+        rgba(255,255,255,0.35);
+}
 
+
+.form-group input:focus {
     border-color:
         rgba(239,83,80,0.75);
 
+    background:
+        rgba(0,0,0,0.34);
+
     box-shadow:
         0 0 0 3px
-        rgba(183,28,28,0.15);
-
+        rgba(183,28,28,0.12);
 }
 
 
-/* =========================================================
-   LOGIN BUTTON
-   ========================================================= */
+/* ==========================================================
+   Buttons
+   ========================================================== */
 
-#loginBtn {
+.primary-btn {
+    width:
+        100%;
 
-    width: 100%;
+    min-height:
+        54px;
 
-    height: 55px;
+    padding:
+        10px 18px;
 
-    border: none;
-
-    border-radius: 17px;
+    border-radius:
+        16px;
 
     background:
         linear-gradient(
             135deg,
             #d32f2f,
-            #a31313
+            #9b111e
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    font-size: 16px;
+    font-size:
+        15px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     box-shadow:
-        0 12px 30px
-        rgba(183,28,28,0.35);
+        0 12px 28px
+        rgba(183,28,28,0.28);
 
     transition:
-        transform 0.15s,
-        opacity 0.15s;
-
+        transform 0.15s ease,
+        opacity 0.15s ease;
 }
 
 
-#loginBtn:active {
-
-    transform: scale(0.98);
-
+.primary-btn:active {
+    transform:
+        scale(0.98);
 }
 
 
-#loginBtn:disabled {
+.primary-btn:disabled {
+    opacity:
+        0.55;
 
-    opacity: 0.65;
-
-    cursor: wait;
-
+    cursor:
+        not-allowed;
 }
 
 
-/* =========================================================
-   LOGIN ERROR
-   ========================================================= */
+/* ==========================================================
+   Errors
+   ========================================================== */
 
-#loginError {
+.error-message {
+    min-height:
+        22px;
 
-    min-height: 24px;
+    margin-top:
+        10px;
 
-    margin-top: 13px;
+    color:
+        #ff8a80;
 
-    text-align: center;
+    font-size:
+        13px;
 
-    color: #ff7676;
+    font-weight:
+        600;
 
-    font-size: 13px;
-
-    font-weight: 700;
-
+    text-align:
+        center;
 }
 
 
-/* =========================================================
-   ADMIN PAGE
-   ========================================================= */
-
-#adminPage {
-
-    width: 100%;
-
-    min-height: 100vh;
-
-    display: none;
-
-}
-
-
-/* =========================================================
-   TOP BAR
-   ========================================================= */
+/* ==========================================================
+   Topbar
+   ========================================================== */
 
 .topbar {
+    position:
+        sticky;
 
-    position: sticky;
+    top:
+        0;
 
-    top: 0;
+    z-index:
+        50;
 
-    z-index: 100;
-
-    width: 100%;
-
-    min-height: 72px;
+    width:
+        100%;
 
     padding:
-        12px
-        max(16px, env(safe-area-inset-right))
-        12px
-        max(16px, env(safe-area-inset-left));
+        15px 20px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    gap: 12px;
+    gap:
+        15px;
 
     background:
-        rgba(12, 8, 8, 0.82);
+        rgba(18,2,2,0.84);
 
     border-bottom:
         1px solid
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.09);
 
     backdrop-filter:
-        blur(22px);
+        blur(20px);
 
     -webkit-backdrop-filter:
-        blur(22px);
-
+        blur(20px);
 }
 
 
 .topbar-title {
+    display:
+        flex;
 
-    display: flex;
+    align-items:
+        center;
 
-    align-items: center;
+    gap:
+        12px;
 
-    gap: 10px;
-
-    min-width: 0;
-
+    min-width:
+        0;
 }
 
 
-.topbar-title strong {
+.mini-logo {
+    width:
+        48px;
 
-    font-size: 19px;
+    height:
+        48px;
 
-    font-weight: 900;
+    flex:
+        0 0 48px;
 
-    white-space: nowrap;
+    display:
+        flex;
 
-}
+    align-items:
+        center;
 
+    justify-content:
+        center;
 
-.topbar-title span {
-
-    font-size: 12px;
-
-    color:
-        rgba(255,255,255,0.55);
-
-}
-
-
-#logoutBtn {
-
-    border: 1px solid
-        rgba(255,255,255,0.10);
+    border-radius:
+        14px;
 
     background:
-        rgba(255,255,255,0.06);
+        linear-gradient(
+            145deg,
+            #d32f2f,
+            #8e0000
+        );
 
-    color: #ffffff;
+    font-size:
+        14px;
 
-    border-radius: 13px;
-
-    padding: 9px 13px;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
+    font-weight:
+        900;
 }
 
 
-/* =========================================================
-   MAIN CONTAINER
-   ========================================================= */
+.topbar h2 {
+    margin:
+        0;
 
-.admin-container {
+    font-size:
+        18px;
 
-    width: 100%;
-
-    max-width: 1100px;
-
-    margin: 0 auto;
-
-    padding:
-        22px
-        max(16px, env(safe-area-inset-right))
-        40px
-        max(16px, env(safe-area-inset-left));
-
+    font-weight:
+        900;
 }
 
 
-/* =========================================================
-   PAGE TITLE
-   ========================================================= */
+.topbar span {
+    display:
+        block;
 
-.page-title {
-
-    margin-bottom: 18px;
-
-}
-
-
-.page-title h1 {
-
-    font-size: 26px;
-
-    font-weight: 900;
-
-}
-
-
-.page-title p {
-
-    margin-top: 4px;
+    margin-top:
+        2px;
 
     color:
-        rgba(255,255,255,0.55);
+        rgba(255,255,255,0.52);
 
-    font-size: 13px;
+    font-size:
+        11px;
 
+    font-weight:
+        500;
 }
 
 
-/* =========================================================
-   STATS
-   ========================================================= */
+.logout-btn {
+    min-height:
+        42px;
 
-.stats {
+    padding:
+        7px 15px;
 
-    display: grid;
+    border-radius:
+        13px;
+
+    background:
+        rgba(183,28,28,0.16);
+
+    border:
+        1px solid
+        rgba(239,83,80,0.25);
+
+    color:
+        #ffb3b0;
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+}
+
+
+/* ==========================================================
+   Container
+   ========================================================== */
+
+.container {
+    width:
+        min(100%, 1100px);
+
+    margin:
+        0 auto;
+
+    padding:
+        22px 18px 45px;
+}
+
+
+/* ==========================================================
+   Stats
+   ========================================================== */
+
+.stats-grid {
+    width:
+        100%;
+
+    display:
+        grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 12px;
+    gap:
+        12px;
 
-    margin-bottom: 18px;
-
+    margin-bottom:
+        18px;
 }
 
 
 .stat-card {
+    min-height:
+        110px;
 
-    min-height: 105px;
+    padding:
+        17px;
 
-    padding: 17px;
-
-    border-radius: 20px;
+    border-radius:
+        20px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.09),
-            rgba(255,255,255,0.035)
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,0.08);
-
-    box-shadow:
-        0 15px 40px
-        rgba(0,0,0,0.22);
-
-}
-
-
-.stat-card span {
-
-    display: block;
-
-    color:
-        rgba(255,255,255,0.55);
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    margin-bottom: 6px;
-
-}
-
-
-.stat-card strong {
-
-    font-size: 28px;
-
-    font-weight: 900;
-
-}
-
-
-/* =========================================================
-   SEARCH
-   ========================================================= */
-
-.search-box {
-
-    width: 100%;
-
-    margin-bottom: 18px;
-
-}
-
-
-#searchInput {
-
-    width: 100%;
-
-    height: 55px;
-
-    border-radius: 17px;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.10);
-
-    outline: none;
-
-    background:
-        rgba(255,255,255,0.055);
-
-    color: #ffffff;
-
-    padding: 0 17px;
-
-    font-size: 15px;
-
-    font-weight: 600;
-
-    backdrop-filter:
-        blur(15px);
-
-}
-
-
-#searchInput::placeholder {
-
-    color:
-        rgba(255,255,255,0.40);
-
-}
-
-
-#searchInput:focus {
-
-    border-color:
-        rgba(211,47,47,0.70);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(183,28,28,0.12);
-
-}
-
-
-/* =========================================================
-   LOADING
-   ========================================================= */
-
-#loading {
-
-    text-align: center;
-
-    padding: 35px 10px;
-
-    color:
-        rgba(255,255,255,0.60);
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-}
-
-
-/* =========================================================
-   EMPTY
-   ========================================================= */
-
-#empty {
-
-    display: none;
-
-    text-align: center;
-
-    padding: 40px 15px;
-
-    color:
-        rgba(255,255,255,0.55);
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-}
-
-
-/* =========================================================
-   REQUEST LIST
-   ========================================================= */
-
-#requestsList {
-
-    width: 100%;
-
-    display: grid;
-
-    gap: 13px;
-
-}
-
-
-/* =========================================================
-   REQUEST CARD
-   ========================================================= */
-
-.request-card {
-
-    width: 100%;
-
-    padding: 18px;
-
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.085),
+            rgba(255,255,255,0.10),
             rgba(255,255,255,0.035)
         );
 
@@ -732,920 +655,1203 @@ small {
         rgba(255,255,255,0.09);
 
     box-shadow:
-        0 18px 45px
-        rgba(0,0,0,0.25);
-
-    backdrop-filter:
-        blur(20px);
-
-    -webkit-backdrop-filter:
-        blur(20px);
-
+        0 15px 40px
+        rgba(0,0,0,0.20);
 }
 
 
-.request-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    padding-bottom: 14px;
-
-    margin-bottom: 4px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,0.08);
-
-}
-
-
-.request-header strong {
-
-    font-size: 20px;
-
-    font-weight: 900;
-
-}
-
-
-.status {
-
-    padding: 5px 10px;
-
-    border-radius: 10px;
-
-    background:
-        rgba(183,28,28,0.18);
-
-    border:
-        1px solid
-        rgba(239,83,80,0.20);
-
-    color: #ff8a8a;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-}
-
-
-/* =========================================================
-   REQUEST ROW
-   ========================================================= */
-
-.request-row {
-
-    min-height: 45px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,0.055);
-
-}
-
-
-.request-row:last-of-type {
-
-    border-bottom: none;
-
-}
-
-
-.request-row span {
+.stat-title {
+    display:
+        block;
 
     color:
-        rgba(255,255,255,0.50);
+        rgba(255,255,255,0.55);
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 600;
-
+    font-weight:
+        600;
 }
 
 
-.request-row b {
+.stat-card strong {
+    display:
+        block;
 
-    max-width: 65%;
+    margin-top:
+        7px;
 
-    text-align: left;
+    font-size:
+        28px;
 
-    direction: rtl;
-
-    word-break: break-word;
-
-    color: #ffffff;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
+    font-weight:
+        900;
 }
 
 
-/* =========================================================
-   EDIT BUTTON
-   ========================================================= */
+/* ==========================================================
+   Search
+   ========================================================== */
 
-.edit-btn {
+.search-box {
+    width:
+        100%;
 
-    width: 100%;
-
-    height: 48px;
-
-    margin-top: 15px;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #c62828,
-            #8e1010
-        );
-
-    color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 10px 25px
-        rgba(183,28,28,0.25);
-
+    margin-bottom:
+        18px;
 }
 
 
-.edit-btn:active {
+.search-box input {
+    width:
+        100%;
 
-    transform: scale(0.985);
-
-}
-
-
-/* =========================================================
-   MODAL
-   ========================================================= */
-
-#editModal {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 999;
-
-    display: none;
-
-    align-items: center;
-
-    justify-content: center;
+    min-height:
+        56px;
 
     padding:
-        15px
-        max(15px, env(safe-area-inset-right))
-        15px
-        max(15px, env(safe-area-inset-left));
+        0 18px;
 
-    background:
-        rgba(0,0,0,0.72);
-
-    backdrop-filter:
-        blur(8px);
-
-    -webkit-backdrop-filter:
-        blur(8px);
-
-}
-
-
-.modal-content {
-
-    width: 100%;
-
-    max-width: 520px;
-
-    max-height: 92vh;
-
-    overflow-y: auto;
-
-    border-radius: 27px;
-
-    padding: 22px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #171111,
-            #0e0a0a
-        );
+    border-radius:
+        18px;
 
     border:
         1px solid
         rgba(255,255,255,0.10);
 
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,0.65);
-
-}
-
-
-.modal-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    margin-bottom: 17px;
-
-}
-
-
-.modal-header h2 {
-
-    font-size: 20px;
-
-    font-weight: 900;
-
-}
-
-
-#closeModal {
-
-    width: 38px;
-
-    height: 38px;
-
-    border: none;
-
-    border-radius: 12px;
+    outline:
+        none;
 
     background:
         rgba(255,255,255,0.07);
 
-    color: #ffffff;
-
-    font-size: 20px;
-
-    cursor: pointer;
-
-}
-
-
-/* =========================================================
-   MODAL ACCOUNT
-   ========================================================= */
-
-#modalAccount {
-
-    margin-bottom: 18px;
-
-    padding: 11px 13px;
-
-    border-radius: 13px;
-
-    background:
-        rgba(183,28,28,0.10);
-
-    border:
-        1px solid
-        rgba(183,28,28,0.16);
-
     color:
-        #ff8a8a;
+        #ffffff;
 
-    font-size: 13px;
+    font-size:
+        15px;
 
-    font-weight: 800;
+    font-weight:
+        600;
 
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.15);
 }
 
 
-/* =========================================================
-   MODAL INPUTS
-   ========================================================= */
-
-#editModal input,
-#editModal select,
-#editModal textarea {
-
-    width: 100%;
-
-    height: 52px;
-
-    margin-bottom: 13px;
-
-    padding: 0 15px;
-
-    border-radius: 15px;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.10);
-
-    outline: none;
-
-    background:
-        rgba(255,255,255,0.055);
-
-    color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
+.search-box input::placeholder {
+    color:
+        rgba(255,255,255,0.36);
 }
 
 
-#editModal textarea {
-
-    height: 100px;
-
-    padding-top: 13px;
-
-    resize: vertical;
-
-}
-
-
-#editModal select option {
-
-    background: #171111;
-
-    color: #ffffff;
-
-}
-
-
-#editModal input:focus,
-#editModal select:focus,
-#editModal textarea:focus {
-
+.search-box input:focus {
     border-color:
-        rgba(211,47,47,0.75);
+        rgba(239,83,80,0.55);
 
     box-shadow:
         0 0 0 3px
-        rgba(183,28,28,0.12);
-
+        rgba(183,28,28,0.10);
 }
 
 
-/* =========================================================
-   OCR BOX
-   ========================================================= */
+/* ==========================================================
+   State
+   ========================================================== */
 
-.ocr-box {
+.state-box {
+    width:
+        100%;
 
-    margin-top: 7px;
+    padding:
+        25px;
 
-    margin-bottom: 16px;
+    text-align:
+        center;
 
-    padding: 16px;
+    border-radius:
+        20px;
 
-    border-radius: 20px;
+    background:
+        rgba(255,255,255,0.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    color:
+        rgba(255,255,255,0.55);
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+}
+
+
+/* ==========================================================
+   Requests
+   ========================================================== */
+
+.requests-list {
+    display:
+        grid;
+
+    gap:
+        14px;
+}
+
+
+.request-card {
+    width:
+        100%;
+
+    padding:
+        18px;
+
+    border-radius:
+        22px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(183,28,28,0.10),
+            rgba(255,255,255,0.105),
             rgba(255,255,255,0.035)
         );
 
     border:
         1px solid
+        rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 18px 50px
+        rgba(0,0,0,0.20);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+}
+
+
+.request-top {
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        15px;
+
+    padding-bottom:
+        14px;
+
+    border-bottom:
+        1px solid
         rgba(255,255,255,0.08);
-
 }
 
 
-.ocr-box-title {
+.request-label {
+    color:
+        rgba(255,255,255,0.50);
 
-    margin-bottom: 10px;
+    font-size:
+        11px;
 
-    color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
+    font-weight:
+        600;
 }
 
 
-.ocr-box-description {
+.request-account {
+    margin-top:
+        3px;
 
-    margin-bottom: 13px;
+    font-size:
+        22px;
+
+    font-weight:
+        900;
+
+    direction:
+        ltr;
+
+    text-align:
+        right;
+}
+
+
+.status {
+    padding:
+        6px 11px;
+
+    border-radius:
+        100px;
+
+    white-space:
+        nowrap;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+}
+
+
+.status.pending {
+    color:
+        #ffd180;
+
+    background:
+        rgba(255,152,0,0.12);
+
+    border:
+        1px solid
+        rgba(255,152,0,0.20);
+}
+
+
+.status.completed {
+    color:
+        #b9f6ca;
+
+    background:
+        rgba(76,175,80,0.12);
+
+    border:
+        1px solid
+        rgba(76,175,80,0.20);
+}
+
+
+/* ==========================================================
+   Request Info
+   ========================================================== */
+
+.request-info {
+    padding:
+        5px 0 12px;
+}
+
+
+.info-row {
+    min-height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        15px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.055);
+}
+
+
+.info-row:last-child {
+    border-bottom:
+        none;
+}
+
+
+.info-row span {
+    color:
+        rgba(255,255,255,0.48);
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
+}
+
+
+.info-row strong {
+    max-width:
+        65%;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 
     color:
-        rgba(255,255,255,0.52);
+        rgba(255,255,255,0.90);
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    line-height: 1.7;
-
+    font-weight:
+        700;
 }
 
 
-/* =========================================================
-   OCR BUTTON
-   ========================================================= */
+/* ==========================================================
+   Edit Button
+   ========================================================== */
 
-.ocr-btn {
+.edit-request-btn {
+    width:
+        100%;
 
-    width: 100%;
+    min-height:
+        48px;
 
-    min-height: 49px;
-
-    border: 1px solid
-        rgba(239,83,80,0.22);
-
-    border-radius: 14px;
+    border-radius:
+        15px;
 
     background:
         rgba(183,28,28,0.16);
 
-    color: #ffffff;
+    border:
+        1px solid
+        rgba(239,83,80,0.22);
 
-    font-size: 13px;
+    color:
+        #ffb3b0;
 
-    font-weight: 800;
+    font-size:
+        13px;
 
-    cursor: pointer;
+    font-weight:
+        800;
 
+    cursor:
+        pointer;
 }
 
 
-.ocr-btn:active {
+/* ==========================================================
+   Modal
+   ========================================================== */
 
-    transform: scale(0.985);
+.modal {
+    position:
+        fixed;
 
+    inset:
+        0;
+
+    z-index:
+        100;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        15px;
 }
 
 
-.ocr-btn:disabled {
+.modal-overlay {
+    position:
+        absolute;
 
-    opacity: 0.55;
+    inset:
+        0;
 
-    cursor: wait;
+    background:
+        rgba(0,0,0,0.72);
 
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
 }
 
 
-/* =========================================================
-   OCR PREVIEW
-   ========================================================= */
+.modal-card {
+    position:
+        relative;
 
-#ocrPreview {
+    z-index:
+        2;
 
-    width: 100%;
+    width:
+        min(100%, 570px);
 
-    max-height: 280px;
+    max-height:
+        94vh;
 
-    margin-top: 13px;
+    overflow-y:
+        auto;
 
-    border-radius: 15px;
+    border-radius:
+        26px;
 
-    object-fit: contain;
-
-    background: #000000;
+    background:
+        linear-gradient(
+            145deg,
+            #260707,
+            #110202
+        );
 
     border:
         1px solid
+        rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,0.65);
+}
+
+
+.modal-header {
+    position:
+        sticky;
+
+    top:
+        0;
+
+    z-index:
+        5;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        15px;
+
+    padding:
+        17px 18px;
+
+    background:
+        rgba(29,4,4,0.92);
+
+    border-bottom:
+        1px solid
         rgba(255,255,255,0.08);
 
+    backdrop-filter:
+        blur(15px);
 }
 
 
-/* =========================================================
-   OCR STATUS
-   ========================================================= */
+.modal-header h2 {
+    margin:
+        0;
 
-.ocr-status {
+    font-size:
+        18px;
 
-    min-height: 22px;
+    font-weight:
+        900;
+}
 
-    margin-top: 10px;
+
+.modal-header span {
+    display:
+        block;
+
+    margin-top:
+        2px;
 
     color:
-        rgba(255,255,255,0.65);
+        rgba(255,255,255,0.45);
 
-    font-size: 12px;
+    font-size:
+        11px;
 
-    font-weight: 700;
-
-    line-height: 1.7;
-
+    font-weight:
+        600;
 }
 
 
-/* =========================================================
-   SAVE ERROR
-   ========================================================= */
+.close-btn {
+    width:
+        40px;
 
-#saveError {
+    height:
+        40px;
 
-    min-height: 23px;
+    flex:
+        0 0 40px;
 
-    margin: 3px 0 10px;
+    border-radius:
+        13px;
 
-    text-align: center;
+    background:
+        rgba(255,255,255,0.07);
 
-    color: #ff7777;
+    color:
+        #ffffff;
 
-    font-size: 12px;
+    font-size:
+        25px;
 
-    font-weight: 700;
+    line-height:
+        1;
 
+    cursor:
+        pointer;
 }
 
 
-/* =========================================================
-   SAVE BUTTON
-   ========================================================= */
+/* ==========================================================
+   Modal Body
+   ========================================================== */
 
-#saveBtn {
+.modal-body {
+    padding:
+        18px;
+}
 
-    width: 100%;
 
-    height: 54px;
+.modal-body .form-group {
+    margin-bottom:
+        15px;
+}
 
-    border: none;
 
-    border-radius: 16px;
+/* ==========================================================
+   OCR
+   ========================================================== */
+
+.ocr-box {
+    margin-bottom:
+        20px;
+
+    padding:
+        17px;
+
+    border-radius:
+        20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(183,28,28,0.16),
+            rgba(255,255,255,0.035)
+        );
+
+    border:
+        1px solid
+        rgba(239,83,80,0.18);
+}
+
+
+.ocr-title {
+    font-size:
+        15px;
+
+    font-weight:
+        900;
+}
+
+
+.ocr-description {
+    margin:
+        5px 0 14px;
+
+    color:
+        rgba(255,255,255,0.50);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.8;
+
+    font-weight:
+        500;
+}
+
+
+.image-picker {
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        100%;
+
+    min-height:
+        50px;
+
+    padding:
+        10px;
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(255,255,255,0.07);
+
+    border:
+        1px dashed
+        rgba(255,255,255,0.20);
+
+    color:
+        rgba(255,255,255,0.78);
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    overflow:
+        hidden;
+}
+
+
+.image-picker input {
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    opacity:
+        0;
+
+    cursor:
+        pointer;
+}
+
+
+.ocr-preview {
+    width:
+        100%;
+
+    margin-top:
+        12px;
+
+    border-radius:
+        15px;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.09);
+
+    background:
+        #050000;
+
+    max-height:
+        280px;
+
+    text-align:
+        center;
+}
+
+
+.ocr-preview img {
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        auto;
+
+    max-height:
+        280px;
+
+    object-fit:
+        contain;
+}
+
+
+.ocr-btn {
+    width:
+        100%;
+
+    min-height:
+        48px;
+
+    margin-top:
+        12px;
+
+    border-radius:
+        15px;
 
     background:
         linear-gradient(
             135deg,
-            #d32f2f,
-            #941313
+            #b71c1c,
+            #7f0000
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    font-size: 15px;
+    font-size:
+        13px;
 
-    font-weight: 900;
+    font-weight:
+        800;
 
-    cursor: pointer;
-
-    box-shadow:
-        0 12px 30px
-        rgba(183,28,28,0.30);
-
+    cursor:
+        pointer;
 }
 
 
-#saveBtn:disabled {
+.ocr-btn:disabled {
+    opacity:
+        0.55;
 
-    opacity: 0.60;
-
-    cursor: wait;
-
+    cursor:
+        not-allowed;
 }
 
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+.ocr-status {
+    min-height:
+        22px;
 
-#toast {
+    margin-top:
+        9px;
 
-    position: fixed;
+    color:
+        rgba(255,255,255,0.58);
 
-    left: 50%;
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+
+    text-align:
+        center;
+
+    line-height:
+        1.7;
+}
+
+
+/* ==========================================================
+   Modal Footer
+   ========================================================== */
+
+.modal-footer {
+    position:
+        sticky;
 
     bottom:
-        calc(
-            22px +
-            env(safe-area-inset-bottom)
-        );
+        0;
 
-    z-index: 2000;
+    z-index:
+        5;
 
-    transform:
-        translate(-50%, 20px);
-
-    min-width: 220px;
-
-    max-width: calc(100% - 30px);
-
-    padding: 13px 17px;
-
-    border-radius: 15px;
+    padding:
+        12px 18px 18px;
 
     background:
-        rgba(30,30,30,0.94);
+        linear-gradient(
+            to top,
+            rgba(17,2,2,1),
+            rgba(17,2,2,0.86)
+        );
+}
+
+
+/* ==========================================================
+   Toast
+   ========================================================== */
+
+.toast {
+    position:
+        fixed;
+
+    z-index:
+        300;
+
+    right:
+        50%;
+
+    bottom:
+        25px;
+
+    transform:
+        translate(
+            50%,
+            30px
+        );
+
+    min-width:
+        min(90%, 340px);
+
+    padding:
+        13px 18px;
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(25,4,4,0.94);
 
     border:
         1px solid
-        rgba(255,255,255,0.10);
+        rgba(239,83,80,0.28);
 
     box-shadow:
         0 15px 45px
-        rgba(0,0,0,0.45);
+        rgba(0,0,0,0.40);
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    text-align: center;
+    font-size:
+        12px;
 
-    font-size: 13px;
+    font-weight:
+        700;
 
-    font-weight: 800;
+    text-align:
+        center;
 
-    opacity: 0;
+    opacity:
+        0;
 
-    pointer-events: none;
+    pointer-events:
+        none;
 
     transition:
-        opacity 0.2s,
-        transform 0.2s;
+        0.25s ease;
 
+    backdrop-filter:
+        blur(16px);
 }
 
 
-#toast.show {
-
-    opacity: 1;
+.toast.show {
+    opacity:
+        1;
 
     transform:
-        translate(-50%, 0);
-
+        translate(
+            50%,
+            0
+        );
 }
 
 
-/* =========================================================
-   SCROLLBAR
-   ========================================================= */
-
-::-webkit-scrollbar {
-
-    width: 5px;
-
-}
-
-
-::-webkit-scrollbar-track {
-
-    background: transparent;
-
-}
-
-
-::-webkit-scrollbar-thumb {
-
-    background:
-        rgba(255,255,255,0.16);
-
-    border-radius: 20px;
-
-}
-
-
-/* =========================================================
-   SELECTION
-   ========================================================= */
-
-::selection {
-
-    background:
-        rgba(183,28,28,0.55);
-
-    color: #ffffff;
-
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* ==========================================================
+   Mobile
+   ========================================================== */
 
 @media (max-width: 700px) {
 
-    .admin-container {
-
-        padding-top: 17px;
-
-        padding-bottom: 30px;
-
-    }
-
-
-    .topbar {
-
-        min-height: 64px;
-
-    }
-
-
-    .topbar-title strong {
-
-        font-size: 17px;
-
-    }
-
-
-    .topbar-title span {
-
-        display: none;
-
-    }
-
-
-    .page-title h1 {
-
-        font-size: 23px;
-
-    }
-
-
-    .stats {
-
-        gap: 8px;
-
-    }
-
-
-    .stat-card {
-
-        min-height: 92px;
-
-        padding: 13px;
-
-        border-radius: 17px;
-
-    }
-
-
-    .stat-card span {
-
-        font-size: 10px;
-
-    }
-
-
-    .stat-card strong {
-
-        font-size: 23px;
-
-    }
-
-
-    .request-card {
-
-        padding: 15px;
-
-        border-radius: 19px;
-
-    }
-
-
-    .request-header strong {
-
-        font-size: 18px;
-
-    }
-
-
-    .request-row {
-
-        min-height: 43px;
-
-    }
-
-
-    .request-row span {
-
-        font-size: 11px;
-
-    }
-
-
-    .request-row b {
-
-        font-size: 12px;
-
-    }
-
-
-    .modal-content {
-
-        padding: 18px;
-
-        border-radius: 23px;
-
-    }
-
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-    .admin-container {
-
-        padding-left: 11px;
-
-        padding-right: 11px;
-
-    }
-
-
-    .stats {
-
-        gap: 6px;
-
-    }
-
-
-    .stat-card {
-
-        padding: 11px 8px;
-
-    }
-
-
-    .stat-card strong {
-
-        font-size: 21px;
-
-    }
-
-
-    .request-card {
-
-        padding: 13px;
-
-    }
-
-
-    .request-row b {
-
-        max-width: 60%;
-
-        font-size: 11px;
-
+    .login-page {
+        padding:
+            15px;
     }
 
 
     .login-card {
+        padding:
+            27px 19px;
+
+        border-radius:
+            24px;
+    }
+
+
+    .brand-logo {
+        width:
+            72px;
+
+        height:
+            72px;
+
+        border-radius:
+            21px;
+
+        font-size:
+            22px;
+    }
+
+
+    .brand h1 {
+        font-size:
+            24px;
+    }
+
+
+    .topbar {
+        padding:
+            12px 13px;
+    }
+
+
+    .topbar-title {
+        gap:
+            9px;
+    }
+
+
+    .mini-logo {
+        width:
+            43px;
+
+        height:
+            43px;
+
+        flex-basis:
+            43px;
+    }
+
+
+    .topbar h2 {
+        font-size:
+            15px;
+    }
+
+
+    .topbar span {
+        font-size:
+            9px;
+    }
+
+
+    .logout-btn {
+        min-height:
+            38px;
 
         padding:
-            26px 18px;
+            5px 10px;
 
+        font-size:
+            10px;
+    }
+
+
+    .container {
+        padding:
+            16px 12px 35px;
+    }
+
+
+    .stats-grid {
+        gap:
+            8px;
+    }
+
+
+    .stat-card {
+        min-height:
+            94px;
+
+        padding:
+            13px 10px;
+
+        border-radius:
+            17px;
+    }
+
+
+    .stat-title {
+        font-size:
+            10px;
+    }
+
+
+    .stat-card strong {
+        font-size:
+            23px;
+    }
+
+
+    .request-card {
+        padding:
+            14px;
+
+        border-radius:
+            19px;
+    }
+
+
+    .request-account {
+        font-size:
+            20px;
+    }
+
+
+    .info-row {
+        min-height:
+            40px;
+    }
+
+
+    .info-row span {
+        font-size:
+            10px;
+    }
+
+
+    .info-row strong {
+        font-size:
+            10px;
+    }
+
+
+    .modal {
+        align-items:
+            flex-end;
+
+        padding:
+            0;
+    }
+
+
+    .modal-card {
+        width:
+            100%;
+
+        max-height:
+            96vh;
+
+        border-radius:
+            25px 25px 0 0;
+    }
+
+
+    .modal-header {
+        padding:
+            14px 15px;
+    }
+
+
+    .modal-body {
+        padding:
+            15px;
+    }
+
+
+    .modal-footer {
+        padding:
+            10px 15px 15px;
     }
 
 }
 
 
-/* =========================================================
-   SAFE AREA
-   ========================================================= */
+/* ==========================================================
+   Small phones
+   ========================================================== */
+
+@media (max-width: 380px) {
+
+    .stats-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .stat-card {
+        min-height:
+            78px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            space-between;
+    }
+
+
+    .stat-card strong {
+        margin:
+            0;
+    }
+
+
+    .request-top {
+        gap:
+            8px;
+    }
+
+
+    .status {
+        font-size:
+            9px;
+
+        padding:
+            5px 8px;
+    }
+
+}
+
+
+/* ==========================================================
+   Safe Area
+   ========================================================== */
 
 @supports (
-    padding: env(safe-area-inset-top)
+    padding-bottom:
+    env(safe-area-inset-bottom)
 ) {
 
-    #loginPage {
-
-        padding-top:
-            max(
-                20px,
-                env(safe-area-inset-top)
-            );
-
+    body {
         padding-bottom:
-            max(
-                20px,
+            env(safe-area-inset-bottom);
+    }
+
+    .modal-footer {
+        padding-bottom:
+            calc(
+                15px +
                 env(safe-area-inset-bottom)
             );
-
     }
 
 }
