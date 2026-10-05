@@ -3,8 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>BOK PEDRO - لوحة الإدارة</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <!-- =====================================================
+       TESSERACT.JS
+       OCR مجاني يعمل داخل المتصفح
+  ====================================================== -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
+  </script>
+
 </head>
 
 <body>
@@ -221,6 +233,47 @@
         id="modalAccount"
         class="modal-account"
       ></p>
+
+
+      <!-- =================================================
+           OCR IMAGE
+      ================================================== -->
+
+      <div class="ocr-box">
+
+        <div class="ocr-title">
+          استخراج البيانات من صورة
+        </div>
+
+        <div class="ocr-description">
+          ارفع صورة واجهة بنكك وسيتم استخراج رقم الحساب والاسم ونوع الحساب والفرع فقط.
+        </div>
+
+
+        <input
+          id="ocrImage"
+          type="file"
+          accept="image/*"
+          capture="environment"
+          hidden
+        >
+
+
+        <button
+          id="ocrBtn"
+          type="button"
+          class="ocr-btn"
+        >
+          📷 استخراج من صورة
+        </button>
+
+
+        <div
+          id="ocrStatus"
+          class="ocr-status"
+        ></div>
+
+      </div>
 
 
       <!-- =================================================
