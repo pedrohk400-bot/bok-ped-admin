@@ -1,4 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 
 import {
   getAuth,
@@ -6,6 +9,7 @@ import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 import {
   getDatabase,
@@ -20,14 +24,30 @@ import {
 // ==========================================================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDnvmRTgZl1p325V3TmCjIH-PnPfjJPPpk",
-  authDomain: "bok-ped.firebaseapp.com",
-  databaseURL: "https://bok-ped-default-rtdb.firebaseio.com/",
-  projectId: "bok-ped",
-  storageBucket: "bok-ped.firebasestorage.app",
-  messagingSenderId: "812838230843",
-  appId: "1:812838230843:web:f3bd5f59343db42b52b51e",
-  measurementId: "G-26SMZR0QCC"
+
+  apiKey:
+    "AIzaSyDnvmRTgZl1p325V3TmCjIH-PnPfjJPPpk",
+
+  authDomain:
+    "bok-ped.firebaseapp.com",
+
+  databaseURL:
+    "https://bok-ped-default-rtdb.firebaseio.com/",
+
+  projectId:
+    "bok-ped",
+
+  storageBucket:
+    "bok-ped.firebasestorage.app",
+
+  messagingSenderId:
+    "812838230843",
+
+  appId:
+    "1:812838230843:web:f3bd5f59343db42b52b51e",
+
+  measurementId:
+    "G-26SMZR0QCC"
 };
 
 
@@ -43,11 +63,14 @@ const ADMIN_UID =
 // Firebase
 // ==========================================================
 
-const app = initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+  getAuth(app);
 
-const db = getDatabase(app);
+const db =
+  getDatabase(app);
 
 
 // ==========================================================
@@ -128,6 +151,20 @@ const toast =
 
 
 // ==========================================================
+// OCR Elements
+// ==========================================================
+
+const ocrImage =
+  document.getElementById("ocrImage");
+
+const ocrBtn =
+  document.getElementById("ocrBtn");
+
+const ocrStatus =
+  document.getElementById("ocrStatus");
+
+
+// ==========================================================
 // Variables
 // ==========================================================
 
@@ -136,6 +173,10 @@ let currentUser = null;
 let requests = {};
 
 let selectedRequestId = null;
+
+let ocrWorker = null;
+
+let ocrBusy = false;
 
 
 // ==========================================================
@@ -174,7 +215,8 @@ function showToast(message) {
     return;
   }
 
-  toast.textContent = message;
+  toast.textContent =
+    message;
 
   toast.classList.add("show");
 
@@ -195,15 +237,31 @@ function escapeHtml(value) {
 
   return String(value ?? "")
 
-    .replaceAll("&", "&amp;")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
-    .replaceAll("<", "&lt;")
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-    .replaceAll(">", "&gt;")
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-    .replaceAll('"', "&quot;")
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
 
 
@@ -263,9 +321,11 @@ function renderRequests() {
 
       .map(function (entry) {
 
-        const id = entry[0];
+        const id =
+          entry[0];
 
-        const data = entry[1] || {};
+        const data =
+          entry[1] || {};
 
         return {
           id: id,
@@ -349,11 +409,14 @@ function renderRequests() {
 
   if (!items.length) {
 
-    requestsList.innerHTML = "";
+    requestsList.innerHTML =
+      "";
 
     if (empty) {
 
-      empty.classList.remove("hidden");
+      empty.classList.remove(
+        "hidden"
+      );
 
     }
 
@@ -364,7 +427,9 @@ function renderRequests() {
 
   if (empty) {
 
-    empty.classList.add("hidden");
+    empty.classList.add(
+      "hidden"
+    );
 
   }
 
@@ -389,7 +454,8 @@ function renderRequests() {
             <div class="account-number">
 
               ${escapeHtml(
-                item.accountNumber || item.id
+                item.accountNumber ||
+                item.id
               )}
 
             </div>
@@ -594,7 +660,10 @@ function openEdit(id) {
 
     modalAccount.textContent =
       "رقم الطلب: " +
-      (item.accountNumber || id);
+      (
+        item.accountNumber ||
+        id
+      );
 
   }
 
@@ -602,7 +671,8 @@ function openEdit(id) {
   if (accountNumber16) {
 
     accountNumber16.value =
-      item.accountNumber16 || "";
+      item.accountNumber16 ||
+      "";
 
   }
 
@@ -610,7 +680,8 @@ function openEdit(id) {
   if (accountName) {
 
     accountName.value =
-      item.name || "";
+      item.name ||
+      "";
 
   }
 
@@ -618,7 +689,8 @@ function openEdit(id) {
   if (accountBranch) {
 
     accountBranch.value =
-      item.branch || "";
+      item.branch ||
+      "";
 
   }
 
@@ -626,14 +698,32 @@ function openEdit(id) {
   if (accountType) {
 
     accountType.value =
-      item.accountType || "";
+      item.accountType ||
+      "";
 
   }
 
 
   if (saveError) {
 
-    saveError.textContent = "";
+    saveError.textContent =
+      "";
+
+  }
+
+
+  if (ocrStatus) {
+
+    ocrStatus.textContent =
+      "";
+
+  }
+
+
+  if (ocrImage) {
+
+    ocrImage.value =
+      "";
 
   }
 
@@ -670,6 +760,881 @@ function closeEdit() {
 
 
 // ==========================================================
+// Normalize Arabic OCR Text
+// ==========================================================
+
+function normalizeOCRText(text) {
+
+  return String(text || "")
+
+    .replace(/\r/g, "\n")
+
+    .replace(/[ \t]+/g, " ")
+
+    .replace(/\n{2,}/g, "\n")
+
+    .trim();
+
+}
+
+
+// ==========================================================
+// Arabic / Persian / English Number Conversion
+// ==========================================================
+
+function normalizeDigits(text) {
+
+  return String(text || "")
+
+    .replace(/[٠-٩]/g, function (d) {
+
+      return String(
+        "٠١٢٣٤٥٦٧٨٩".indexOf(d)
+      );
+
+    })
+
+    .replace(/[۰-۹]/g, function (d) {
+
+      return String(
+        "۰۱۲۳۴۵۶۷۸۹".indexOf(d)
+      );
+
+    });
+
+}
+
+
+// ==========================================================
+// Clean Arabic OCR Value
+// ==========================================================
+
+function cleanArabicValue(value) {
+
+  return String(value || "")
+
+    .replace(
+      /^(الاسم|اسم|نوع الحساب|نوع|الفرع|فرع)\s*[:：\-]?\s*/i,
+      ""
+    )
+
+    .replace(
+      /^[|:：\-–—]+/,
+      ""
+    )
+
+    .replace(
+      /[|]+$/,
+      ""
+    )
+
+    .trim();
+
+}
+
+
+// ==========================================================
+// Find Value After Label
+// ==========================================================
+
+function findAfterLabel(
+  lines,
+  labels
+) {
+
+  for (
+    let i = 0;
+    i < lines.length;
+    i++
+  ) {
+
+    const line =
+      lines[i].trim();
+
+
+    for (
+      let j = 0;
+      j < labels.length;
+      j++
+    ) {
+
+      const label =
+        labels[j];
+
+
+      const lowerLine =
+        line.toLowerCase();
+
+
+      const lowerLabel =
+        label.toLowerCase();
+
+
+      if (
+        lowerLine.includes(
+          lowerLabel
+        )
+      ) {
+
+        let value =
+          line
+            .replace(
+              new RegExp(
+                label,
+                "i"
+              ),
+              ""
+            )
+            .replace(
+              /^[\s:：\-–—]+/,
+              ""
+            )
+            .trim();
+
+
+        if (
+          value &&
+          value.length > 1
+        ) {
+
+          return cleanArabicValue(
+            value
+          );
+
+        }
+
+
+        if (
+          i + 1 <
+          lines.length
+        ) {
+
+          value =
+            cleanArabicValue(
+              lines[i + 1]
+            );
+
+
+          if (
+            value &&
+            value.length > 1
+          ) {
+
+            return value;
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+  return "";
+
+}
+
+
+// ==========================================================
+// Extract 16 Digit Account Number
+// ==========================================================
+
+function extractAccountNumber(text) {
+
+  const normalized =
+    normalizeDigits(text);
+
+
+  const compact =
+    normalized.replace(
+      /[\s\-|:：]/g,
+      ""
+    );
+
+
+  let match =
+    compact.match(
+      /(?:\d{16})/
+    );
+
+
+  if (match) {
+
+    return match[0];
+
+  }
+
+
+  const groups =
+    normalized.match(
+      /\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}/g
+    );
+
+
+  if (groups && groups.length) {
+
+    const value =
+      groups[0].replace(
+        /\D/g,
+        ""
+      );
+
+    if (
+      value.length === 16
+    ) {
+
+      return value;
+
+    }
+
+  }
+
+
+  return "";
+
+}
+
+
+// ==========================================================
+// Extract Account Type
+// ==========================================================
+
+function extractAccountType(text) {
+
+  const value =
+    String(text || "");
+
+
+  if (
+    value.includes(
+      "حساب توفير"
+    )
+  ) {
+
+    return "حساب توفير";
+
+  }
+
+
+  if (
+    value.includes(
+      "حساب جار"
+    )
+  ) {
+
+    return "حساب جاري";
+
+  }
+
+
+  if (
+    value.includes(
+      "توفير مميز"
+    )
+  ) {
+
+    return "توفير مميز";
+
+  }
+
+
+  const lines =
+    value.split("\n");
+
+
+  const found =
+    findAfterLabel(
+      lines,
+      [
+        "نوع الحساب",
+        "نوع الحساب:",
+        "نوع"
+      ]
+    );
+
+
+  if (
+    found.includes(
+      "توفير"
+    )
+  ) {
+
+    if (
+      found.includes(
+        "مميز"
+      )
+    ) {
+
+      return "توفير مميز";
+
+    }
+
+    return "حساب توفير";
+
+  }
+
+
+  if (
+    found.includes(
+      "جاري"
+    )
+  ) {
+
+    return "حساب جاري";
+
+  }
+
+
+  return "";
+
+}
+
+
+// ==========================================================
+// Extract Data From OCR
+// ==========================================================
+
+function extractBankData(rawText) {
+
+  const text =
+    normalizeOCRText(
+      rawText
+    );
+
+
+  const lines =
+    text
+      .split("\n")
+      .map(function (line) {
+
+        return line.trim();
+
+      })
+      .filter(function (line) {
+
+        return line.length > 0;
+
+      });
+
+
+  // ========================================================
+  // ACCOUNT NUMBER
+  // ========================================================
+
+  const number16 =
+    extractAccountNumber(
+      text
+    );
+
+
+  // ========================================================
+  // NAME
+  // ========================================================
+
+  let name =
+    findAfterLabel(
+      lines,
+      [
+        "الاسم",
+        "اسم صاحب الحساب",
+        "اسم"
+      ]
+    );
+
+
+  // ========================================================
+  // BRANCH
+  // ========================================================
+
+  let branch =
+    findAfterLabel(
+      lines,
+      [
+        "الفرع",
+        "فرع"
+      ]
+    );
+
+
+  // ========================================================
+  // ACCOUNT TYPE
+  // ========================================================
+
+  const type =
+    extractAccountType(
+      text
+    );
+
+
+  // ========================================================
+  // Extra cleanup
+  // ========================================================
+
+  if (name) {
+
+    name =
+      name
+        .replace(
+          /^(حساب|نوع|الفرع).*$/i,
+          ""
+        )
+        .trim();
+
+  }
+
+
+  if (branch) {
+
+    branch =
+      branch
+        .replace(
+          /^(نوع الحساب|الاسم).*$/i,
+          ""
+        )
+        .trim();
+
+  }
+
+
+  return {
+
+    accountNumber16:
+      number16,
+
+    name:
+      name,
+
+    branch:
+      branch,
+
+    accountType:
+      type
+
+  };
+
+}
+
+
+// ==========================================================
+// OCR Worker
+// ==========================================================
+
+async function getOCRWorker() {
+
+  if (ocrWorker) {
+
+    return ocrWorker;
+
+  }
+
+
+  if (
+    typeof Tesseract ===
+    "undefined"
+  ) {
+
+    throw new Error(
+      "تعذر تحميل محرك OCR."
+    );
+
+  }
+
+
+  ocrWorker =
+    await Tesseract.createWorker(
+      "ara+eng",
+      1,
+      {
+
+        workerPath:
+          "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js",
+
+        corePath:
+          "https://cdn.jsdelivr.net/npm/tesseract.js-core@5",
+
+        langPath:
+          "https://tessdata.projectnaptha.com/4.0.0",
+
+        logger:
+          function (message) {
+
+            if (!ocrStatus) {
+              return;
+            }
+
+
+            if (
+              message &&
+              message.status ===
+              "recognizing text"
+            ) {
+
+              const progress =
+                Math.round(
+                  (
+                    message.progress ||
+                    0
+                  ) * 100
+                );
+
+
+              ocrStatus.textContent =
+                "جاري قراءة الصورة... " +
+                progress +
+                "%";
+
+            }
+
+            else if (
+              message &&
+              message.status ===
+              "loading language traineddata"
+            ) {
+
+              ocrStatus.textContent =
+                "جاري تحميل اللغة العربية...";
+
+            }
+
+            else if (
+              message &&
+              message.status ===
+              "initializing api"
+            ) {
+
+              ocrStatus.textContent =
+                "جاري تجهيز محرك القراءة...";
+
+            }
+
+          }
+
+      }
+    );
+
+
+  await ocrWorker.setParameters({
+
+    preserve_interword_spaces:
+      "1",
+
+    user_defined_dpi:
+      "300"
+
+  });
+
+
+  return ocrWorker;
+
+}
+
+
+// ==========================================================
+// OCR Image
+// ==========================================================
+
+async function extractFromImage(file) {
+
+  if (!file) {
+
+    return;
+
+  }
+
+
+  if (ocrBusy) {
+
+    return;
+
+  }
+
+
+  ocrBusy =
+    true;
+
+
+  if (ocrBtn) {
+
+    ocrBtn.disabled =
+      true;
+
+    ocrBtn.textContent =
+      "⏳ جاري استخراج البيانات...";
+
+  }
+
+
+  if (ocrStatus) {
+
+    ocrStatus.textContent =
+      "جاري تجهيز الصورة...";
+
+  }
+
+
+  try {
+
+    const worker =
+      await getOCRWorker();
+
+
+    if (ocrStatus) {
+
+      ocrStatus.textContent =
+        "جاري قراءة الصورة...";
+
+    }
+
+
+    const result =
+      await worker.recognize(
+        file
+      );
+
+
+    const rawText =
+      result &&
+      result.data
+        ? result.data.text
+        : "";
+
+
+    console.log(
+      "OCR TEXT:",
+      rawText
+    );
+
+
+    if (!rawText.trim()) {
+
+      throw new Error(
+        "لم يتم العثور على نص واضح في الصورة."
+      );
+
+    }
+
+
+    const data =
+      extractBankData(
+        rawText
+      );
+
+
+    // ======================================================
+    // ACCOUNT NUMBER
+    // ======================================================
+
+    if (
+      data.accountNumber16
+    ) {
+
+      accountNumber16.value =
+        data.accountNumber16;
+
+    }
+
+
+    // ======================================================
+    // NAME
+    // ======================================================
+
+    if (data.name) {
+
+      accountName.value =
+        data.name;
+
+    }
+
+
+    // ======================================================
+    // BRANCH
+    // ======================================================
+
+    if (data.branch) {
+
+      accountBranch.value =
+        data.branch;
+
+    }
+
+
+    // ======================================================
+    // ACCOUNT TYPE
+    // ======================================================
+
+    if (data.accountType) {
+
+      accountType.value =
+        data.accountType;
+
+    }
+
+
+    const foundCount = [
+
+      data.accountNumber16,
+
+      data.name,
+
+      data.branch,
+
+      data.accountType
+
+    ].filter(function (value) {
+
+      return Boolean(
+        value &&
+        value.trim()
+      );
+
+    }).length;
+
+
+    if (foundCount === 4) {
+
+      ocrStatus.textContent =
+        "✓ تم استخراج البيانات الأربعة بنجاح.";
+
+      showToast(
+        "تم استخراج بيانات الحساب من الصورة"
+      );
+
+    }
+
+    else if (foundCount > 0) {
+
+      ocrStatus.textContent =
+        "تم استخراج " +
+        foundCount +
+        " من 4 بيانات. راجع الخانات.";
+
+    }
+
+    else {
+
+      ocrStatus.textContent =
+        "لم أتمكن من استخراج البيانات. جرّب صورة أوضح.";
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "OCR error:",
+      error
+    );
+
+
+    if (ocrStatus) {
+
+      ocrStatus.textContent =
+        "تعذر استخراج البيانات: " +
+        (
+          error.message ||
+          "خطأ غير معروف"
+        );
+
+    }
+
+
+  } finally {
+
+    ocrBusy =
+      false;
+
+
+    if (ocrBtn) {
+
+      ocrBtn.disabled =
+        false;
+
+      ocrBtn.textContent =
+        "📷 استخراج من صورة";
+
+    }
+
+  }
+
+}
+
+
+// ==========================================================
+// OCR Button
+// ==========================================================
+
+if (ocrBtn) {
+
+  ocrBtn.addEventListener(
+    "click",
+    function () {
+
+      if (ocrImage) {
+
+        ocrImage.click();
+
+      }
+
+    }
+  );
+
+}
+
+
+// ==========================================================
+// OCR File Change
+// ==========================================================
+
+if (ocrImage) {
+
+  ocrImage.addEventListener(
+    "change",
+    function () {
+
+      const file =
+        ocrImage.files &&
+        ocrImage.files[0];
+
+
+      if (!file) {
+
+        return;
+
+      }
+
+
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        if (ocrStatus) {
+
+          ocrStatus.textContent =
+            "اختر ملف صورة فقط.";
+
+        }
+
+        return;
+
+      }
+
+
+      extractFromImage(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+// ==========================================================
 // Login
 // ==========================================================
 
@@ -680,7 +1645,10 @@ if (loginBtn) {
     async function () {
 
       if (loginError) {
-        loginError.textContent = "";
+
+        loginError.textContent =
+          "";
+
       }
 
 
@@ -710,7 +1678,8 @@ if (loginBtn) {
       }
 
 
-      loginBtn.disabled = true;
+      loginBtn.disabled =
+        true;
 
       loginBtn.textContent =
         "جاري الدخول...";
@@ -731,6 +1700,7 @@ if (loginBtn) {
           error
         );
 
+
         if (loginError) {
 
           loginError.textContent =
@@ -740,7 +1710,8 @@ if (loginBtn) {
 
       } finally {
 
-        loginBtn.disabled = false;
+        loginBtn.disabled =
+          false;
 
         loginBtn.textContent =
           "تسجيل الدخول";
@@ -766,7 +1737,9 @@ if (passwordInput) {
       if (e.key === "Enter") {
 
         if (loginBtn) {
+
           loginBtn.click();
+
         }
 
       }
@@ -786,7 +1759,9 @@ if (emailInput) {
       if (e.key === "Enter") {
 
         if (loginBtn) {
+
           loginBtn.click();
+
         }
 
       }
@@ -809,7 +1784,9 @@ if (logoutBtn) {
 
       try {
 
-        await signOut(auth);
+        await signOut(
+          auth
+        );
 
       } catch (error) {
 
@@ -846,7 +1823,10 @@ if (editModal) {
     "click",
     function (e) {
 
-      if (e.target === editModal) {
+      if (
+        e.target ===
+        editModal
+      ) {
 
         closeEdit();
 
@@ -883,7 +1863,10 @@ if (saveBtn) {
     async function () {
 
       if (saveError) {
-        saveError.textContent = "";
+
+        saveError.textContent =
+          "";
+
       }
 
 
@@ -918,7 +1901,11 @@ if (saveBtn) {
           : "";
 
 
-      if (!/^[0-9]{16}$/.test(number16)) {
+      if (
+        !/^[0-9]{16}$/.test(
+          number16
+        )
+      ) {
 
         if (saveError) {
 
@@ -932,7 +1919,11 @@ if (saveBtn) {
       }
 
 
-      if (!name || !branch || !type) {
+      if (
+        !name ||
+        !branch ||
+        !type
+      ) {
 
         if (saveError) {
 
@@ -946,7 +1937,8 @@ if (saveBtn) {
       }
 
 
-      saveBtn.disabled = true;
+      saveBtn.disabled =
+        true;
 
       saveBtn.textContent =
         "جاري الحفظ...";
@@ -1007,13 +1999,17 @@ if (saveBtn) {
 
           saveError.textContent =
             "تعذر الحفظ: " +
-            (error.message || "خطأ غير معروف");
+            (
+              error.message ||
+              "خطأ غير معروف"
+            );
 
         }
 
       } finally {
 
-        saveBtn.disabled = false;
+        saveBtn.disabled =
+          false;
 
         saveBtn.textContent =
           "حفظ البيانات";
@@ -1047,6 +2043,7 @@ function loadRequests() {
   console.log(
     "بدء قراءة requests..."
   );
+
 
   console.log(
     "Admin UID:",
@@ -1096,7 +2093,8 @@ function loadRequests() {
 
       } else {
 
-        requests = data;
+        requests =
+          data;
 
       }
 
@@ -1168,14 +2166,19 @@ onAuthStateChanged(
     }
 
 
-    if (user.uid !== ADMIN_UID) {
+    if (
+      user.uid !==
+      ADMIN_UID
+    ) {
 
       console.error(
         "الحساب ليس Admin"
       );
 
 
-      signOut(auth);
+      signOut(
+        auth
+      );
 
 
       if (loginError) {
