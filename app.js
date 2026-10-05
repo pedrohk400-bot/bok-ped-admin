@@ -35,11 +35,12 @@ const firebaseConfig = {
 // Admin UID
 // ==========================================================
 
-const ADMIN_UID = "zuwXPgS4TPYF5GyAYEPEOrsYV0z1";
+const ADMIN_UID =
+  "zuwXPgS4TPYF5GyAYEPEOrsYV0z1";
 
 
 // ==========================================================
-// Firebase Initialize
+// Firebase
 // ==========================================================
 
 const app = initializeApp(firebaseConfig);
@@ -53,56 +54,77 @@ const db = getDatabase(app);
 // Elements
 // ==========================================================
 
-const loginPage = document.getElementById("loginPage");
+const loginPage =
+  document.getElementById("loginPage");
 
-const adminPage = document.getElementById("adminPage");
+const adminPage =
+  document.getElementById("adminPage");
 
-const emailInput = document.getElementById("email");
+const emailInput =
+  document.getElementById("email");
 
-const passwordInput = document.getElementById("password");
+const passwordInput =
+  document.getElementById("password");
 
-const loginBtn = document.getElementById("loginBtn");
+const loginBtn =
+  document.getElementById("loginBtn");
 
-const loginError = document.getElementById("loginError");
+const loginError =
+  document.getElementById("loginError");
 
-const logoutBtn = document.getElementById("logoutBtn");
+const logoutBtn =
+  document.getElementById("logoutBtn");
 
+const requestsList =
+  document.getElementById("requestsList");
 
-const requestsList = document.getElementById("requestsList");
+const loading =
+  document.getElementById("loading");
 
-const loading = document.getElementById("loading");
+const empty =
+  document.getElementById("empty");
 
-const empty = document.getElementById("empty");
+const searchInput =
+  document.getElementById("searchInput");
 
-const searchInput = document.getElementById("searchInput");
+const totalCount =
+  document.getElementById("totalCount");
 
+const pendingCount =
+  document.getElementById("pendingCount");
 
-const totalCount = document.getElementById("totalCount");
+const completedCount =
+  document.getElementById("completedCount");
 
-const pendingCount = document.getElementById("pendingCount");
+const editModal =
+  document.getElementById("editModal");
 
-const completedCount = document.getElementById("completedCount");
+const closeModal =
+  document.getElementById("closeModal");
 
+const modalAccount =
+  document.getElementById("modalAccount");
 
-const editModal = document.getElementById("editModal");
+const accountNumber16 =
+  document.getElementById("accountNumber16");
 
-const closeModal = document.getElementById("closeModal");
+const accountName =
+  document.getElementById("accountName");
 
-const modalAccount = document.getElementById("modalAccount");
+const accountBranch =
+  document.getElementById("accountBranch");
 
-const accountNumber16 = document.getElementById("accountNumber16");
+const accountType =
+  document.getElementById("accountType");
 
-const accountName = document.getElementById("accountName");
+const saveBtn =
+  document.getElementById("saveBtn");
 
-const accountBranch = document.getElementById("accountBranch");
+const saveError =
+  document.getElementById("saveError");
 
-const accountType = document.getElementById("accountType");
-
-const saveBtn = document.getElementById("saveBtn");
-
-const saveError = document.getElementById("saveError");
-
-const toast = document.getElementById("toast");
+const toast =
+  document.getElementById("toast");
 
 
 // ==========================================================
@@ -148,11 +170,15 @@ function showAdmin() {
 
 function showToast(message) {
 
+  if (!toast) {
+    return;
+  }
+
   toast.textContent = message;
 
   toast.classList.add("show");
 
-  setTimeout(() => {
+  setTimeout(function () {
 
     toast.classList.remove("show");
 
@@ -178,7 +204,6 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
 
     .replaceAll("'", "&#039;");
-
 }
 
 
@@ -196,15 +221,19 @@ function formatDate(timestamp) {
 
   try {
 
-    return new Intl.DateTimeFormat("ar", {
+    return new Intl.DateTimeFormat(
+      "ar",
+      {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }
+    ).format(
+      new Date(
+        Number(timestamp)
+      )
+    );
 
-      dateStyle: "medium",
-
-      timeStyle: "short"
-
-    }).format(new Date(timestamp));
-
-  } catch {
+  } catch (error) {
 
     return "غير متوفر";
 
@@ -219,69 +248,99 @@ function formatDate(timestamp) {
 
 function renderRequests() {
 
-  const search = searchInput.value.trim();
+  if (!requestsList) {
+    return;
+  }
+
+  const search =
+    searchInput
+      ? searchInput.value.trim()
+      : "";
 
 
-  const items = Object.entries(requests)
+  const items =
+    Object.entries(requests)
 
-    .map(([id, data]) => ({
+      .map(function (entry) {
 
-      id,
+        const id = entry[0];
 
-      ...data
+        const data = entry[1] || {};
 
-    }))
+        return {
+          id: id,
+          ...data
+        };
 
-    .sort(
+      })
 
-      (a, b) =>
+      .sort(function (a, b) {
 
-        Number(b.createdAt || 0) -
+        return (
+          Number(b.createdAt || 0) -
+          Number(a.createdAt || 0)
+        );
 
-        Number(a.createdAt || 0)
+      })
 
-    )
+      .filter(function (item) {
 
-    .filter(
+        if (!search) {
+          return true;
+        }
 
-      item =>
+        return String(
+          item.accountNumber || ""
+        ).includes(search);
 
-        !search ||
-
-        String(item.accountNumber || "").includes(search)
-
-    );
+      });
 
 
   // ========================================================
   // Statistics
   // ========================================================
 
-  totalCount.textContent = Object.keys(requests).length;
+  if (totalCount) {
+
+    totalCount.textContent =
+      Object.keys(requests).length;
+
+  }
 
 
-  const all = Object.values(requests);
+  const all =
+    Object.values(requests);
 
 
-  pendingCount.textContent =
+  if (pendingCount) {
 
-    all.filter(
+    pendingCount.textContent =
+      all.filter(function (item) {
 
-      x => x.status !== "completed"
+        return item.status !== "completed";
 
-    ).length;
+      }).length;
 
-
-  completedCount.textContent =
-
-    all.filter(
-
-      x => x.status === "completed"
-
-    ).length;
+  }
 
 
-  loading.classList.add("hidden");
+  if (completedCount) {
+
+    completedCount.textContent =
+      all.filter(function (item) {
+
+        return item.status === "completed";
+
+      }).length;
+
+  }
+
+
+  if (loading) {
+
+    loading.classList.add("hidden");
+
+  }
 
 
   // ========================================================
@@ -292,26 +351,32 @@ function renderRequests() {
 
     requestsList.innerHTML = "";
 
-    empty.classList.remove("hidden");
+    if (empty) {
+
+      empty.classList.remove("hidden");
+
+    }
 
     return;
 
   }
 
 
-  empty.classList.add("hidden");
+  if (empty) {
+
+    empty.classList.add("hidden");
+
+  }
 
 
   // ========================================================
   // Cards
   // ========================================================
 
-  requestsList.innerHTML = items
-
-    .map(item => {
+  requestsList.innerHTML =
+    items.map(function (item) {
 
       const completed =
-
         item.status === "completed";
 
 
@@ -324,34 +389,21 @@ function renderRequests() {
             <div class="account-number">
 
               ${escapeHtml(
-
-                item.accountNumber ||
-
-                "بدون رقم"
-
+                item.accountNumber || item.id
               )}
 
             </div>
 
-
             <span class="status ${
-
               completed
-
                 ? "completed"
-
                 : "pending"
-
             }">
 
               ${
-
                 completed
-
                   ? "مكتمل"
-
                   : "قيد الانتظار"
-
               }
 
             </span>
@@ -363,16 +415,15 @@ function renderRequests() {
 
             <div class="detail">
 
-              <small>الرقم البنكي</small>
+              <small>
+                الرقم البنكي
+              </small>
 
               <span>
 
                 ${escapeHtml(
-
                   item.accountNumber16 ||
-
                   "لم تتم الإضافة"
-
                 )}
 
               </span>
@@ -382,16 +433,15 @@ function renderRequests() {
 
             <div class="detail">
 
-              <small>الاسم</small>
+              <small>
+                الاسم
+              </small>
 
               <span>
 
                 ${escapeHtml(
-
                   item.name ||
-
                   "لم تتم الإضافة"
-
                 )}
 
               </span>
@@ -401,16 +451,15 @@ function renderRequests() {
 
             <div class="detail">
 
-              <small>الفرع</small>
+              <small>
+                الفرع
+              </small>
 
               <span>
 
                 ${escapeHtml(
-
                   item.branch ||
-
                   "لم تتم الإضافة"
-
                 )}
 
               </span>
@@ -420,16 +469,15 @@ function renderRequests() {
 
             <div class="detail">
 
-              <small>نوع الحساب</small>
+              <small>
+                نوع الحساب
+              </small>
 
               <span>
 
                 ${escapeHtml(
-
                   item.accountType ||
-
                   "لم تتم الإضافة"
-
                 )}
 
               </span>
@@ -439,14 +487,16 @@ function renderRequests() {
 
             <div class="detail">
 
-              <small>تاريخ الطلب</small>
+              <small>
+                تاريخ الطلب
+              </small>
 
               <span>
 
                 ${escapeHtml(
-
-                  formatDate(item.createdAt)
-
+                  formatDate(
+                    item.createdAt
+                  )
                 )}
 
               </span>
@@ -456,18 +506,16 @@ function renderRequests() {
 
             <div class="detail">
 
-              <small>الحالة</small>
+              <small>
+                الحالة
+              </small>
 
               <span>
 
                 ${
-
                   completed
-
                     ? "تم إكمال البيانات"
-
                     : "بانتظار الإدارة"
-
                 }
 
               </span>
@@ -478,59 +526,42 @@ function renderRequests() {
 
 
           <button
-
             class="edit-btn"
-
             data-id="${escapeHtml(item.id)}"
-
           >
 
             ${
-
               completed
-
                 ? "تعديل البيانات"
-
                 : "إكمال البيانات"
-
             }
 
           </button>
-
 
         </div>
 
       `;
 
-    })
-
-    .join("");
+    }).join("");
 
 
   // ========================================================
-  // Edit Buttons
+  // Buttons
   // ========================================================
 
   document
-
     .querySelectorAll(".edit-btn")
-
-    .forEach(button => {
+    .forEach(function (button) {
 
       button.addEventListener(
-
         "click",
-
-        () => {
+        function () {
 
           openEdit(
-
             button.dataset.id
-
           );
 
         }
-
       );
 
     });
@@ -544,7 +575,8 @@ function renderRequests() {
 
 function openEdit(id) {
 
-  const item = requests[id];
+  const item =
+    requests[id];
 
 
   if (!item) {
@@ -554,42 +586,65 @@ function openEdit(id) {
   }
 
 
-  selectedRequestId = id;
+  selectedRequestId =
+    id;
 
 
-  modalAccount.textContent =
+  if (modalAccount) {
 
-    `رقم الطلب: ${
+    modalAccount.textContent =
+      "رقم الطلب: " +
+      (item.accountNumber || id);
 
-      item.accountNumber || id
-
-    }`;
-
-
-  accountNumber16.value =
-
-    item.accountNumber16 || "";
+  }
 
 
-  accountName.value =
+  if (accountNumber16) {
 
-    item.name || "";
+    accountNumber16.value =
+      item.accountNumber16 || "";
 
-
-  accountBranch.value =
-
-    item.branch || "";
+  }
 
 
-  accountType.value =
+  if (accountName) {
 
-    item.accountType || "";
+    accountName.value =
+      item.name || "";
+
+  }
 
 
-  saveError.textContent = "";
+  if (accountBranch) {
+
+    accountBranch.value =
+      item.branch || "";
+
+  }
 
 
-  editModal.classList.remove("hidden");
+  if (accountType) {
+
+    accountType.value =
+      item.accountType || "";
+
+  }
+
+
+  if (saveError) {
+
+    saveError.textContent = "";
+
+  }
+
+
+  if (editModal) {
+
+    editModal.classList.remove(
+      "hidden"
+    );
+
+  }
 
 }
 
@@ -600,9 +655,16 @@ function openEdit(id) {
 
 function closeEdit() {
 
-  editModal.classList.add("hidden");
+  if (editModal) {
 
-  selectedRequestId = null;
+    editModal.classList.add(
+      "hidden"
+    );
+
+  }
+
+  selectedRequestId =
+    null;
 
 }
 
@@ -611,368 +673,357 @@ function closeEdit() {
 // Login
 // ==========================================================
 
-loginBtn.addEventListener(
+if (loginBtn) {
 
-  "click",
+  loginBtn.addEventListener(
+    "click",
+    async function () {
 
-  async () => {
-
-    loginError.textContent = "";
-
-
-    const email =
-
-      emailInput.value.trim();
+      if (loginError) {
+        loginError.textContent = "";
+      }
 
 
-    const password =
-
-      passwordInput.value;
-
-
-    if (!email || !password) {
-
-      loginError.textContent =
-
-        "أدخل البريد الإلكتروني وكلمة المرور.";
-
-      return;
-
-    }
+      const email =
+        emailInput
+          ? emailInput.value.trim()
+          : "";
 
 
-    loginBtn.disabled = true;
-
-    loginBtn.textContent =
-
-      "جاري الدخول...";
-
-
-    try {
-
-      await signInWithEmailAndPassword(
-
-        auth,
-
-        email,
-
-        password
-
-      );
-
-    } catch (error) {
-
-      console.error(
-
-        "Login error:",
-
-        error
-
-      );
+      const password =
+        passwordInput
+          ? passwordInput.value
+          : "";
 
 
-      loginError.textContent =
+      if (!email || !password) {
 
-        "فشل تسجيل الدخول. تأكد من البيانات.";
+        if (loginError) {
 
-    } finally {
+          loginError.textContent =
+            "أدخل البريد الإلكتروني وكلمة المرور.";
 
-      loginBtn.disabled = false;
+        }
+
+        return;
+
+      }
+
+
+      loginBtn.disabled = true;
 
       loginBtn.textContent =
-
-        "تسجيل الدخول";
-
-    }
-
-  }
-
-);
+        "جاري الدخول...";
 
 
-// ==========================================================
-// Password Enter
-// ==========================================================
+      try {
 
-passwordInput.addEventListener(
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-  "keydown",
+      } catch (error) {
 
-  e => {
+        console.error(
+          "Login error:",
+          error
+        );
 
-    if (e.key === "Enter") {
+        if (loginError) {
 
-      loginBtn.click();
+          loginError.textContent =
+            "فشل تسجيل الدخول. تأكد من البيانات.";
 
-    }
+        }
 
-  }
+      } finally {
 
-);
+        loginBtn.disabled = false;
 
+        loginBtn.textContent =
+          "تسجيل الدخول";
 
-// ==========================================================
-// Email Enter
-// ==========================================================
-
-emailInput.addEventListener(
-
-  "keydown",
-
-  e => {
-
-    if (e.key === "Enter") {
-
-      loginBtn.click();
+      }
 
     }
+  );
 
-  }
+}
 
-);
+
+// ==========================================================
+// Enter Login
+// ==========================================================
+
+if (passwordInput) {
+
+  passwordInput.addEventListener(
+    "keydown",
+    function (e) {
+
+      if (e.key === "Enter") {
+
+        if (loginBtn) {
+          loginBtn.click();
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+if (emailInput) {
+
+  emailInput.addEventListener(
+    "keydown",
+    function (e) {
+
+      if (e.key === "Enter") {
+
+        if (loginBtn) {
+          loginBtn.click();
+        }
+
+      }
+
+    }
+  );
+
+}
 
 
 // ==========================================================
 // Logout
 // ==========================================================
 
-logoutBtn.addEventListener(
+if (logoutBtn) {
 
-  "click",
+  logoutBtn.addEventListener(
+    "click",
+    async function () {
 
-  async () => {
+      try {
 
-    try {
+        await signOut(auth);
 
-      await signOut(auth);
+      } catch (error) {
 
-    } catch (error) {
+        console.error(
+          "Logout error:",
+          error
+        );
 
-      console.error(
-
-        "Logout error:",
-
-        error
-
-      );
-
-    }
-
-  }
-
-);
-
-
-// ==========================================================
-// Close Modal Button
-// ==========================================================
-
-closeModal.addEventListener(
-
-  "click",
-
-  closeEdit
-
-);
-
-
-// ==========================================================
-// Close Modal Outside
-// ==========================================================
-
-editModal.addEventListener(
-
-  "click",
-
-  e => {
-
-    if (e.target === editModal) {
-
-      closeEdit();
+      }
 
     }
+  );
 
-  }
+}
 
-);
+
+// ==========================================================
+// Close Modal
+// ==========================================================
+
+if (closeModal) {
+
+  closeModal.addEventListener(
+    "click",
+    closeEdit
+  );
+
+}
+
+
+if (editModal) {
+
+  editModal.addEventListener(
+    "click",
+    function (e) {
+
+      if (e.target === editModal) {
+
+        closeEdit();
+
+      }
+
+    }
+  );
+
+}
 
 
 // ==========================================================
 // Search
 // ==========================================================
 
-searchInput.addEventListener(
+if (searchInput) {
 
-  "input",
+  searchInput.addEventListener(
+    "input",
+    renderRequests
+  );
 
-  renderRequests
-
-);
+}
 
 
 // ==========================================================
 // Save Request
 // ==========================================================
 
-saveBtn.addEventListener(
+if (saveBtn) {
 
-  "click",
+  saveBtn.addEventListener(
+    "click",
+    async function () {
 
-  async () => {
-
-    saveError.textContent = "";
-
-
-    if (!selectedRequestId) {
-
-      return;
-
-    }
+      if (saveError) {
+        saveError.textContent = "";
+      }
 
 
-    const number16 =
+      if (!selectedRequestId) {
 
-      accountNumber16.value.trim();
+        return;
 
-
-    const name =
-
-      accountName.value.trim();
+      }
 
 
-    const branch =
-
-      accountBranch.value.trim();
-
-
-    const type =
-
-      accountType.value.trim();
+      const number16 =
+        accountNumber16
+          ? accountNumber16.value.trim()
+          : "";
 
 
-    // ======================================================
-    // Validate 16 Digit Account
-    // ======================================================
-
-    if (!/^[0-9]{16}$/.test(number16)) {
-
-      saveError.textContent =
-
-        "الرقم البنكي يجب أن يكون 16 رقمًا.";
-
-      return;
-
-    }
+      const name =
+        accountName
+          ? accountName.value.trim()
+          : "";
 
 
-    // ======================================================
-    // Validate Other Fields
-    // ======================================================
-
-    if (!name || !branch || !type) {
-
-      saveError.textContent =
-
-        "أكمل جميع البيانات.";
-
-      return;
-
-    }
+      const branch =
+        accountBranch
+          ? accountBranch.value.trim()
+          : "";
 
 
-    saveBtn.disabled = true;
+      const type =
+        accountType
+          ? accountType.value.trim()
+          : "";
 
-    saveBtn.textContent =
 
-      "جاري الحفظ...";
+      if (!/^[0-9]{16}$/.test(number16)) {
 
+        if (saveError) {
 
-    try {
-
-      await update(
-
-        ref(
-
-          db,
-
-          "requests/" +
-
-          selectedRequestId
-
-        ),
-
-        {
-
-          accountNumber16:
-
-            number16,
-
-          name:
-
-            name,
-
-          branch:
-
-            branch,
-
-          accountType:
-
-            type,
-
-          status:
-
-            "completed",
-
-          updatedAt:
-
-            Date.now(),
-
-          updatedBy:
-
-            currentUser.uid
+          saveError.textContent =
+            "الرقم البنكي يجب أن يكون 16 رقمًا.";
 
         }
 
-      );
+        return;
+
+      }
 
 
-      closeEdit();
+      if (!name || !branch || !type) {
+
+        if (saveError) {
+
+          saveError.textContent =
+            "أكمل جميع البيانات.";
+
+        }
+
+        return;
+
+      }
 
 
-      showToast(
-
-        "تم حفظ بيانات الحساب بنجاح"
-
-      );
-
-    } catch (error) {
-
-      console.error(
-
-        "Save error:",
-
-        error
-
-      );
-
-
-      saveError.textContent =
-
-        "تعذر الحفظ. تحقق من قواعد Firebase.";
-
-    } finally {
-
-      saveBtn.disabled = false;
+      saveBtn.disabled = true;
 
       saveBtn.textContent =
+        "جاري الحفظ...";
 
-        "حفظ البيانات";
+
+      try {
+
+        await update(
+          ref(
+            db,
+            "requests/" +
+            selectedRequestId
+          ),
+          {
+
+            accountNumber16:
+              number16,
+
+            name:
+              name,
+
+            branch:
+              branch,
+
+            accountType:
+              type,
+
+            status:
+              "completed",
+
+            updatedAt:
+              Date.now(),
+
+            updatedBy:
+              currentUser.uid
+
+          }
+        );
+
+
+        closeEdit();
+
+
+        showToast(
+          "تم حفظ بيانات الحساب بنجاح"
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Save error:",
+          error
+        );
+
+
+        if (saveError) {
+
+          saveError.textContent =
+            "تعذر الحفظ: " +
+            (error.message || "خطأ غير معروف");
+
+        }
+
+      } finally {
+
+        saveBtn.disabled = false;
+
+        saveBtn.textContent =
+          "حفظ البيانات";
+
+      }
 
     }
+  );
 
-  }
-
-);
+}
 
 
 // ==========================================================
@@ -981,97 +1032,73 @@ saveBtn.addEventListener(
 
 function loadRequests() {
 
+  if (loading) {
+
+    loading.classList.remove(
+      "hidden"
+    );
+
+    loading.textContent =
+      "جاري تحميل الطلبات...";
+
+  }
+
+
   console.log(
-
-    "===================================="
-
-  );
-
-  console.log(
-
     "بدء قراءة requests..."
-
   );
 
-
   console.log(
-
-    "Firebase UID:",
-
-    currentUser
-
-      ? currentUser.uid
-
-      : "لا يوجد"
-
-  );
-
-
-  console.log(
-
     "Admin UID:",
-
-    ADMIN_UID
-
-  );
-
-
-  console.log(
-
-    "Database URL:",
-
-    firebaseConfig.databaseURL
-
-  );
-
-
-  console.log(
-
-    "===================================="
-
+    currentUser
+      ? currentUser.uid
+      : "لا يوجد"
   );
 
 
   const requestsRef =
-
-    ref(db, "requests");
+    ref(
+      db,
+      "requests"
+    );
 
 
   onValue(
 
     requestsRef,
 
-
-    snapshot => {
+    function (snapshot) {
 
       console.log(
-
         "تمت قراءة requests بنجاح."
-
       );
 
 
       console.log(
-
         "Snapshot exists:",
-
         snapshot.exists()
-
       );
+
+
+      const data =
+        snapshot.val();
 
 
       console.log(
-
-        "Snapshot value:",
-
-        snapshot.val()
-
+        "Requests:",
+        data
       );
 
 
-      requests =
+      if (data === null) {
 
-        snapshot.val() || {};
+        requests = {};
+
+      } else {
+
+        requests = data;
+
+      }
 
 
       renderRequests();
@@ -1079,59 +1106,29 @@ function loadRequests() {
     },
 
 
-    error => {
+    function (error) {
 
       console.error(
-
-        "===================================="
-
-      );
-
-
-      console.error(
-
-        "خطأ Firebase أثناء قراءة requests"
-
-      );
-
-
-      console.error(
-
-        "Error code:",
-
-        error.code
-
-      );
-
-
-      console.error(
-
-        "Error message:",
-
+        "Firebase requests error:",
+        error.code,
         error.message
-
       );
 
 
-      console.error(
-
-        "Full error:",
-
-        error
-
-      );
+      requests = {};
 
 
-      console.error(
+      if (loading) {
 
-        "===================================="
+        loading.classList.remove(
+          "hidden"
+        );
 
-      );
+        loading.textContent =
+          "تعذر تحميل الطلبات: " +
+          error.message;
 
-
-      loading.textContent =
-
-        "تعذر تحميل الطلبات.";
+      }
 
     }
 
@@ -1148,106 +1145,56 @@ onAuthStateChanged(
 
   auth,
 
-  user => {
+  function (user) {
 
-    currentUser = user;
-
-
-    console.log(
-
-      "===================================="
-
-    );
+    currentUser =
+      user;
 
 
     console.log(
-
-      "Firebase Auth State Changed"
-
-    );
-
-
-    console.log(
-
-      "User:",
-
+      "Auth state:",
       user
-
+        ? user.uid
+        : "لا يوجد مستخدم"
     );
 
 
     if (!user) {
 
-      console.log(
-
-        "لا يوجد مستخدم مسجل الدخول."
-
-      );
-
-
       showLogin();
-
 
       return;
 
     }
 
 
-    console.log(
-
-      "Current UID:",
-
-      user.uid
-
-    );
-
-
-    console.log(
-
-      "Expected Admin UID:",
-
-      ADMIN_UID
-
-    );
-
-
-    // ======================================================
-    // Check Admin
-    // ======================================================
-
     if (user.uid !== ADMIN_UID) {
 
       console.error(
-
-        "الحساب الحالي ليس حساب الأدمن."
-
+        "الحساب ليس Admin"
       );
 
 
       signOut(auth);
 
 
-      loginError.textContent =
+      if (loginError) {
 
-        "هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.";
+        loginError.textContent =
+          "هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.";
+
+      }
 
 
       showLogin();
-
 
       return;
 
     }
 
 
-    // ======================================================
-    // Admin Confirmed
-    // ======================================================
-
     console.log(
-
-      "تم التحقق من الأدمن بنجاح."
-
+      "تم تسجيل دخول الأدمن بنجاح"
     );
 
 
