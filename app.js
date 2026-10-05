@@ -42,11 +42,14 @@ const firebaseConfig = {
 // Firebase
 // ==========================================================
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
 
-const db = getDatabase(app);
+const db =
+    getDatabase(app);
 
 
 // ==========================================================
@@ -171,17 +174,23 @@ const ocrStatus =
 // Variables
 // ==========================================================
 
-let currentUser = null;
+let currentUser =
+    null;
 
-let allRequests = [];
+let allRequests =
+    [];
 
-let selectedRequestId = null;
+let selectedRequestId =
+    null;
 
-let selectedRequest = null;
+let selectedRequest =
+    null;
 
-let ocrWorker = null;
+let ocrWorker =
+    null;
 
-let ocrBusy = false;
+let ocrBusy =
+    false;
 
 
 // ==========================================================
@@ -220,7 +229,12 @@ function cleanText(text) {
 
 function showToast(message) {
 
-    toast.textContent = message;
+    if (!toast) {
+        return;
+    }
+
+    toast.textContent =
+        message;
 
     toast.classList.add("show");
 
@@ -234,7 +248,10 @@ function showToast(message) {
 
 function escapeHtml(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
@@ -251,125 +268,255 @@ function escapeHtml(value) {
 // Login
 // ==========================================================
 
-loginBtn.addEventListener("click", async function() {
+if (loginBtn) {
 
-    loginError.textContent = "";
+    loginBtn.addEventListener(
+        "click",
+        async function() {
 
-    const emailValue =
-        emailInput.value.trim();
+            if (loginError) {
+                loginError.textContent = "";
+            }
 
-    const passwordValue =
-        passwordInput.value;
+            const emailValue =
+                emailInput
+                    ? emailInput.value.trim()
+                    : "";
 
-    if (!emailValue || !passwordValue) {
-
-        loginError.textContent =
-            "أدخل البريد الإلكتروني وكلمة المرور.";
-
-        return;
-    }
-
-
-    loginBtn.disabled = true;
-
-    loginBtn.textContent =
-        "جاري تسجيل الدخول...";
+            const passwordValue =
+                passwordInput
+                    ? passwordInput.value
+                    : "";
 
 
-    try {
+            if (
+                !emailValue ||
+                !passwordValue
+            ) {
 
-        await signInWithEmailAndPassword(
-            auth,
-            emailValue,
-            passwordValue
-        );
+                if (loginError) {
 
-    } catch (error) {
+                    loginError.textContent =
+                        "أدخل البريد الإلكتروني وكلمة المرور.";
 
-        console.error(error);
+                }
 
-        loginError.textContent =
-            "بيانات تسجيل الدخول غير صحيحة.";
-
-    }
+                return;
+            }
 
 
-    loginBtn.disabled = false;
+            loginBtn.disabled =
+                true;
 
-    loginBtn.textContent =
-        "تسجيل الدخول";
+            loginBtn.textContent =
+                "جاري تسجيل الدخول...";
 
-});
+
+            try {
+
+                await signInWithEmailAndPassword(
+                    auth,
+                    emailValue,
+                    passwordValue
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "LOGIN ERROR:",
+                    error
+                );
+
+
+                if (loginError) {
+
+                    if (
+                        error.code ===
+                        "auth/invalid-credential"
+                    ) {
+
+                        loginError.textContent =
+                            "بيانات تسجيل الدخول غير صحيحة.";
+
+                    } else if (
+                        error.code ===
+                        "auth/wrong-password"
+                    ) {
+
+                        loginError.textContent =
+                            "كلمة المرور غير صحيحة.";
+
+                    } else if (
+                        error.code ===
+                        "auth/user-not-found"
+                    ) {
+
+                        loginError.textContent =
+                            "البريد الإلكتروني غير موجود.";
+
+                    } else if (
+                        error.code ===
+                        "auth/invalid-email"
+                    ) {
+
+                        loginError.textContent =
+                            "البريد الإلكتروني غير صحيح.";
+
+                    } else if (
+                        error.code ===
+                        "auth/network-request-failed"
+                    ) {
+
+                        loginError.textContent =
+                            "تعذر الاتصال بخدمة Firebase.";
+
+                    } else {
+
+                        loginError.textContent =
+                            "بيانات تسجيل الدخول غير صحيحة.";
+
+                    }
+
+                }
+
+            }
+
+
+            loginBtn.disabled =
+                false;
+
+            loginBtn.textContent =
+                "تسجيل الدخول";
+
+        }
+    );
+
+}
 
 
 // ==========================================================
 // Enter Login
 // ==========================================================
 
-passwordInput.addEventListener("keydown", function(event) {
+if (passwordInput && loginBtn) {
 
-    if (event.key === "Enter") {
+    passwordInput.addEventListener(
+        "keydown",
+        function(event) {
 
-        loginBtn.click();
+            if (
+                event.key === "Enter"
+            ) {
 
-    }
+                loginBtn.click();
 
-});
+            }
+
+        }
+    );
+
+}
 
 
 // ==========================================================
 // Auth State
 // ==========================================================
 
-onAuthStateChanged(auth, function(user) {
+onAuthStateChanged(
+    auth,
+    function(user) {
 
-    if (!user) {
+        if (!user) {
 
-        currentUser = null;
+            currentUser =
+                null;
 
-        loginPage.classList.remove("hidden");
+            if (loginPage) {
 
-        adminPage.classList.add("hidden");
+                loginPage.classList.remove(
+                    "hidden"
+                );
 
-        return;
+            }
+
+            if (adminPage) {
+
+                adminPage.classList.add(
+                    "hidden"
+                );
+
+            }
+
+            return;
+        }
+
+
+        // ==================================================
+        // Admin Check
+        // ==================================================
+
+        if (
+            user.uid !==
+            ADMIN_UID
+        ) {
+
+            signOut(auth);
+
+            if (loginError) {
+
+                loginError.textContent =
+                    "هذا الحساب غير مصرح له بالدخول.";
+
+            }
+
+            return;
+        }
+
+
+        currentUser =
+            user;
+
+
+        if (loginPage) {
+
+            loginPage.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        if (adminPage) {
+
+            adminPage.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        loadRequests();
+
     }
-
-
-    // ======================================================
-    // Admin Check
-    // ======================================================
-
-    if (user.uid !== ADMIN_UID) {
-
-        signOut(auth);
-
-        loginError.textContent =
-            "هذا الحساب غير مصرح له بالدخول.";
-
-        return;
-    }
-
-
-    currentUser = user;
-
-    loginPage.classList.add("hidden");
-
-    adminPage.classList.remove("hidden");
-
-    loadRequests();
-
-});
+);
 
 
 // ==========================================================
 // Logout
 // ==========================================================
 
-logoutBtn.addEventListener("click", async function() {
+if (logoutBtn) {
 
-    await signOut(auth);
+    logoutBtn.addEventListener(
+        "click",
+        async function() {
 
-});
+            await signOut(auth);
+
+        }
+    );
+
+}
 
 
 // ==========================================================
@@ -378,19 +525,37 @@ logoutBtn.addEventListener("click", async function() {
 
 function loadRequests() {
 
-    loading.classList.remove("hidden");
+    if (loading) {
 
-    empty.classList.add("hidden");
+        loading.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    if (empty) {
+
+        empty.classList.add(
+            "hidden"
+        );
+
+    }
+
 
     const requestsRef =
-        ref(db, "requests");
+        ref(
+            db,
+            "requests"
+        );
 
 
     onValue(
         requestsRef,
         function(snapshot) {
 
-            allRequests = [];
+            allRequests =
+                [];
 
             const data =
                 snapshot.val();
@@ -398,25 +563,36 @@ function loadRequests() {
 
             if (data) {
 
-                Object.keys(data).forEach(function(id) {
+                Object.keys(data)
+                    .forEach(
+                        function(id) {
 
-                    const item =
-                        data[id] || {};
+                            const item =
+                                data[id] || {};
 
-                    allRequests.push({
+                            allRequests.push({
 
-                        id: id,
+                                id:
+                                    id,
 
-                        ...item
+                                ...item
 
-                    });
+                            });
 
-                });
+                        }
+                    );
 
             }
 
 
-            loading.classList.add("hidden");
+            if (loading) {
+
+                loading.classList.add(
+                    "hidden"
+                );
+
+            }
+
 
             updateStats();
 
@@ -425,16 +601,39 @@ function loadRequests() {
         },
         function(error) {
 
-            console.error(error);
+            console.error(
+                "REQUESTS ERROR:",
+                error
+            );
 
-            loading.classList.add("hidden");
 
-            requestsList.innerHTML = "";
+            if (loading) {
 
-            empty.classList.remove("hidden");
+                loading.classList.add(
+                    "hidden"
+                );
 
-            empty.textContent =
-                "تعذر تحميل الطلبات.";
+            }
+
+
+            if (requestsList) {
+
+                requestsList.innerHTML =
+                    "";
+
+            }
+
+
+            if (empty) {
+
+                empty.classList.remove(
+                    "hidden"
+                );
+
+                empty.textContent =
+                    "تعذر تحميل الطلبات.";
+
+            }
 
         }
     );
@@ -452,43 +651,67 @@ function updateStats() {
         allRequests.length;
 
 
-    let pending = 0;
+    let pending =
+        0;
 
-    let completed = 0;
-
-
-    allRequests.forEach(function(item) {
-
-        const status =
-            String(item.status || "")
-                .toLowerCase();
+    let completed =
+        0;
 
 
-        if (
-            status === "completed" ||
-            status === "complete" ||
-            status === "مكتمل"
-        ) {
+    allRequests.forEach(
+        function(item) {
 
-            completed++;
+            const status =
+                String(
+                    item.status || ""
+                ).toLowerCase();
 
-        } else {
 
-            pending++;
+            if (
+                status ===
+                "completed" ||
+
+                status ===
+                "complete" ||
+
+                status ===
+                "مكتمل"
+            ) {
+
+                completed++;
+
+            } else {
+
+                pending++;
+
+            }
 
         }
+    );
 
-    });
+
+    if (totalCount) {
+
+        totalCount.textContent =
+            total;
+
+    }
 
 
-    totalCount.textContent =
-        total;
+    if (pendingCount) {
 
-    pendingCount.textContent =
-        pending;
+        pendingCount.textContent =
+            pending;
 
-    completedCount.textContent =
-        completed;
+    }
+
+
+    if (completedCount) {
+
+        completedCount.textContent =
+            completed;
+
+    }
 
 }
 
@@ -497,11 +720,18 @@ function updateStats() {
 // Search
 // ==========================================================
 
-searchInput.addEventListener("input", function() {
+if (searchInput) {
 
-    renderRequests();
+    searchInput.addEventListener(
+        "input",
+        function() {
 
-});
+            renderRequests();
+
+        }
+    );
+
+}
 
 
 // ==========================================================
@@ -510,8 +740,15 @@ searchInput.addEventListener("input", function() {
 
 function renderRequests() {
 
+    if (!requestsList) {
+        return;
+    }
+
+
     const search =
-        searchInput.value.trim();
+        searchInput
+            ? searchInput.value.trim()
+            : "";
 
 
     let filtered =
@@ -521,169 +758,241 @@ function renderRequests() {
     if (search) {
 
         filtered =
-            allRequests.filter(function(item) {
+            allRequests.filter(
+                function(item) {
 
-                return String(
-                    item.accountNumber || ""
-                ).includes(search);
+                    return String(
+                        item.accountNumber ||
+                        ""
+                    ).includes(
+                        search
+                    );
 
-            });
+                }
+            );
 
     }
 
 
-    requestsList.innerHTML = "";
+    requestsList.innerHTML =
+        "";
 
 
-    if (filtered.length === 0) {
+    if (
+        filtered.length === 0
+    ) {
 
-        empty.classList.remove("hidden");
+        if (empty) {
+
+            empty.classList.remove(
+                "hidden"
+            );
+
+        }
 
         return;
 
     }
 
 
-    empty.classList.add("hidden");
+    if (empty) {
 
-
-    filtered.forEach(function(item) {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "request-card";
-
-
-        const status =
-            String(item.status || "pending")
-                .toLowerCase();
-
-
-        let statusText =
-            "قيد الانتظار";
-
-
-        let statusClass =
-            "pending";
-
-
-        if (
-            status === "completed" ||
-            status === "complete" ||
-            status === "مكتمل"
-        ) {
-
-            statusText =
-                "مكتملة";
-
-            statusClass =
-                "completed";
-
-        }
-
-
-        const account7 =
-            item.accountNumber || "غير متوفر";
-
-
-        const account16 =
-            item.accountNumber16 || "غير متوفر";
-
-
-        const name =
-            item.name || "غير متوفر";
-
-
-        const branch =
-            item.branch || "غير متوفر";
-
-
-        const type =
-            item.accountType || "غير متوفر";
-
-
-        card.innerHTML = `
-
-            <div class="request-top">
-
-                <div>
-                    <div class="request-label">
-                        رقم الحساب
-                    </div>
-
-                    <div class="request-account">
-                        ${escapeHtml(account7)}
-                    </div>
-                </div>
-
-                <span class="status ${statusClass}">
-                    ${statusText}
-                </span>
-
-            </div>
-
-
-            <div class="request-info">
-
-                <div class="info-row">
-                    <span>رقم الحساب 16</span>
-                    <strong>
-                        ${escapeHtml(account16)}
-                    </strong>
-                </div>
-
-                <div class="info-row">
-                    <span>الاسم</span>
-                    <strong>
-                        ${escapeHtml(name)}
-                    </strong>
-                </div>
-
-                <div class="info-row">
-                    <span>نوع الحساب</span>
-                    <strong>
-                        ${escapeHtml(type)}
-                    </strong>
-                </div>
-
-                <div class="info-row">
-                    <span>الفرع</span>
-                    <strong>
-                        ${escapeHtml(branch)}
-                    </strong>
-                </div>
-
-            </div>
-
-
-            <button class="edit-request-btn">
-                تعديل البيانات
-            </button>
-
-        `;
-
-
-        const editButton =
-            card.querySelector(
-                ".edit-request-btn"
-            );
-
-
-        editButton.addEventListener(
-            "click",
-            function() {
-
-                openEditModal(item);
-
-            }
+        empty.classList.add(
+            "hidden"
         );
 
+    }
 
-        requestsList.appendChild(card);
 
-    });
+    filtered.forEach(
+        function(item) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "request-card";
+
+
+            const status =
+                String(
+                    item.status ||
+                    "pending"
+                ).toLowerCase();
+
+
+            let statusText =
+                "قيد الانتظار";
+
+
+            let statusClass =
+                "pending";
+
+
+            if (
+                status ===
+                "completed" ||
+
+                status ===
+                "complete" ||
+
+                status ===
+                "مكتمل"
+            ) {
+
+                statusText =
+                    "مكتملة";
+
+                statusClass =
+                    "completed";
+
+            }
+
+
+            const account7 =
+                item.accountNumber ||
+                "غير متوفر";
+
+
+            const account16 =
+                item.accountNumber16 ||
+                "غير متوفر";
+
+
+            const name =
+                item.name ||
+                "غير متوفر";
+
+
+            const branch =
+                item.branch ||
+                "غير متوفر";
+
+
+            const type =
+                item.accountType ||
+                "غير متوفر";
+
+
+            card.innerHTML = `
+
+                <div class="request-top">
+
+                    <div>
+
+                        <div class="request-label">
+                            رقم الحساب
+                        </div>
+
+                        <div class="request-account">
+                            ${escapeHtml(account7)}
+                        </div>
+
+                    </div>
+
+                    <span class="status ${statusClass}">
+                        ${statusText}
+                    </span>
+
+                </div>
+
+
+                <div class="request-info">
+
+                    <div class="info-row">
+
+                        <span>
+                            رقم الحساب 16
+                        </span>
+
+                        <strong>
+                            ${escapeHtml(account16)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            الاسم
+                        </span>
+
+                        <strong>
+                            ${escapeHtml(name)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            نوع الحساب
+                        </span>
+
+                        <strong>
+                            ${escapeHtml(type)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            الفرع
+                        </span>
+
+                        <strong>
+                            ${escapeHtml(branch)}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="edit-request-btn"
+                    type="button"
+                >
+                    تعديل البيانات
+                </button>
+
+            `;
+
+
+            const editButton =
+                card.querySelector(
+                    ".edit-request-btn"
+                );
+
+
+            if (editButton) {
+
+                editButton.addEventListener(
+                    "click",
+                    function() {
+
+                        openEditModal(
+                            item
+                        );
+
+                    }
+                );
+
+            }
+
+
+            requestsList.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
@@ -701,44 +1010,108 @@ function openEditModal(item) {
         item.id;
 
 
-    modalAccount.textContent =
-        "الحساب: " +
-        (item.accountNumber || "");
+    if (modalAccount) {
+
+        modalAccount.textContent =
+            "الحساب: " +
+            (
+                item.accountNumber ||
+                ""
+            );
+
+    }
 
 
-    accountNumber16.value =
-        item.accountNumber16 || "";
+    if (accountNumber16) {
+
+        accountNumber16.value =
+            item.accountNumber16 ||
+            "";
+
+    }
 
 
-    accountName.value =
-        item.name || "";
+    if (accountName) {
+
+        accountName.value =
+            item.name ||
+            "";
+
+    }
 
 
-    accountBranch.value =
-        item.branch || "";
+    if (accountBranch) {
+
+        accountBranch.value =
+            item.branch ||
+            "";
+
+    }
 
 
-    accountType.value =
-        item.accountType || "";
+    if (accountType) {
+
+        accountType.value =
+            item.accountType ||
+            "";
+
+    }
 
 
-    saveError.textContent = "";
+    if (saveError) {
+
+        saveError.textContent =
+            "";
+
+    }
 
 
-    ocrStatus.textContent = "";
+    if (ocrStatus) {
+
+        ocrStatus.textContent =
+            "";
+
+    }
 
 
-    ocrPreview.classList.add("hidden");
+    if (ocrPreview) {
 
-    ocrPreviewImage.removeAttribute("src");
+        ocrPreview.classList.add(
+            "hidden"
+        );
+
+    }
 
 
-    ocrImage.value = "";
+    if (ocrPreviewImage) {
+
+        ocrPreviewImage.removeAttribute(
+            "src"
+        );
+
+    }
 
 
-    editModal.classList.remove("hidden");
+    if (ocrImage) {
 
-    document.body.classList.add("modal-open");
+        ocrImage.value =
+            "";
+
+    }
+
+
+    if (editModal) {
+
+        editModal.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    document.body.classList.add(
+        "modal-open"
+    );
 
 }
 
@@ -749,9 +1122,19 @@ function openEditModal(item) {
 
 function closeEditModal() {
 
-    editModal.classList.add("hidden");
+    if (editModal) {
 
-    document.body.classList.remove("modal-open");
+        editModal.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
 
     selectedRequest =
         null;
@@ -762,260 +1145,360 @@ function closeEditModal() {
 }
 
 
-closeModal.addEventListener(
-    "click",
-    closeEditModal
-);
+if (closeModal) {
+
+    closeModal.addEventListener(
+        "click",
+        closeEditModal
+    );
+
+}
 
 
-modalOverlay.addEventListener(
-    "click",
-    closeEditModal
-);
+if (modalOverlay) {
+
+    modalOverlay.addEventListener(
+        "click",
+        closeEditModal
+    );
+
+}
 
 
 // ==========================================================
 // Save
 // ==========================================================
 
-saveBtn.addEventListener("click", async function() {
+if (saveBtn) {
 
-    saveError.textContent = "";
+    saveBtn.addEventListener(
+        "click",
+        async function() {
 
+            if (saveError) {
 
-    if (!selectedRequestId) {
-
-        saveError.textContent =
-            "لم يتم تحديد الطلب.";
-
-        return;
-
-    }
-
-
-    const number16 =
-        accountNumber16.value
-            .replace(/\D/g, "")
-            .trim();
-
-
-    const name =
-        accountName.value.trim();
-
-
-    const branch =
-        accountBranch.value.trim();
-
-
-    const type =
-        accountType.value.trim();
-
-
-    if (!number16) {
-
-        saveError.textContent =
-            "أدخل رقم الحساب.";
-
-        return;
-
-    }
-
-
-    if (number16.length !== 16) {
-
-        saveError.textContent =
-            "رقم الحساب يجب أن يكون 16 رقم.";
-
-        return;
-
-    }
-
-
-    if (!name) {
-
-        saveError.textContent =
-            "أدخل الاسم.";
-
-        return;
-
-    }
-
-
-    if (!type) {
-
-        saveError.textContent =
-            "أدخل نوع الحساب.";
-
-        return;
-
-    }
-
-
-    if (!branch) {
-
-        saveError.textContent =
-            "أدخل الفرع.";
-
-        return;
-
-    }
-
-
-    saveBtn.disabled = true;
-
-    saveBtn.textContent =
-        "جاري الحفظ...";
-
-
-    try {
-
-        const requestRef =
-            ref(
-                db,
-                "requests/" +
-                selectedRequestId
-            );
-
-
-        await update(
-            requestRef,
-            {
-
-                accountNumber16:
-                    number16,
-
-                name:
-                    name,
-
-                branch:
-                    branch,
-
-                accountType:
-                    type,
-
-                status:
-                    "completed",
-
-                updatedAt:
-                    Date.now(),
-
-                updatedBy:
-                    currentUser.uid
+                saveError.textContent =
+                    "";
 
             }
-        );
 
 
-        showToast(
-            "تم حفظ البيانات بنجاح."
-        );
+            if (!selectedRequestId) {
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "لم يتم تحديد الطلب.";
+
+                }
+
+                return;
+
+            }
 
 
-        closeEditModal();
+            const number16 =
+                accountNumber16
+                    ? accountNumber16.value
+                        .replace(/\D/g, "")
+                        .trim()
+                    : "";
 
 
-    } catch (error) {
-
-        console.error(error);
-
-        saveError.textContent =
-            "تعذر حفظ البيانات.";
-
-    }
+            const name =
+                accountName
+                    ? accountName.value.trim()
+                    : "";
 
 
-    saveBtn.disabled = false;
+            const branch =
+                accountBranch
+                    ? accountBranch.value.trim()
+                    : "";
 
-    saveBtn.textContent =
-        "حفظ البيانات";
 
-});
+            const type =
+                accountType
+                    ? accountType.value.trim()
+                    : "";
+
+
+            if (!number16) {
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "أدخل رقم الحساب.";
+
+                }
+
+                return;
+
+            }
+
+
+            if (
+                number16.length !==
+                16
+            ) {
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "رقم الحساب يجب أن يكون 16 رقم.";
+
+                }
+
+                return;
+
+            }
+
+
+            if (!name) {
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "أدخل الاسم.";
+
+                }
+
+                return;
+
+            }
+
+
+            if (!type) {
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "أدخل نوع الحساب.";
+
+                }
+
+                return;
+
+            }
+
+
+            if (!branch) {
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "أدخل الفرع.";
+
+                }
+
+                return;
+
+            }
+
+
+            saveBtn.disabled =
+                true;
+
+            saveBtn.textContent =
+                "جاري الحفظ...";
+
+
+            try {
+
+                const requestRef =
+                    ref(
+                        db,
+                        "requests/" +
+                        selectedRequestId
+                    );
+
+
+                await update(
+                    requestRef,
+                    {
+
+                        accountNumber16:
+                            number16,
+
+                        name:
+                            name,
+
+                        branch:
+                            branch,
+
+                        accountType:
+                            type,
+
+                        status:
+                            "completed",
+
+                        updatedAt:
+                            Date.now(),
+
+                        updatedBy:
+                            currentUser.uid
+
+                    }
+                );
+
+
+                showToast(
+                    "تم حفظ البيانات بنجاح."
+                );
+
+
+                closeEditModal();
+
+
+            } catch (error) {
+
+                console.error(
+                    "SAVE ERROR:",
+                    error
+                );
+
+
+                if (saveError) {
+
+                    saveError.textContent =
+                        "تعذر حفظ البيانات.";
+
+                }
+
+            }
+
+
+            saveBtn.disabled =
+                false;
+
+            saveBtn.textContent =
+                "حفظ البيانات";
+
+        }
+    );
+
+}
 
 
 // ==========================================================
 // OCR - Image Selection
 // ==========================================================
 
-ocrImage.addEventListener(
-    "change",
-    async function() {
+if (ocrImage) {
 
-        const file =
-            ocrImage.files &&
-            ocrImage.files[0];
+    ocrImage.addEventListener(
+        "change",
+        async function() {
+
+            const file =
+                ocrImage.files &&
+                ocrImage.files[0];
 
 
-        if (!file) {
+            if (!file) {
 
-            return;
+                return;
+
+            }
+
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+
+                if (ocrStatus) {
+
+                    ocrStatus.textContent =
+                        "الملف المحدد ليس صورة.";
+
+                }
+
+                return;
+
+            }
+
+
+            // ==============================================
+            // عرض الصورة كاملة بدون قص
+            // ==============================================
+
+            const previewUrl =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            if (ocrPreviewImage) {
+
+                ocrPreviewImage.src =
+                    previewUrl;
+
+            }
+
+
+            if (ocrPreview) {
+
+                ocrPreview.classList.remove(
+                    "hidden"
+                );
+
+            }
+
+
+            if (ocrStatus) {
+
+                ocrStatus.textContent =
+                    "تم اختيار الصورة. جاري تجهيز القراءة...";
+
+            }
+
+
+            await runOCR(file);
 
         }
+    );
 
-
-        if (!file.type.startsWith("image/")) {
-
-            ocrStatus.textContent =
-                "الملف المحدد ليس صورة.";
-
-            return;
-
-        }
-
-
-        // ================================================
-        // عرض الصورة كاملة بدون قص
-        // ================================================
-
-        const previewUrl =
-            URL.createObjectURL(file);
-
-
-        ocrPreviewImage.src =
-            previewUrl;
-
-
-        ocrPreview.classList.remove(
-            "hidden"
-        );
-
-
-        ocrStatus.textContent =
-            "تم اختيار الصورة. جاري تجهيز القراءة...";
-
-
-        await runOCR(file);
-
-    }
-);
+}
 
 
 // ==========================================================
 // OCR Button
 // ==========================================================
 
-ocrBtn.addEventListener(
-    "click",
-    async function() {
+if (ocrBtn) {
 
-        const file =
-            ocrImage.files &&
-            ocrImage.files[0];
+    ocrBtn.addEventListener(
+        "click",
+        async function() {
+
+            const file =
+                ocrImage &&
+                ocrImage.files &&
+                ocrImage.files[0];
 
 
-        if (!file) {
+            if (!file) {
 
-            ocrStatus.textContent =
-                "اختر صورة أولاً.";
+                if (ocrStatus) {
 
-            return;
+                    ocrStatus.textContent =
+                        "اختر صورة أولاً.";
+
+                }
+
+                return;
+
+            }
+
+
+            await runOCR(file);
 
         }
+    );
 
-
-        await runOCR(file);
-
-    }
-);
+}
 
 
 // ==========================================================
@@ -1024,6 +1507,22 @@ ocrBtn.addEventListener(
 
 async function getOCRWorker() {
 
+    // ======================================================
+    // تأكد أن Tesseract موجود
+    // ======================================================
+
+    if (
+        typeof Tesseract ===
+        "undefined"
+    ) {
+
+        throw new Error(
+            "Tesseract.js غير محمل."
+        );
+
+    }
+
+
     if (ocrWorker) {
 
         return ocrWorker;
@@ -1031,8 +1530,12 @@ async function getOCRWorker() {
     }
 
 
-    ocrStatus.textContent =
-        "جاري تشغيل محرك قراءة النص...";
+    if (ocrStatus) {
+
+        ocrStatus.textContent =
+            "جاري تشغيل محرك قراءة النص...";
+
+    }
 
 
     ocrWorker =
@@ -1069,7 +1572,9 @@ function prepareImage(file) {
 
 
             const url =
-                URL.createObjectURL(file);
+                URL.createObjectURL(
+                    file
+                );
 
 
             image.onload =
@@ -1085,28 +1590,36 @@ function prepareImage(file) {
                             image.naturalHeight;
 
 
-                        // =================================
+                        // ==================================
                         // تكبير/تصغير فقط
-                        // لا يوجد قص
-                        // =================================
+                        // بدون قص نهائياً
+                        // ==================================
 
                         const maxWidth =
                             2400;
 
 
-                        if (width > maxWidth) {
+                        if (
+                            width >
+                            maxWidth
+                        ) {
 
                             const ratio =
-                                maxWidth / width;
+                                maxWidth /
+                                width;
+
 
                             width =
                                 Math.round(
-                                    width * ratio
+                                    width *
+                                    ratio
                                 );
+
 
                             height =
                                 Math.round(
-                                    height * ratio
+                                    height *
+                                    ratio
                                 );
 
                         }
@@ -1135,6 +1648,27 @@ function prepareImage(file) {
                             );
 
 
+                        if (!ctx) {
+
+                            URL.revokeObjectURL(
+                                url
+                            );
+
+                            reject(
+                                new Error(
+                                    "تعذر إنشاء Canvas."
+                                )
+                            );
+
+                            return;
+
+                        }
+
+
+                        // ==================================
+                        // الصورة كاملة
+                        // ==================================
+
                         ctx.drawImage(
                             image,
                             0,
@@ -1144,9 +1678,9 @@ function prepareImage(file) {
                         );
 
 
-                        // =================================
+                        // ==================================
                         // تحسين الصورة
-                        // =================================
+                        // ==================================
 
                         const imageData =
                             ctx.getImageData(
@@ -1185,11 +1719,13 @@ function prepareImage(file) {
                                 );
 
 
-                            // contrast
                             gray =
                                 (
-                                    gray - 128
-                                ) * 1.35 + 128;
+                                    gray -
+                                    128
+                                ) *
+                                1.35 +
+                                128;
 
 
                             gray =
@@ -1226,7 +1762,9 @@ function prepareImage(file) {
                         );
 
 
-                        resolve(canvas);
+                        resolve(
+                            canvas
+                        );
 
                     } catch (error) {
 
@@ -1234,7 +1772,9 @@ function prepareImage(file) {
                             url
                         );
 
-                        reject(error);
+                        reject(
+                            error
+                        );
 
                     }
 
@@ -1248,7 +1788,9 @@ function prepareImage(file) {
                         url
                     );
 
-                    reject(error);
+                    reject(
+                        error
+                    );
 
                 };
 
@@ -1275,34 +1817,61 @@ async function runOCR(file) {
     }
 
 
-    ocrBusy = true;
+    ocrBusy =
+        true;
 
-    ocrBtn.disabled = true;
 
-    ocrBtn.textContent =
-        "جاري القراءة...";
+    if (ocrBtn) {
+
+        ocrBtn.disabled =
+            true;
+
+        ocrBtn.textContent =
+            "جاري القراءة...";
+
+    }
 
 
     try {
 
-        ocrStatus.textContent =
-            "جاري تجهيز الصورة كاملة...";
+        if (ocrStatus) {
 
+            ocrStatus.textContent =
+                "جاري تجهيز الصورة كاملة...";
+
+        }
+
+
+        // ==============================================
+        // تجهيز الصورة كاملة
+        // ==============================================
 
         const canvas =
-            await prepareImage(file);
+            await prepareImage(
+                file
+            );
 
+
+        // ==============================================
+        // تشغيل OCR
+        // ==============================================
 
         const worker =
             await getOCRWorker();
 
 
-        ocrStatus.textContent =
-            "جاري قراءة الصورة كاملة...";
+        if (ocrStatus) {
+
+            ocrStatus.textContent =
+                "جاري قراءة الصورة كاملة...";
+
+        }
 
 
         const result =
-            await worker.recognize(canvas);
+            await worker.recognize(
+                canvas
+            );
 
 
         const text =
@@ -1317,19 +1886,24 @@ async function runOCR(file) {
         );
 
 
-        // ================================================
+        // ==============================================
         // استخراج البيانات الأربعة فقط
-        // ================================================
+        // ==============================================
 
         const extracted =
-            extractBankakData(text);
+            extractBankakData(
+                text
+            );
 
 
-        // ================================================
-        // تعبئة الحقول مباشرة
-        // ================================================
+        // ==============================================
+        // تعبئة رقم الحساب
+        // ==============================================
 
-        if (extracted.accountNumber16) {
+        if (
+            extracted.accountNumber16 &&
+            accountNumber16
+        ) {
 
             accountNumber16.value =
                 extracted.accountNumber16;
@@ -1337,7 +1911,14 @@ async function runOCR(file) {
         }
 
 
-        if (extracted.name) {
+        // ==============================================
+        // تعبئة الاسم
+        // ==============================================
+
+        if (
+            extracted.name &&
+            accountName
+        ) {
 
             accountName.value =
                 extracted.name;
@@ -1345,7 +1926,14 @@ async function runOCR(file) {
         }
 
 
-        if (extracted.accountType) {
+        // ==============================================
+        // تعبئة نوع الحساب
+        // ==============================================
+
+        if (
+            extracted.accountType &&
+            accountType
+        ) {
 
             accountType.value =
                 extracted.accountType;
@@ -1353,7 +1941,14 @@ async function runOCR(file) {
         }
 
 
-        if (extracted.branch) {
+        // ==============================================
+        // تعبئة الفرع
+        // ==============================================
+
+        if (
+            extracted.branch &&
+            accountBranch
+        ) {
 
             accountBranch.value =
                 extracted.branch;
@@ -1365,39 +1960,62 @@ async function runOCR(file) {
             0;
 
 
-        if (extracted.accountNumber16) {
-            found++;
-        }
+        if (
+            extracted.accountNumber16
+        ) {
 
-        if (extracted.name) {
             found++;
-        }
 
-        if (extracted.accountType) {
-            found++;
-        }
-
-        if (extracted.branch) {
-            found++;
         }
 
 
-        if (found === 4) {
+        if (
+            extracted.name
+        ) {
 
-            ocrStatus.textContent =
-                "تم استخراج البيانات الأربعة بنجاح.";
+            found++;
 
-        } else if (found > 0) {
+        }
 
-            ocrStatus.textContent =
-                "تم استخراج " +
-                found +
-                " من 4 حقول. راجع البيانات قبل الحفظ.";
 
-        } else {
+        if (
+            extracted.accountType
+        ) {
 
-            ocrStatus.textContent =
-                "لم يتم التعرف على البيانات. حاول بصورة أوضح.";
+            found++;
+
+        }
+
+
+        if (
+            extracted.branch
+        ) {
+
+            found++;
+
+        }
+
+
+        if (ocrStatus) {
+
+            if (found === 4) {
+
+                ocrStatus.textContent =
+                    "تم استخراج البيانات الأربعة بنجاح.";
+
+            } else if (found > 0) {
+
+                ocrStatus.textContent =
+                    "تم استخراج " +
+                    found +
+                    " من 4 حقول. راجع البيانات قبل الحفظ.";
+
+            } else {
+
+                ocrStatus.textContent =
+                    "لم يتم التعرف على البيانات. حاول بصورة أوضح.";
+
+            }
 
         }
 
@@ -1410,18 +2028,45 @@ async function runOCR(file) {
         );
 
 
-        ocrStatus.textContent =
-            "حدث خطأ أثناء قراءة الصورة.";
+        if (ocrStatus) {
+
+            if (
+                String(
+                    error.message ||
+                    ""
+                ).includes(
+                    "Tesseract"
+                )
+            ) {
+
+                ocrStatus.textContent =
+                    "محرك قراءة الصورة لم يتم تحميله. حدّث الصفحة وحاول مرة أخرى.";
+
+            } else {
+
+                ocrStatus.textContent =
+                    "حدث خطأ أثناء قراءة الصورة.";
+
+            }
+
+        }
 
     }
 
 
-    ocrBusy = false;
+    ocrBusy =
+        false;
 
-    ocrBtn.disabled = false;
 
-    ocrBtn.textContent =
-        "قراءة الصورة";
+    if (ocrBtn) {
+
+        ocrBtn.disabled =
+            false;
+
+        ocrBtn.textContent =
+            "قراءة الصورة";
+
+    }
 
 }
 
@@ -1433,22 +2078,29 @@ async function runOCR(file) {
 function extractBankakData(rawText) {
 
     const text =
-        cleanText(rawText);
+        cleanText(
+            rawText
+        );
 
 
     const lines =
         text
             .split("\n")
-            .map(function(line) {
+            .map(
+                function(line) {
 
-                return line.trim();
+                    return line.trim();
 
-            })
-            .filter(function(line) {
+                }
+            )
+            .filter(
+                function(line) {
 
-                return line.length > 0;
+                    return line.length >
+                        0;
 
-            });
+                }
+            );
 
 
     // ======================================================
@@ -1473,17 +2125,22 @@ function extractBankakData(rawText) {
 
         for (
             let i = 0;
-            i < accountMatches.length;
+            i <
+            accountMatches.length;
             i++
         ) {
 
             const candidate =
                 accountMatches[i]
-                    .replace(/\D/g, "");
+                    .replace(
+                        /\D/g,
+                        ""
+                    );
 
 
             if (
-                candidate.length === 16
+                candidate.length ===
+                16
             ) {
 
                 account =
@@ -1506,8 +2163,10 @@ function extractBankakData(rawText) {
             );
 
 
-        if (allDigits &&
-            allDigits.length > 0) {
+        if (
+            allDigits &&
+            allDigits.length > 0
+        ) {
 
             account =
                 allDigits[0];
@@ -1526,7 +2185,9 @@ function extractBankakData(rawText) {
 
 
     const normalizedText =
-        normalizeArabic(text);
+        normalizeArabic(
+            text
+        );
 
 
     if (
@@ -1577,7 +2238,9 @@ function extractBankakData(rawText) {
             );
 
 
-        if (typeIndex !== -1) {
+        if (
+            typeIndex !== -1
+        ) {
 
             type =
                 cleanFieldAfterLabel(
@@ -1589,12 +2252,16 @@ function extractBankakData(rawText) {
                 );
 
 
-            if (!type &&
-                lines[typeIndex + 1]) {
+            if (
+                !type &&
+                lines[typeIndex + 1]
+            ) {
 
                 type =
                     cleanValue(
-                        lines[typeIndex + 1]
+                        lines[
+                            typeIndex + 1
+                        ]
                     );
 
             }
@@ -1622,7 +2289,9 @@ function extractBankakData(rawText) {
         );
 
 
-    if (branchIndex !== -1) {
+    if (
+        branchIndex !== -1
+    ) {
 
         branch =
             cleanFieldAfterLabel(
@@ -1634,12 +2303,16 @@ function extractBankakData(rawText) {
             );
 
 
-        if (!branch &&
-            lines[branchIndex + 1]) {
+        if (
+            !branch &&
+            lines[branchIndex + 1]
+        ) {
 
             branch =
                 cleanValue(
-                    lines[branchIndex + 1]
+                    lines[
+                        branchIndex + 1
+                    ]
                 );
 
         }
@@ -1647,7 +2320,10 @@ function extractBankakData(rawText) {
     }
 
 
+    // ======================================================
     // محاولة ثانية للفرع
+    // ======================================================
+
     if (!branch) {
 
         for (
@@ -1663,15 +2339,27 @@ function extractBankakData(rawText) {
 
 
             if (
-                line.includes("الخرطوم") ||
-                line.includes("امدرمان") ||
-                line.includes("بحري") ||
-                line.includes("عطبره") ||
-                line.includes("المئوي")
+                line.includes(
+                    "الخرطوم"
+                ) ||
+                line.includes(
+                    "امدرمان"
+                ) ||
+                line.includes(
+                    "بحري"
+                ) ||
+                line.includes(
+                    "عطبره"
+                ) ||
+                line.includes(
+                    "المئوي"
+                )
             ) {
 
                 if (
-                    !line.includes("اسم")
+                    !line.includes(
+                        "اسم"
+                    )
                 ) {
 
                     branch =
@@ -1710,7 +2398,9 @@ function extractBankakData(rawText) {
         );
 
 
-    if (nameIndex !== -1) {
+    if (
+        nameIndex !== -1
+    ) {
 
         name =
             cleanFieldAfterLabel(
@@ -1724,12 +2414,16 @@ function extractBankakData(rawText) {
             );
 
 
-        if (!name &&
-            lines[nameIndex + 1]) {
+        if (
+            !name &&
+            lines[nameIndex + 1]
+        ) {
 
             name =
                 cleanValue(
-                    lines[nameIndex + 1]
+                    lines[
+                        nameIndex + 1
+                    ]
                 );
 
         }
@@ -1743,7 +2437,8 @@ function extractBankakData(rawText) {
 
     if (!name) {
 
-        const possibleNames = [];
+        const possibleNames =
+            [];
 
 
         for (
@@ -1762,18 +2457,36 @@ function extractBankakData(rawText) {
 
 
             const normalized =
-                normalizeArabic(line);
+                normalizeArabic(
+                    line
+                );
 
 
             if (
-                normalized.includes("رقم") ||
-                normalized.includes("حساب") ||
-                normalized.includes("فرع") ||
-                normalized.includes("نوع") ||
-                normalized.includes("توفير") ||
-                normalized.includes("جاري") ||
-                normalized.includes("بنك") ||
-                normalized.includes("bank")
+                normalized.includes(
+                    "رقم"
+                ) ||
+                normalized.includes(
+                    "حساب"
+                ) ||
+                normalized.includes(
+                    "فرع"
+                ) ||
+                normalized.includes(
+                    "نوع"
+                ) ||
+                normalized.includes(
+                    "توفير"
+                ) ||
+                normalized.includes(
+                    "جاري"
+                ) ||
+                normalized.includes(
+                    "بنك"
+                ) ||
+                normalized.includes(
+                    "bank"
+                )
             ) {
 
                 continue;
@@ -1816,12 +2529,16 @@ function extractBankakData(rawText) {
         ) {
 
             name =
-                possibleNames
-                    .sort(
-                        function(a, b) {
-                            return b.length - a.length;
-                        }
-                    )[0];
+                possibleNames.sort(
+                    function(a, b) {
+
+                        return (
+                            b.length -
+                            a.length
+                        );
+
+                    }
+                )[0];
 
         }
 
@@ -1834,13 +2551,19 @@ function extractBankakData(rawText) {
             account,
 
         name:
-            cleanValue(name),
+            cleanValue(
+                name
+            ),
 
         accountType:
-            cleanValue(type),
+            cleanValue(
+                type
+            ),
 
         branch:
-            cleanValue(branch)
+            cleanValue(
+                branch
+            )
 
     };
 
@@ -1881,7 +2604,9 @@ function findLabelIndex(
 
 
             if (
-                normalized.includes(label)
+                normalized.includes(
+                    label
+                )
             ) {
 
                 return i;
@@ -1925,7 +2650,9 @@ function cleanFieldAfterLabel(
             value.replace(
                 new RegExp(
                     "^.*?" +
-                    escapeRegExp(label) +
+                    escapeRegExp(
+                        label
+                    ) +
                     "\\s*[:：-]?\\s*",
                     "i"
                 ),
@@ -1935,7 +2662,9 @@ function cleanFieldAfterLabel(
     }
 
 
-    return cleanValue(value);
+    return cleanValue(
+        value
+    );
 
 }
 
@@ -1983,7 +2712,7 @@ function escapeRegExp(value) {
 
 
 // ==========================================================
-// Cleanup worker when leaving
+// Cleanup Worker
 // ==========================================================
 
 window.addEventListener(
@@ -1998,7 +2727,9 @@ window.addEventListener(
 
             } catch (error) {
 
-                console.log(error);
+                console.log(
+                    error
+                );
 
             }
 
