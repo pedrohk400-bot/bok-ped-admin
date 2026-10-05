@@ -60,19 +60,25 @@ const firebaseConfig = {
 // ==========================================================
 
 const app =
-    initializeApp(firebaseConfig);
+    initializeApp(
+        firebaseConfig
+    );
 
 
 const auth =
-    getAuth(app);
+    getAuth(
+        app
+    );
 
 
 const db =
-    getDatabase(app);
+    getDatabase(
+        app
+    );
 
 
 // ==========================================================
-// ADMIN UID
+// ADMIN
 // ==========================================================
 
 const ADMIN_UID =
@@ -84,59 +90,87 @@ const ADMIN_UID =
 // ==========================================================
 
 const loginPage =
-    document.getElementById("loginPage");
+    document.getElementById(
+        "loginPage"
+    );
 
 
 const adminPage =
-    document.getElementById("adminPage");
+    document.getElementById(
+        "adminPage"
+    );
 
 
 const email =
-    document.getElementById("email");
+    document.getElementById(
+        "email"
+    );
 
 
 const password =
-    document.getElementById("password");
+    document.getElementById(
+        "password"
+    );
 
 
 const loginBtn =
-    document.getElementById("loginBtn");
+    document.getElementById(
+        "loginBtn"
+    );
 
 
 const loginError =
-    document.getElementById("loginError");
+    document.getElementById(
+        "loginError"
+    );
 
 
 const logoutBtn =
-    document.getElementById("logoutBtn");
+    document.getElementById(
+        "logoutBtn"
+    );
 
 
 const requestsList =
-    document.getElementById("requestsList");
+    document.getElementById(
+        "requestsList"
+    );
 
 
 const loading =
-    document.getElementById("loading");
+    document.getElementById(
+        "loading"
+    );
 
 
 const empty =
-    document.getElementById("empty");
+    document.getElementById(
+        "empty"
+    );
 
 
 const searchInput =
-    document.getElementById("searchInput");
+    document.getElementById(
+        "searchInput"
+    );
 
 
 const totalCount =
-    document.getElementById("totalCount");
+    document.getElementById(
+        "totalCount"
+    );
 
 
 const pendingCount =
-    document.getElementById("pendingCount");
+    document.getElementById(
+        "pendingCount"
+    );
 
 
 const completedCount =
-    document.getElementById("completedCount");
+    document.getElementById(
+        "completedCount"
+    );
 
 
 // ==========================================================
@@ -144,43 +178,63 @@ const completedCount =
 // ==========================================================
 
 const editModal =
-    document.getElementById("editModal");
+    document.getElementById(
+        "editModal"
+    );
 
 
 const closeModal =
-    document.getElementById("closeModal");
+    document.getElementById(
+        "closeModal"
+    );
 
 
 const modalAccount =
-    document.getElementById("modalAccount");
+    document.getElementById(
+        "modalAccount"
+    );
 
 
 const accountNumber16 =
-    document.getElementById("accountNumber16");
+    document.getElementById(
+        "accountNumber16"
+    );
 
 
 const accountName =
-    document.getElementById("accountName");
+    document.getElementById(
+        "accountName"
+    );
 
 
 const accountBranch =
-    document.getElementById("accountBranch");
+    document.getElementById(
+        "accountBranch"
+    );
 
 
 const accountType =
-    document.getElementById("accountType");
+    document.getElementById(
+        "accountType"
+    );
 
 
 const saveBtn =
-    document.getElementById("saveBtn");
+    document.getElementById(
+        "saveBtn"
+    );
 
 
 const saveError =
-    document.getElementById("saveError");
+    document.getElementById(
+        "saveError"
+    );
 
 
 const toast =
-    document.getElementById("toast");
+    document.getElementById(
+        "toast"
+    );
 
 
 // ==========================================================
@@ -188,19 +242,51 @@ const toast =
 // ==========================================================
 
 const ocrImage =
-    document.getElementById("ocrImage");
+    document.getElementById(
+        "ocrImage"
+    );
 
 
 const ocrBtn =
-    document.getElementById("ocrBtn");
+    document.getElementById(
+        "ocrBtn"
+    );
 
 
 const ocrPreview =
-    document.getElementById("ocrPreview");
+    document.getElementById(
+        "ocrPreview"
+    );
 
 
 const ocrStatus =
-    document.getElementById("ocrStatus");
+    document.getElementById(
+        "ocrStatus"
+    );
+
+
+const cropContainer =
+    document.getElementById(
+        "cropContainer"
+    );
+
+
+const cropCanvas =
+    document.getElementById(
+        "cropCanvas"
+    );
+
+
+const cropSelection =
+    document.getElementById(
+        "cropSelection"
+    );
+
+
+const cropBtn =
+    document.getElementById(
+        "cropBtn"
+    );
 
 
 // ==========================================================
@@ -220,7 +306,7 @@ let selectedRequestId =
 
 
 // ==========================================================
-// OCR WORKER
+// OCR STATE
 // ==========================================================
 
 let ocrWorker =
@@ -231,6 +317,50 @@ let ocrReady =
     false;
 
 
+let selectedImage =
+    null;
+
+
+let imageNaturalWidth =
+    0;
+
+
+let imageNaturalHeight =
+    0;
+
+
+let displayWidth =
+    0;
+
+
+let displayHeight =
+    0;
+
+
+// ==========================================================
+// CROP STATE
+// ==========================================================
+
+let cropStartX =
+    0;
+
+
+let cropStartY =
+    0;
+
+
+let cropEndX =
+    0;
+
+
+let cropEndY =
+    0;
+
+
+let isSelecting =
+    false;
+
+
 // ==========================================================
 // LOGIN
 // ==========================================================
@@ -238,6 +368,7 @@ let ocrReady =
 loginBtn.addEventListener(
     "click",
     async function () {
+
 
         loginError.textContent =
             "";
@@ -256,8 +387,10 @@ loginBtn.addEventListener(
             !userPassword
         ) {
 
+
             loginError.textContent =
                 "أدخل البريد الإلكتروني وكلمة المرور.";
+
 
             return;
 
@@ -274,15 +407,15 @@ loginBtn.addEventListener(
 
         try {
 
+
             await signInWithEmailAndPassword(
                 auth,
                 userEmail,
                 userPassword
             );
 
-        } catch (error) {
 
-            console.error(error);
+        } catch (error) {
 
 
             loginError.textContent =
@@ -303,16 +436,19 @@ loginBtn.addEventListener(
 
 
 // ==========================================================
-// ENTER LOGIN
+// ENTER
 // ==========================================================
 
 password.addEventListener(
     "keydown",
     function (event) {
 
+
         if (
-            event.key === "Enter"
+            event.key ===
+            "Enter"
         ) {
+
 
             loginBtn.click();
 
@@ -332,6 +468,7 @@ onAuthStateChanged(
 
 
         if (!user) {
+
 
             currentUser =
                 null;
@@ -355,7 +492,10 @@ onAuthStateChanged(
             ADMIN_UID
         ) {
 
-            signOut(auth);
+
+            signOut(
+                auth
+            );
 
 
             loginError.textContent =
@@ -383,9 +523,10 @@ onAuthStateChanged(
 
 
         /*
-         * نجهز OCR في الخلفية
-         * حتى لا ينتظر المستخدم عند أول صورة.
+         * تشغيل OCR مبكراً
+         * حتى يكون جاهزاً عند اختيار الصورة.
          */
+
         prepareOCR();
 
     }
@@ -400,14 +541,17 @@ logoutBtn.addEventListener(
     "click",
     async function () {
 
-        await signOut(auth);
+
+        await signOut(
+            auth
+        );
 
     }
 );
 
 
 // ==========================================================
-// LOAD REQUESTS
+// REQUESTS
 // ==========================================================
 
 function loadRequests() {
@@ -415,10 +559,6 @@ function loadRequests() {
 
     loading.style.display =
         "block";
-
-
-    empty.style.display =
-        "none";
 
 
     const requestsRef =
@@ -433,12 +573,9 @@ function loadRequests() {
         function (snapshot) {
 
 
-            const data =
-                snapshot.val();
-
-
             requests =
-                data || {};
+                snapshot.val() ||
+                {};
 
 
             loading.style.display =
@@ -448,20 +585,11 @@ function loadRequests() {
             renderRequests();
 
         },
-
-
-        function (error) {
-
-
-            console.error(error);
+        function () {
 
 
             loading.style.display =
                 "none";
-
-
-            requestsList.innerHTML =
-                "";
 
 
             empty.style.display =
@@ -478,7 +606,7 @@ function loadRequests() {
 
 
 // ==========================================================
-// RENDER
+// RENDER REQUESTS
 // ==========================================================
 
 function renderRequests() {
@@ -572,8 +700,10 @@ function renderRequests() {
         filtered.length === 0
     ) {
 
+
         empty.style.display =
             "block";
+
 
         return;
 
@@ -598,48 +728,23 @@ function renderRequests() {
                 "request-card";
 
 
-            const account =
-                item.accountNumber ||
-                "-";
-
-
-            const account16 =
-                item.accountNumber16 ||
-                "-";
-
-
-            const name =
-                item.name ||
-                "-";
-
-
-            const branch =
-                item.branch ||
-                "-";
-
-
-            const type =
-                item.accountType ||
-                "-";
-
-
-            const status =
-                item.status ===
-                "completed"
-                    ? "مكتملة"
-                    : "قيد الانتظار";
-
-
             card.innerHTML = `
 
                 <div class="request-header">
 
                     <strong>
-                        حساب ${escapeHTML(account)}
+                        حساب ${escapeHTML(
+                            item.accountNumber || "-"
+                        )}
                     </strong>
 
                     <span class="status">
-                        ${escapeHTML(status)}
+                        ${
+                            item.status ===
+                            "completed"
+                                ? "مكتملة"
+                                : "قيد الانتظار"
+                        }
                     </span>
 
                 </div>
@@ -652,7 +757,9 @@ function renderRequests() {
                     </span>
 
                     <b>
-                        ${escapeHTML(account16)}
+                        ${escapeHTML(
+                            item.accountNumber16 || "-"
+                        )}
                     </b>
 
                 </div>
@@ -665,7 +772,9 @@ function renderRequests() {
                     </span>
 
                     <b>
-                        ${escapeHTML(name)}
+                        ${escapeHTML(
+                            item.name || "-"
+                        )}
                     </b>
 
                 </div>
@@ -678,7 +787,9 @@ function renderRequests() {
                     </span>
 
                     <b>
-                        ${escapeHTML(branch)}
+                        ${escapeHTML(
+                            item.branch || "-"
+                        )}
                     </b>
 
                 </div>
@@ -691,7 +802,9 @@ function renderRequests() {
                     </span>
 
                     <b>
-                        ${escapeHTML(type)}
+                        ${escapeHTML(
+                            item.accountType || "-"
+                        )}
                     </b>
 
                 </div>
@@ -699,8 +812,7 @@ function renderRequests() {
 
                 <button
                     class="edit-btn"
-                    type="button"
-                    data-id="${escapeHTML(id)}">
+                    type="button">
 
                     إكمال / تعديل
 
@@ -709,20 +821,20 @@ function renderRequests() {
             `;
 
 
-            const editButton =
-                card.querySelector(
+            card
+                .querySelector(
                     ".edit-btn"
+                )
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        openEdit(
+                            id
+                        );
+
+                    }
                 );
-
-
-            editButton.addEventListener(
-                "click",
-                function () {
-
-                    openEdit(id);
-
-                }
-            );
 
 
             requestsList.appendChild(
@@ -741,11 +853,7 @@ function renderRequests() {
 
 searchInput.addEventListener(
     "input",
-    function () {
-
-        renderRequests();
-
-    }
+    renderRequests
 );
 
 
@@ -753,7 +861,9 @@ searchInput.addEventListener(
 // OPEN EDIT
 // ==========================================================
 
-function openEdit(id) {
+function openEdit(
+    id
+) {
 
 
     const item =
@@ -807,12 +917,16 @@ function openEdit(id) {
         "";
 
 
-    ocrPreview.style.display =
+    cropContainer.style.display =
         "none";
 
 
-    ocrPreview.src =
-        "";
+    cropBtn.style.display =
+        "none";
+
+
+    ocrPreview.style.display =
+        "none";
 
 
     ocrImage.value =
@@ -846,14 +960,15 @@ function closeEdit() {
         null;
 
 
-    saveError.textContent =
-        "";
+    selectedImage =
+        null;
+
 
 }
 
 
 // ==========================================================
-// OUTSIDE MODAL
+// MODAL OUTSIDE
 // ==========================================================
 
 editModal.addEventListener(
@@ -875,7 +990,7 @@ editModal.addEventListener(
 
 
 // ==========================================================
-// OCR - GALLERY
+// GALLERY ONLY
 // ==========================================================
 
 ocrBtn.addEventListener(
@@ -884,11 +999,8 @@ ocrBtn.addEventListener(
 
 
         /*
-         * لا توجد:
-         *
-         * capture="camera"
-         *
-         * لذلك يفتح اختيار الصور.
+         * لا يوجد capture.
+         * هذا يجعل الاختيار من الصور.
          */
 
         ocrImage.click();
@@ -918,34 +1030,749 @@ ocrImage.addEventListener(
         }
 
 
-        // ==============================================
-        // PREVIEW
-        // ==============================================
-
-        const previewURL =
-            URL.createObjectURL(
-                file
-            );
+        selectedImage =
+            file;
 
 
-        ocrPreview.src =
-            previewURL;
+        ocrStatus.textContent =
+            "حدد المنطقة التي تحتوي على بيانات الحساب.";
 
 
-        ocrPreview.style.display =
-            "block";
-
-
-        // ==============================================
-        // OCR
-        // ==============================================
-
-        await fastOCR(
+        await showCropEditor(
             file
         );
 
     }
 );
+
+
+// ==========================================================
+// SHOW CROP EDITOR
+// ==========================================================
+
+function showCropEditor(
+    file
+) {
+
+
+    return new Promise(
+        function (resolve, reject) {
+
+
+            const img =
+                new Image();
+
+
+            img.onload =
+                function () {
+
+
+                    imageNaturalWidth =
+                        img.naturalWidth;
+
+
+                    imageNaturalHeight =
+                        img.naturalHeight;
+
+
+                    /*
+                     * حجم العرض مناسب للهاتف.
+                     */
+
+                    const maxWidth =
+                        Math.min(
+                            window.innerWidth - 40,
+                            900
+                        );
+
+
+                    const ratio =
+                        maxWidth /
+                        imageNaturalWidth;
+
+
+                    displayWidth =
+                        maxWidth;
+
+
+                    displayHeight =
+                        Math.round(
+                            imageNaturalHeight *
+                            ratio
+                        );
+
+
+                    cropCanvas.width =
+                        displayWidth;
+
+
+                    cropCanvas.height =
+                        displayHeight;
+
+
+                    const ctx =
+                        cropCanvas.getContext(
+                            "2d"
+                        );
+
+
+                    ctx.drawImage(
+                        img,
+                        0,
+                        0,
+                        displayWidth,
+                        displayHeight
+                    );
+
+
+                    cropContainer.style.display =
+                        "block";
+
+
+                    cropBtn.style.display =
+                        "block";
+
+
+                    /*
+                     * مربع البداية
+                     */
+
+                    cropStartX =
+                        displayWidth *
+                        0.05;
+
+
+                    cropStartY =
+                        displayHeight *
+                        0.20;
+
+
+                    cropEndX =
+                        displayWidth *
+                        0.95;
+
+
+                    cropEndY =
+                        displayHeight *
+                        0.80;
+
+
+                    updateCropSelection();
+
+
+                    resolve();
+
+                };
+
+
+            img.onerror =
+                function () {
+
+                    reject(
+                        new Error(
+                            "تعذر فتح الصورة"
+                        )
+                    );
+
+                };
+
+
+            img.src =
+                URL.createObjectURL(
+                    file
+                );
+
+        }
+    );
+
+}
+
+
+// ==========================================================
+// POINTER DOWN
+// ==========================================================
+
+cropCanvas.addEventListener(
+    "pointerdown",
+    function (event) {
+
+
+        isSelecting =
+            true;
+
+
+        const rect =
+            cropCanvas.getBoundingClientRect();
+
+
+        cropStartX =
+            event.clientX -
+            rect.left;
+
+
+        cropStartY =
+            event.clientY -
+            rect.top;
+
+
+        cropEndX =
+            cropStartX;
+
+
+        cropEndY =
+            cropStartY;
+
+
+        cropCanvas.setPointerCapture(
+            event.pointerId
+        );
+
+
+        updateCropSelection();
+
+    }
+);
+
+
+// ==========================================================
+// POINTER MOVE
+// ==========================================================
+
+cropCanvas.addEventListener(
+    "pointermove",
+    function (event) {
+
+
+        if (
+            !isSelecting
+        ) {
+
+            return;
+
+        }
+
+
+        const rect =
+            cropCanvas.getBoundingClientRect();
+
+
+        cropEndX =
+            event.clientX -
+            rect.left;
+
+
+        cropEndY =
+            event.clientY -
+            rect.top;
+
+
+        cropEndX =
+            Math.max(
+                0,
+                Math.min(
+                    displayWidth,
+                    cropEndX
+                )
+            );
+
+
+        cropEndY =
+            Math.max(
+                0,
+                Math.min(
+                    displayHeight,
+                    cropEndY
+                )
+            );
+
+
+        updateCropSelection();
+
+    }
+);
+
+
+// ==========================================================
+// POINTER UP
+// ==========================================================
+
+cropCanvas.addEventListener(
+    "pointerup",
+    function () {
+
+
+        isSelecting =
+            false;
+
+    }
+);
+
+
+// ==========================================================
+// UPDATE SELECTION
+// ==========================================================
+
+function updateCropSelection() {
+
+
+    const left =
+        Math.min(
+            cropStartX,
+            cropEndX
+        );
+
+
+    const top =
+        Math.min(
+            cropStartY,
+            cropEndY
+        );
+
+
+    const width =
+        Math.abs(
+            cropEndX -
+            cropStartX
+        );
+
+
+    const height =
+        Math.abs(
+            cropEndY -
+            cropStartY
+        );
+
+
+    cropSelection.style.left =
+        left +
+        "px";
+
+
+    cropSelection.style.top =
+        top +
+        "px";
+
+
+    cropSelection.style.width =
+        width +
+        "px";
+
+
+    cropSelection.style.height =
+        height +
+        "px";
+
+}
+
+
+// ==========================================================
+// CROP BUTTON
+// ==========================================================
+
+cropBtn.addEventListener(
+    "click",
+    async function () {
+
+
+        const left =
+            Math.min(
+                cropStartX,
+                cropEndX
+            );
+
+
+        const top =
+            Math.min(
+                cropStartY,
+                cropEndY
+            );
+
+
+        const width =
+            Math.abs(
+                cropEndX -
+                cropStartX
+            );
+
+
+        const height =
+            Math.abs(
+                cropEndY -
+                cropStartY
+            );
+
+
+        if (
+            width < 20 ||
+            height < 20
+        ) {
+
+
+            ocrStatus.textContent =
+                "حدد منطقة أكبر قليلاً.";
+
+
+            return;
+
+        }
+
+
+        cropBtn.disabled =
+            true;
+
+
+        ocrStatus.textContent =
+            "⚡ جاري قص المنطقة...";
+
+
+        try {
+
+
+            const blob =
+                await createCroppedImage(
+                    selectedImage,
+                    left,
+                    top,
+                    width,
+                    height
+                );
+
+
+            const previewURL =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            ocrPreview.src =
+                previewURL;
+
+
+            ocrPreview.style.display =
+                "block";
+
+
+            ocrStatus.textContent =
+                "⚡ جاري استخراج البيانات...";
+
+
+            await runOCR(
+                blob
+            );
+
+
+        } catch (error) {
+
+
+            console.error(
+                error
+            );
+
+
+            ocrStatus.textContent =
+                "تعذر معالجة الصورة.";
+
+        }
+
+
+        cropBtn.disabled =
+            false;
+
+    }
+);
+
+
+// ==========================================================
+// CREATE CROPPED IMAGE
+// ==========================================================
+
+function createCroppedImage(
+    file,
+    left,
+    top,
+    width,
+    height
+) {
+
+
+    return new Promise(
+        function (resolve, reject) {
+
+
+            const img =
+                new Image();
+
+
+            img.onload =
+                function () {
+
+
+                    /*
+                     * تحويل إحداثيات الشاشة
+                     * إلى إحداثيات الصورة الأصلية.
+                     */
+
+                    const scaleX =
+                        imageNaturalWidth /
+                        displayWidth;
+
+
+                    const scaleY =
+                        imageNaturalHeight /
+                        displayHeight;
+
+
+                    const sx =
+                        Math.round(
+                            left *
+                            scaleX
+                        );
+
+
+                    const sy =
+                        Math.round(
+                            top *
+                            scaleY
+                        );
+
+
+                    const sw =
+                        Math.round(
+                            width *
+                            scaleX
+                        );
+
+
+                    const sh =
+                        Math.round(
+                            height *
+                            scaleY
+                        );
+
+
+                    /*
+                     * نترك دقة النص جيدة.
+                     */
+
+                    const maxOCRWidth =
+                        1800;
+
+
+                    let targetWidth =
+                        sw;
+
+
+                    let targetHeight =
+                        sh;
+
+
+                    if (
+                        targetWidth >
+                        maxOCRWidth
+                    ) {
+
+
+                        const ratio =
+                            maxOCRWidth /
+                            targetWidth;
+
+
+                        targetWidth =
+                            Math.round(
+                                targetWidth *
+                                ratio
+                            );
+
+
+                        targetHeight =
+                            Math.round(
+                                targetHeight *
+                                ratio
+                            );
+
+                    }
+
+
+                    const canvas =
+                        document.createElement(
+                            "canvas"
+                        );
+
+
+                    canvas.width =
+                        targetWidth;
+
+
+                    canvas.height =
+                        targetHeight;
+
+
+                    const ctx =
+                        canvas.getContext(
+                            "2d",
+                            {
+                                willReadFrequently:
+                                    true
+                            }
+                        );
+
+
+                    ctx.drawImage(
+                        img,
+                        sx,
+                        sy,
+                        sw,
+                        sh,
+                        0,
+                        0,
+                        targetWidth,
+                        targetHeight
+                    );
+
+
+                    /*
+                     * تحسين النص بسرعة.
+                     */
+
+                    const imageData =
+                        ctx.getImageData(
+                            0,
+                            0,
+                            targetWidth,
+                            targetHeight
+                        );
+
+
+                    const pixels =
+                        imageData.data;
+
+
+                    for (
+                        let i = 0;
+                        i < pixels.length;
+                        i += 4
+                    ) {
+
+
+                        const gray =
+                            (
+                                pixels[i] *
+                                0.299
+                            ) +
+                            (
+                                pixels[i + 1] *
+                                0.587
+                            ) +
+                            (
+                                pixels[i + 2] *
+                                0.114
+                            );
+
+
+                        let value =
+                            (
+                                gray -
+                                128
+                            ) *
+                            1.35 +
+                            128;
+
+
+                        if (
+                            value < 0
+                        ) {
+
+                            value =
+                                0;
+
+                        }
+
+
+                        if (
+                            value > 255
+                        ) {
+
+                            value =
+                                255;
+
+                        }
+
+
+                        pixels[i] =
+                            value;
+
+
+                        pixels[i + 1] =
+                            value;
+
+
+                        pixels[i + 2] =
+                            value;
+
+                    }
+
+
+                    ctx.putImageData(
+                        imageData,
+                        0,
+                        0
+                    );
+
+
+                    canvas.toBlob(
+                        function (blob) {
+
+
+                            if (!blob) {
+
+
+                                reject(
+                                    new Error(
+                                        "فشل القص"
+                                    )
+                                );
+
+
+                                return;
+
+                            }
+
+
+                            resolve(
+                                blob
+                            );
+
+
+                        },
+                        "image/jpeg",
+                        0.85
+                    );
+
+                };
+
+
+            img.onerror =
+                function () {
+
+
+                    reject(
+                        new Error(
+                            "تعذر تحميل الصورة"
+                        )
+                    );
+
+                };
+
+
+            img.src =
+                URL.createObjectURL(
+                    file
+                );
+
+        }
+    );
+
+}
 
 
 // ==========================================================
@@ -969,10 +1796,6 @@ async function prepareOCR() {
         "undefined"
     ) {
 
-        console.error(
-            "Tesseract غير محمل"
-        );
-
         return;
 
     }
@@ -982,71 +1805,39 @@ async function prepareOCR() {
 
 
         /*
-         * إنشاء Worker مرة واحدة.
-         *
-         * بعد ذلك الصور التالية
-         * لا تحتاج تحميل Worker جديد.
+         * Worker واحد فقط.
+         * لا يتم إنشاء Worker لكل صورة.
          */
 
         ocrWorker =
             await Tesseract.createWorker(
                 "ara+eng",
-                1,
-                {
-
-                    logger:
-                        function (message) {
-
-
-                            if (
-                                message.status ===
-                                "loading language"
-                            ) {
-
-                                console.log(
-                                    "تحميل لغة OCR..."
-                                );
-
-                            }
-
-
-                            if (
-                                message.status ===
-                                "initializing api"
-                            ) {
-
-                                console.log(
-                                    "تهيئة OCR..."
-                                );
-
-                            }
-
-                        }
-
-                }
+                1
             );
+
+
+        /*
+         * قراءة كتلة نصية سريعة.
+         */
+
+        await ocrWorker.setParameters({
+
+            preserve_interword_spaces:
+                "1"
+
+        });
 
 
         ocrReady =
             true;
 
 
-        console.log(
-            "OCR جاهز"
-        );
-
-
     } catch (error) {
 
 
         console.error(
-            "OCR INIT ERROR:",
             error
         );
-
-
-        ocrWorker =
-            null;
 
 
         ocrReady =
@@ -1058,43 +1849,24 @@ async function prepareOCR() {
 
 
 // ==========================================================
-// FAST OCR
+// RUN OCR
 // ==========================================================
 
-async function fastOCR(file) {
-
-
-    ocrBtn.disabled =
-        true;
-
-
-    ocrStatus.textContent =
-        "⚡ تجهيز الصورة...";
+async function runOCR(
+    blob
+) {
 
 
     try {
 
 
-        // ==============================================
-        // تجهيز سريع
-        // ==============================================
-
-        const processed =
-            await prepareFastImage(
-                file
-            );
-
-
-        // ==============================================
-        // تأكد من OCR
-        // ==============================================
-
         if (
             !ocrReady
         ) {
 
+
             ocrStatus.textContent =
-                "⚡ تشغيل محرك القراءة...";
+                "⚡ تجهيز محرك القراءة...";
 
 
             await prepareOCR();
@@ -1106,24 +1878,25 @@ async function fastOCR(file) {
             !ocrWorker
         ) {
 
+
             throw new Error(
-                "OCR Worker غير جاهز"
+                "OCR غير جاهز"
             );
 
         }
 
 
         ocrStatus.textContent =
-            "⚡ قراءة بيانات الحساب...";
+            "⚡ قراءة البيانات...";
 
 
-        // ==============================================
-        // OCR
-        // ==============================================
+        /*
+         * OCR فقط للمنطقة التي حددها المستخدم.
+         */
 
         const result =
             await ocrWorker.recognize(
-                processed
+                blob
             );
 
 
@@ -1132,151 +1905,137 @@ async function fastOCR(file) {
             "";
 
 
-        console.log(
-            "OCR TEXT:",
-            text
-        );
-
-
-        // ==============================================
-        // استخراج الأربعة فقط
-        // ==============================================
-
-        const data =
+        const fields =
             extractBankakFields(
                 text
             );
 
 
-        // ==============================================
-        // ACCOUNT NUMBER
-        // ==============================================
+        // ==================================================
+        // ACCOUNT
+        // ==================================================
 
         if (
-            data.accountNumber16
+            fields.accountNumber16
         ) {
+
 
             accountNumber16.value =
-                data.accountNumber16;
+                fields.accountNumber16;
 
         }
 
 
-        // ==============================================
+        // ==================================================
         // NAME
-        // ==============================================
+        // ==================================================
 
         if (
-            data.name
+            fields.name
         ) {
+
 
             accountName.value =
-                data.name;
+                fields.name;
 
         }
 
 
-        // ==============================================
-        // BRANCH
-        // ==============================================
-
-        if (
-            data.branch
-        ) {
-
-            accountBranch.value =
-                data.branch;
-
-        }
-
-
-        // ==============================================
+        // ==================================================
         // TYPE
-        // ==============================================
+        // ==================================================
 
         if (
-            data.accountType
+            fields.accountType
         ) {
+
 
             accountType.value =
-                data.accountType;
+                fields.accountType;
 
         }
 
 
-        // ==============================================
-        // COUNT
-        // ==============================================
+        // ==================================================
+        // BRANCH
+        // ==================================================
 
-        let count =
+        if (
+            fields.branch
+        ) {
+
+
+            accountBranch.value =
+                fields.branch;
+
+        }
+
+
+        let found =
             0;
 
 
         if (
-            data.accountNumber16
+            fields.accountNumber16
         ) {
 
-            count++;
+            found++;
 
         }
 
 
         if (
-            data.name
+            fields.name
         ) {
 
-            count++;
+            found++;
 
         }
 
 
         if (
-            data.accountType
+            fields.accountType
         ) {
 
-            count++;
+            found++;
 
         }
 
 
         if (
-            data.branch
+            fields.branch
         ) {
 
-            count++;
+            found++;
 
         }
 
 
-        // ==============================================
-        // RESULT
-        // ==============================================
-
         if (
-            count === 4
+            found === 4
         ) {
 
 
             ocrStatus.textContent =
-                "✓ تم استخراج البيانات الأربعة.";
+                "✓ تم استخراج بيانات الحساب الأربعة.";
 
 
         } else if (
-            count > 0
+            found > 0
         ) {
 
 
             ocrStatus.textContent =
-                "تم استخراج " +
-                count +
-                " من 4 بيانات. راجع البيانات.";
+                "✓ تم استخراج " +
+                found +
+                " من 4 بيانات.";
 
 
         } else {
 
 
             ocrStatus.textContent =
-                "لم يتم العثور على البيانات. جرّب صورة أوضح.";
+                "لم يتم التعرف على البيانات.";
 
         }
 
@@ -1285,353 +2044,20 @@ async function fastOCR(file) {
 
 
         console.error(
-            "OCR ERROR:",
             error
         );
 
 
         ocrStatus.textContent =
-            "تعذر قراءة الصورة.";
+            "حدث خطأ أثناء استخراج البيانات.";
 
     }
 
-
-    ocrBtn.disabled =
-        false;
-
 }
 
 
 // ==========================================================
-// FAST IMAGE PROCESSING
-// ==========================================================
-
-function prepareFastImage(file) {
-
-
-    return new Promise(
-        function (resolve, reject) {
-
-
-            const image =
-                new Image();
-
-
-            image.onload =
-                function () {
-
-
-                    URL.revokeObjectURL(
-                        image.src
-                    );
-
-
-                    // ==========================================
-                    // تصغير الصورة
-                    // ==========================================
-
-                    const MAX_WIDTH =
-                        1400;
-
-
-                    let width =
-                        image.naturalWidth;
-
-
-                    let height =
-                        image.naturalHeight;
-
-
-                    if (
-                        width >
-                        MAX_WIDTH
-                    ) {
-
-
-                        const ratio =
-                            MAX_WIDTH /
-                            width;
-
-
-                        width =
-                            Math.round(
-                                width *
-                                ratio
-                            );
-
-
-                        height =
-                            Math.round(
-                                height *
-                                ratio
-                            );
-
-                    }
-
-
-                    // ==========================================
-                    // Canvas
-                    // ==========================================
-
-                    const canvas =
-                        document.createElement(
-                            "canvas"
-                        );
-
-
-                    canvas.width =
-                        width;
-
-
-                    canvas.height =
-                        height;
-
-
-                    const ctx =
-                        canvas.getContext(
-                            "2d",
-                            {
-                                willReadFrequently:
-                                    true
-                            }
-                        );
-
-
-                    ctx.drawImage(
-                        image,
-                        0,
-                        0,
-                        width,
-                        height
-                    );
-
-
-                    // ==========================================
-                    // الاقتصاص
-                    //
-                    // نركز على منطقة محتوى الحساب.
-                    //
-                    // لا نقص الصورة بشدة حتى لا نفقد
-                    // أحد الحقول في اختلاف أحجام الصور.
-                    // ==========================================
-
-                    const cropTop =
-                        Math.floor(
-                            height * 0.18
-                        );
-
-
-                    const cropBottom =
-                        Math.floor(
-                            height * 0.92
-                        );
-
-
-                    const cropHeight =
-                        cropBottom -
-                        cropTop;
-
-
-                    const cropCanvas =
-                        document.createElement(
-                            "canvas"
-                        );
-
-
-                    cropCanvas.width =
-                        width;
-
-
-                    cropCanvas.height =
-                        cropHeight;
-
-
-                    const cropCtx =
-                        cropCanvas.getContext(
-                            "2d",
-                            {
-                                willReadFrequently:
-                                    true
-                            }
-                        );
-
-
-                    cropCtx.drawImage(
-                        canvas,
-                        0,
-                        cropTop,
-                        width,
-                        cropHeight,
-                        0,
-                        0,
-                        width,
-                        cropHeight
-                    );
-
-
-                    // ==========================================
-                    // تحسين OCR
-                    // ==========================================
-
-                    const imageData =
-                        cropCtx.getImageData(
-                            0,
-                            0,
-                            width,
-                            cropHeight
-                        );
-
-
-                    const data =
-                        imageData.data;
-
-
-                    for (
-                        let i = 0;
-                        i < data.length;
-                        i += 4
-                    ) {
-
-
-                        const r =
-                            data[i];
-
-
-                        const g =
-                            data[i + 1];
-
-
-                        const b =
-                            data[i + 2];
-
-
-                        let gray =
-                            (
-                                r * 0.299 +
-                                g * 0.587 +
-                                b * 0.114
-                            );
-
-
-                        // ======================================
-                        // Contrast
-                        // ======================================
-
-                        gray =
-                            (
-                                gray -
-                                128
-                            ) *
-                            1.45 +
-                            128;
-
-
-                        if (
-                            gray < 0
-                        ) {
-
-                            gray =
-                                0;
-
-                        }
-
-
-                        if (
-                            gray > 255
-                        ) {
-
-                            gray =
-                                255;
-
-                        }
-
-
-                        data[i] =
-                            gray;
-
-
-                        data[i + 1] =
-                            gray;
-
-
-                        data[i + 2] =
-                            gray;
-
-
-                    }
-
-
-                    cropCtx.putImageData(
-                        imageData,
-                        0,
-                        0
-                    );
-
-
-                    // ==========================================
-                    // JPEG سريع
-                    // ==========================================
-
-                    cropCanvas.toBlob(
-                        function (blob) {
-
-
-                            if (!blob) {
-
-
-                                reject(
-                                    new Error(
-                                        "تعذر تجهيز الصورة"
-                                    )
-                                );
-
-
-                                return;
-
-                            }
-
-
-                            resolve(
-                                blob
-                            );
-
-
-                        },
-                        "image/jpeg",
-                        0.78
-                    );
-
-
-                };
-
-
-            image.onerror =
-                function () {
-
-
-                    reject(
-                        new Error(
-                            "تعذر فتح الصورة"
-                        )
-                    );
-
-
-                };
-
-
-            image.src =
-                URL.createObjectURL(
-                    file
-                );
-
-        }
-    );
-
-}
-
-
-// ==========================================================
-// NORMALIZE ARABIC
+// NORMALIZE ARABIC NUMBERS
 // ==========================================================
 
 function normalizeArabicText(
@@ -1683,20 +2109,13 @@ function normalizeArabicText(
     }
 
 
-    value =
-        value.replace(
-            /\u00A0/g,
-            " "
-        );
-
-
     return value;
 
 }
 
 
 // ==========================================================
-// EXTRACT BANKAK FIELDS
+// EXTRACT FIELDS
 // ==========================================================
 
 function extractBankakFields(
@@ -1734,49 +2153,43 @@ function extractBankakFields(
             );
 
 
-    const result = {
-
-        accountNumber16:
-            find16DigitAccount(
-                clean
-            ),
-
-        name:
-            findFieldAfterLabel(
-                lines,
-                [
-                    "الاسم",
-                    "اسم العميل",
-                    "اسم صاحب الحساب"
-                ]
-            ),
-
-        accountType:
-            findAccountType(
-                clean
-            ),
-
-        branch:
-            findFieldAfterLabel(
-                lines,
-                [
-                    "الفرع",
-                    "فرع"
-                ]
-            )
-
-    };
+    let accountNumber16 =
+        find16DigitAccount(
+            clean
+        );
 
 
-    // ==============================================
-    // Fallback Name
-    // ==============================================
+    let accountType =
+        findAccountType(
+            clean
+        );
 
-    if (
-        !result.name
-    ) {
 
-        result.name =
+    let name =
+        findFieldAfterLabel(
+            lines,
+            [
+                "الاسم",
+                "اسم العميل",
+                "اسم صاحب الحساب"
+            ]
+        );
+
+
+    let branch =
+        findFieldAfterLabel(
+            lines,
+            [
+                "الفرع",
+                "فرع"
+            ]
+        );
+
+
+    if (!name) {
+
+
+        name =
             findNameLine(
                 lines
             );
@@ -1784,29 +2197,39 @@ function extractBankakFields(
     }
 
 
-    // ==============================================
-    // تنظيف
-    // ==============================================
-
-    result.name =
+    name =
         cleanName(
-            result.name
+            name
         );
 
 
-    result.branch =
+    branch =
         cleanValue(
-            result.branch
+            branch
         );
 
 
-    return result;
+    return {
+
+        accountNumber16:
+            accountNumber16,
+
+        name:
+            name,
+
+        accountType:
+            accountType,
+
+        branch:
+            branch
+
+    };
 
 }
 
 
 // ==========================================================
-// FIND 16 DIGIT ACCOUNT
+// FIND 16 DIGITS
 // ==========================================================
 
 function find16DigitAccount(
@@ -1814,9 +2237,9 @@ function find16DigitAccount(
 ) {
 
 
-    // ==============================================
-    // رقم متصل
-    // ==============================================
+    /*
+     * أرقام متصلة
+     */
 
     const direct =
         text.match(
@@ -1825,8 +2248,7 @@ function find16DigitAccount(
 
 
     if (
-        direct &&
-        direct.length
+        direct
     ) {
 
 
@@ -1838,8 +2260,10 @@ function find16DigitAccount(
 
 
             if (
-                direct[i].length === 16
+                direct[i].length ===
+                16
             ) {
+
 
                 return direct[i];
 
@@ -1850,33 +2274,30 @@ function find16DigitAccount(
     }
 
 
-    // ==============================================
-    // مجموعات
-    //
-    // 1003 0778 8697 0001
-    // ==============================================
+    /*
+     * أرقام متقطعة
+     */
 
-    const grouped =
+    const groups =
         text.match(
-            /\d(?:[\s-]*\d){15,20}/g
+            /\d(?:[\s-]*\d){15,25}/g
         );
 
 
     if (
-        grouped &&
-        grouped.length
+        groups
     ) {
 
 
         for (
             let i = 0;
-            i < grouped.length;
+            i < groups.length;
             i++
         ) {
 
 
             const number =
-                grouped[i]
+                groups[i]
                     .replace(
                         /[^0-9]/g,
                         ""
@@ -1884,8 +2305,10 @@ function find16DigitAccount(
 
 
             if (
-                number.length === 16
+                number.length ===
+                16
             ) {
+
 
                 return number;
 
@@ -1910,18 +2333,12 @@ function findAccountType(
 ) {
 
 
-    const value =
-        String(
-            text ||
-            ""
-        );
-
-
     if (
-        value.includes(
+        text.includes(
             "توفير مميز"
         )
     ) {
+
 
         return "توفير مميز";
 
@@ -1929,32 +2346,35 @@ function findAccountType(
 
 
     if (
-        value.includes(
+        text.includes(
             "حساب توفير"
         )
     ) {
 
+
         return "حساب توفير";
 
     }
 
 
     if (
-        value.includes(
+        text.includes(
             "توفير"
         )
     ) {
 
+
         return "حساب توفير";
 
     }
 
 
     if (
-        value.includes(
+        text.includes(
             "حساب جاري"
         )
     ) {
+
 
         return "حساب جاري";
 
@@ -1962,10 +2382,11 @@ function findAccountType(
 
 
     if (
-        value.includes(
+        text.includes(
             "جاري"
         )
     ) {
+
 
         return "حساب جاري";
 
@@ -1994,7 +2415,7 @@ function findFieldAfterLabel(
     ) {
 
 
-        const current =
+        const line =
             lines[i];
 
 
@@ -2009,22 +2430,18 @@ function findFieldAfterLabel(
                 labels[j];
 
 
-            // ==========================================
-            // السطر نفسه
-            // الاسم: محمد
-            // ==========================================
-
             if (
-                current.indexOf(
+                line.indexOf(
                     label
-                ) === 0
+                ) !== -1
             ) {
 
 
                 let value =
-                    current
-                        .substring(
-                            label.length
+                    line
+                        .replace(
+                            label,
+                            ""
                         )
                         .replace(
                             /^[\s:：\-]+/,
@@ -2038,18 +2455,16 @@ function findFieldAfterLabel(
                     value !== label
                 ) {
 
+
                     return value;
 
                 }
 
 
-                // ======================================
-                // السطر التالي
-                // ======================================
-
                 if (
                     lines[i + 1]
                 ) {
+
 
                     return lines[i + 1];
 
@@ -2076,17 +2491,6 @@ function findNameLine(
 ) {
 
 
-    const labels = [
-
-        "الاسم",
-
-        "اسم العميل",
-
-        "اسم صاحب الحساب"
-
-    ];
-
-
     for (
         let i = 0;
         i < lines.length;
@@ -2098,55 +2502,48 @@ function findNameLine(
             lines[i];
 
 
-        for (
-            let j = 0;
-            j < labels.length;
-            j++
+        if (
+            line.includes(
+                "الاسم"
+            )
         ) {
 
 
+            const value =
+                line
+                    .replace(
+                        "الاسم",
+                        ""
+                    )
+                    .replace(
+                        /^[\s:：\-]+/,
+                        ""
+                    )
+                    .trim();
+
+
             if (
-                line.includes(
-                    labels[j]
+                value &&
+                !containsNumber(
+                    value
                 )
             ) {
 
 
-                let value =
-                    line
-                        .replace(
-                            labels[j],
-                            ""
-                        )
-                        .replace(
-                            /^[\s:：\-]+/,
-                            ""
-                        )
-                        .trim();
+                return value;
+
+            }
 
 
-                if (
-                    value &&
-                    !containsNumber(
-                        value
-                    )
-                ) {
-
-                    return value;
-
-                }
+            if (
+                lines[i + 1] &&
+                !containsNumber(
+                    lines[i + 1]
+                )
+            ) {
 
 
-                if (
-                    lines[i + 1] &&
-                    !containsNumber(
-                        lines[i + 1]
-                    )
-                ) {
-
-                    return lines[i + 1];
-
-                }
+                return lines[i + 1];
 
             }
 
@@ -2176,33 +2573,24 @@ function cleanName(
     }
 
 
-    let result =
-        String(
-            value
-        );
-
-
-    result =
-        result.replace(
+    return String(
+        value
+    )
+        .replace(
             /^(الاسم|اسم العميل|اسم صاحب الحساب)\s*[:：\-]?\s*/,
             ""
-        );
-
-
-    result =
-        result.replace(
+        )
+        .replace(
             /\s+/g,
             " "
-        );
-
-
-    return result.trim();
+        )
+        .trim();
 
 }
 
 
 // ==========================================================
-// CLEAN VALUE
+// CLEAN
 // ==========================================================
 
 function cleanValue(
@@ -2234,7 +2622,7 @@ function cleanValue(
 
 
 // ==========================================================
-// CONTAINS NUMBER
+// NUMBER CHECK
 // ==========================================================
 
 function containsNumber(
@@ -2336,10 +2724,6 @@ saveBtn.addEventListener(
         const type =
             accountType.value.trim();
 
-
-        // ==============================================
-        // Validation
-        // ==============================================
 
         if (
             !/^\d{16}$/.test(
@@ -2458,7 +2842,7 @@ saveBtn.addEventListener(
 
 
             saveError.textContent =
-                "تعذر حفظ البيانات. حاول مرة أخرى.";
+                "تعذر حفظ البيانات.";
 
         }
 
@@ -2507,7 +2891,7 @@ function showToast(
 
 
 // ==========================================================
-// STOP OCR
+// CLEAN OCR WORKER
 // ==========================================================
 
 window.addEventListener(
@@ -2522,13 +2906,13 @@ window.addEventListener(
 
             try {
 
+
                 await ocrWorker.terminate();
+
 
             } catch (error) {
 
-                console.log(
-                    error
-                );
+                // ignore
 
             }
 
