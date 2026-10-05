@@ -1,30 +1,120 @@
+/* =========================================================
+   BOK PEDRO - MODERN RED GLASS UI
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
-  --green: #0a9550;
-  --green-dark: #087c43;
-  --bg: #f4f7f5;
-  --text: #17211b;
-  --muted: #78837c;
+  --red: #ff1744;
+  --red-light: #ff4569;
+  --red-dark: #b00020;
+  --red-deep: #7f0018;
+
+  --bg: #09090b;
+  --bg2: #12080b;
+
+  --glass: rgba(255, 23, 68, 0.10);
+  --glass-strong: rgba(255, 23, 68, 0.15);
+
   --white: #ffffff;
-  --danger: #d92d20;
-  --border: #e4e9e5;
+  --text: #ffffff;
+  --muted: #b9aeb1;
+
+  --border: rgba(255, 23, 68, 0.55);
+  --border-bright: rgba(255, 23, 68, 0.90);
+
+  --danger: #ff1744;
+
+  --shadow:
+    0 10px 35px rgba(0, 0, 0, 0.45);
+
+  --red-glow:
+    0 0 20px rgba(255, 23, 68, 0.18);
+
+  --red-glow-strong:
+    0 0 25px rgba(255, 23, 68, 0.35);
+}
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
+  min-height: 100vh;
+
+  font-family:
+    'Tajawal',
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Display',
+    'Segoe UI',
+    Arial,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(255, 23, 68, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(176, 0, 32, 0.18),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #050506 0%,
+      #0d0709 50%,
+      #140609 100%
+    );
+
   color: var(--text);
+
+  direction: rtl;
 }
+
+/* =========================================================
+   INPUTS / BUTTONS
+   ========================================================= */
 
 button,
 input,
 select {
   font: inherit;
 }
+
+button {
+  -webkit-appearance: none;
+}
+
+input,
+select {
+  color: var(--white);
+}
+
+input::placeholder {
+  color: #8f8588;
+}
+
+select option {
+  background: #18090d;
+  color: #ffffff;
+}
+
+/* =========================================================
+   GENERAL
+   ========================================================= */
 
 .hidden {
   display: none !important;
@@ -34,41 +124,107 @@ select {
   min-height: 100vh;
 }
 
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
 .login-page {
+  min-height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 20px;
-  background: linear-gradient(145deg, #087c43, #0a9d53);
+
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(255, 23, 68, 0.25),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 20% 90%,
+      rgba(176, 0, 32, 0.18),
+      transparent 35%
+    ),
+    #070708;
 }
+
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
 
 .login-card {
   width: 100%;
-  max-width: 420px;
-  background: rgba(255,255,255,.97);
-  border-radius: 28px;
-  padding: 30px 24px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  max-width: 430px;
+
+  padding: 32px 25px;
+
   text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 23, 68, 0.13),
+      rgba(255, 23, 68, 0.045)
+    );
+
+  border: 1px solid var(--border-bright);
+
+  border-radius: 30px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.60),
+    0 0 35px rgba(255, 23, 68, 0.13);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
+/* =========================================================
+   LOGO
+   ========================================================= */
+
 .logo {
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 14px;
-  border-radius: 24px;
+  width: 82px;
+  height: 82px;
+
+  margin: 0 auto 17px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, var(--green), var(--green-dark));
+
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--red-light),
+      var(--red),
+      var(--red-dark)
+    );
+
   color: white;
+
   font-weight: 800;
   font-size: 22px;
+
+  border: 1px solid rgba(255,255,255,.18);
+
+  box-shadow:
+    0 0 30px rgba(255, 23, 68, 0.35),
+    inset 0 1px 0 rgba(255,255,255,.20);
 }
 
 h1 {
   margin: 0;
-  font-size: 25px;
+
+  font-size: 26px;
+  font-weight: 800;
+
+  letter-spacing: -0.4px;
 }
 
 .muted,
@@ -76,293 +232,1063 @@ h1 {
   color: var(--muted);
 }
 
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
 .login-card input,
 .toolbar input,
 .modal-card input,
 .modal-card select {
+
   width: 100%;
+
   border: 1px solid var(--border);
-  background: #f9fbfa;
-  border-radius: 15px;
-  padding: 14px;
+
+  background:
+    rgba(255, 23, 68, 0.055);
+
+  border-radius: 16px;
+
+  padding: 14px 15px;
+
   margin-top: 12px;
+
   outline: none;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease,
+    transform .2s ease;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .login-card input:focus,
 .toolbar input:focus,
 .modal-card input:focus,
 .modal-card select:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(10,149,80,.10);
+
+  border-color: var(--red);
+
+  background:
+    rgba(255, 23, 68, 0.10);
+
+  box-shadow:
+    0 0 0 3px rgba(255, 23, 68, 0.10),
+    0 0 18px rgba(255, 23, 68, 0.16);
+
+  transform: translateY(-1px);
 }
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
 
 .primary-btn {
+
   width: 100%;
-  border: 0;
-  border-radius: 15px;
+
+  border: 1px solid rgba(255,255,255,.14);
+
+  border-radius: 16px;
+
   padding: 14px;
-  margin-top: 14px;
+
+  margin-top: 15px;
+
   color: white;
-  background: linear-gradient(145deg, var(--green), var(--green-dark));
-  font-weight: 700;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ff4569,
+      #ff1744 55%,
+      #c90029
+    );
+
+  font-weight: 800;
+
   cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(255, 23, 68, 0.28);
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease;
 }
 
+.primary-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 32px rgba(255, 23, 68, 0.38);
+}
+
+.primary-btn:active {
+  transform: scale(.98);
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
 .topbar {
-  background: white;
-  padding: 18px max(18px, calc((100% - 1100px) / 2));
+
+  background:
+    rgba(12, 8, 9, 0.78);
+
+  padding:
+    17px max(18px, calc((100% - 1100px) / 2));
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 15px;
-  border-bottom: 1px solid var(--border);
+
+  border-bottom:
+    1px solid rgba(255, 23, 68, 0.35);
+
   position: sticky;
+
   top: 0;
+
   z-index: 5;
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  box-shadow:
+    0 5px 25px rgba(0,0,0,.25);
 }
 
 .brand {
-  font-size: 21px;
+
+  font-size: 22px;
+
   font-weight: 800;
+
+  color: white;
+
+  letter-spacing: .2px;
 }
 
 .subtitle {
+
   font-size: 13px;
+
   margin-top: 3px;
+
+  color: #b9aeb1;
 }
+
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
 
 .logout-btn {
-  border: 0;
-  background: #fff0ef;
-  color: var(--danger);
-  border-radius: 12px;
-  padding: 10px 14px;
+
+  border:
+    1px solid rgba(255, 23, 68, 0.55);
+
+  background:
+    rgba(255, 23, 68, 0.09);
+
+  color:
+    #ff4569;
+
+  border-radius: 13px;
+
+  padding: 10px 15px;
+
   cursor: pointer;
+
+  transition: .2s ease;
+
+  box-shadow:
+    0 0 15px rgba(255, 23, 68, 0.08);
 }
+
+.logout-btn:hover {
+
+  background:
+    rgba(255, 23, 68, 0.16);
+
+  border-color:
+    var(--red);
+
+  box-shadow:
+    0 0 18px rgba(255, 23, 68, 0.18);
+}
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
 
 .container {
-  width: min(1100px, calc(100% - 28px));
-  margin: 20px auto 40px;
+
+  width:
+    min(1100px, calc(100% - 28px));
+
+  margin:
+    22px auto 45px;
 }
 
+/* =========================================================
+   STATS
+   ========================================================= */
+
 .stats {
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
   gap: 14px;
 }
 
 .stat-card {
-  background: white;
-  border-radius: 20px;
-  padding: 18px;
-  box-shadow: 0 6px 20px rgba(20,40,25,.05);
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 23, 68, 0.14),
+      rgba(255, 23, 68, 0.045)
+    );
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 21px;
+
+  padding: 19px;
+
+  box-shadow:
+    var(--shadow),
+    var(--red-glow);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.stat-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -50px;
+  left: -50px;
+
+  width: 130px;
+  height: 130px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 23, 68, 0.10);
+
+  filter: blur(10px);
+}
+
+.stat-card:hover {
+
+  transform: translateY(-3px);
+
+  border-color:
+    var(--border-bright);
+
+  box-shadow:
+    var(--shadow),
+    var(--red-glow-strong);
 }
 
 .stat-card span {
-  color: var(--muted);
+
+  color:
+    #bcaeb2;
+
   font-size: 13px;
 }
 
 .stat-card strong {
+
   display: block;
+
   margin-top: 7px;
-  font-size: 28px;
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 15px rgba(255, 23, 68, 0.22);
 }
 
+/* =========================================================
+   SEARCH TOOLBAR
+   ========================================================= */
+
 .toolbar {
-  margin: 18px 0;
+  margin: 19px 0;
 }
 
 .toolbar input {
+
   margin-top: 0;
-  background: white;
+
+  background:
+    rgba(255, 23, 68, 0.065);
+
+  border:
+    1px solid rgba(255, 23, 68, 0.50);
+
+  color:
+    white;
 }
+
+/* =========================================================
+   REQUESTS LIST
+   ========================================================= */
 
 .requests-list {
+
   display: grid;
-  gap: 12px;
+
+  gap: 14px;
 }
+
+/* =========================================================
+   REQUEST CARD
+   ========================================================= */
 
 .request-card {
-  background: white;
-  border-radius: 20px;
-  padding: 17px;
-  box-shadow: 0 6px 20px rgba(20,40,25,.05);
-  border: 1px solid #edf0ee;
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 23, 68, 0.135),
+      rgba(255, 23, 68, 0.045)
+    );
+
+  border:
+    1px solid rgba(255, 23, 68, 0.62);
+
+  border-radius: 22px;
+
+  padding: 18px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.38),
+    0 0 22px rgba(255,23,68,.08);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
 }
 
+.request-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  top: -110px;
+  left: -90px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 23, 68, 0.08);
+
+  filter:
+    blur(25px);
+
+  pointer-events: none;
+}
+
+.request-card:hover {
+
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(255, 23, 68, .95);
+
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.48),
+    0 0 28px rgba(255,23,68,.17);
+}
+
+/* =========================================================
+   REQUEST HEADER
+   ========================================================= */
+
 .request-head {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 10px;
 }
 
 .account-number {
+
   font-size: 19px;
+
   font-weight: 800;
+
   direction: ltr;
+
   text-align: right;
+
+  color:
+    #ffffff;
+
+  letter-spacing: .4px;
 }
 
+/* =========================================================
+   STATUS
+   ========================================================= */
+
 .status {
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
+
+  padding:
+    6px 11px;
+
+  border-radius:
+    999px;
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+  border:
+    1px solid transparent;
 }
 
 .status.pending {
-  color: #9a6500;
-  background: #fff5d8;
+
+  color:
+    #ffcc80;
+
+  background:
+    rgba(255, 152, 0, 0.10);
+
+  border-color:
+    rgba(255, 152, 0, 0.30);
 }
 
 .status.completed {
-  color: #087c43;
-  background: #e2f8ec;
+
+  color:
+    #ff7b95;
+
+  background:
+    rgba(255, 23, 68, 0.13);
+
+  border-color:
+    rgba(255, 23, 68, 0.42);
 }
 
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
 .details {
+
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
   gap: 9px;
-  margin-top: 14px;
+
+  margin-top: 15px;
 }
 
 .detail {
-  background: #f7f9f8;
-  border-radius: 12px;
-  padding: 10px;
+
+  background:
+    rgba(255, 23, 68, 0.065);
+
+  border:
+    1px solid rgba(255, 23, 68, 0.22);
+
+  border-radius:
+    14px;
+
+  padding:
+    11px;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.detail:hover {
+
+  background:
+    rgba(255, 23, 68, 0.10);
+
+  border-color:
+    rgba(255, 23, 68, 0.42);
 }
 
 .detail small {
+
   display: block;
-  color: var(--muted);
-  margin-bottom: 3px;
+
+  color:
+    #a99b9f;
+
+  margin-bottom:
+    4px;
+
+  font-size:
+    12px;
 }
+
+.detail {
+
+  color:
+    #ffffff;
+}
+
+/* =========================================================
+   EDIT BUTTON
+   ========================================================= */
 
 .edit-btn {
-  width: 100%;
-  margin-top: 13px;
-  border: 0;
-  border-radius: 13px;
-  padding: 12px;
-  background: #e8f7ef;
-  color: var(--green-dark);
-  font-weight: 700;
-  cursor: pointer;
+
+  width:
+    100%;
+
+  margin-top:
+    14px;
+
+  border:
+    1px solid rgba(255, 23, 68, 0.50);
+
+  border-radius:
+    14px;
+
+  padding:
+    12px;
+
+  background:
+    rgba(255, 23, 68, 0.11);
+
+  color:
+    #ff4569;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    .2s ease;
 }
+
+.edit-btn:hover {
+
+  background:
+    rgba(255, 23, 68, 0.20);
+
+  border-color:
+    var(--red);
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 0 20px rgba(255, 23, 68, 0.15);
+}
+
+.edit-btn:active {
+
+  transform:
+    scale(.98);
+}
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
 
 .message {
-  text-align: center;
-  color: var(--muted);
-  padding: 30px 10px;
+
+  text-align:
+    center;
+
+  color:
+    #a99b9f;
+
+  padding:
+    35px 10px;
 }
+
+/* =========================================================
+   ERROR
+   ========================================================= */
 
 .error {
-  color: var(--danger);
-  font-size: 13px;
-  min-height: 18px;
-  margin: 10px 0 0;
+
+  color:
+    #ff4569;
+
+  font-size:
+    13px;
+
+  min-height:
+    18px;
+
+  margin:
+    10px 0 0;
 }
+
+/* =========================================================
+   MODAL
+   ========================================================= */
 
 .modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.48);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  z-index: 20;
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  background:
+    rgba(0, 0, 0, .72);
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    16px;
+
+  z-index:
+    20;
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
 }
 
+/* =========================================================
+   MODAL CARD
+   ========================================================= */
+
 .modal-card {
-  width: 100%;
-  max-width: 500px;
-  background: white;
-  border-radius: 25px;
-  padding: 24px;
-  position: relative;
-  max-height: 92vh;
-  overflow-y: auto;
+
+  width:
+    100%;
+
+  max-width:
+    500px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(30, 8, 12, .97),
+      rgba(13, 7, 9, .98)
+    );
+
+  border:
+    1px solid rgba(255, 23, 68, .70);
+
+  border-radius:
+    27px;
+
+  padding:
+    25px;
+
+  position:
+    relative;
+
+  max-height:
+    92vh;
+
+  overflow-y:
+    auto;
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.70),
+    0 0 35px rgba(255,23,68,.14);
+
+  backdrop-filter:
+    blur(25px);
+
+  -webkit-backdrop-filter:
+    blur(25px);
 }
 
 .modal-card h2 {
-  margin: 0;
+
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-size:
+    22px;
+
+  font-weight:
+    800;
 }
 
 .modal-account {
-  color: var(--green-dark);
-  font-weight: 800;
-  margin: 7px 0 18px;
+
+  color:
+    #ff4569;
+
+  font-weight:
+    800;
+
+  margin:
+    7px 0 18px;
 }
 
+/* =========================================================
+   MODAL LABELS
+   ========================================================= */
+
 .modal-card label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  margin-top: 12px;
+
+  display:
+    block;
+
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+
+  color:
+    #d7c9cc;
+
+  margin-top:
+    13px;
 }
 
 .modal-card input,
 .modal-card select {
-  margin-top: 7px;
+
+  margin-top:
+    7px;
+
+  background:
+    rgba(255, 23, 68, .065);
+
+  color:
+    #ffffff;
 }
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
 
 .close-btn {
-  position: absolute;
-  left: 16px;
-  top: 12px;
-  border: 0;
-  background: #f1f3f2;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  font-size: 25px;
-  cursor: pointer;
+
+  position:
+    absolute;
+
+  left:
+    16px;
+
+  top:
+    13px;
+
+  border:
+    1px solid rgba(255, 23, 68, .35);
+
+  background:
+    rgba(255, 23, 68, .08);
+
+  color:
+    #ff4569;
+
+  width:
+    36px;
+
+  height:
+    36px;
+
+  border-radius:
+    50%;
+
+  font-size:
+    25px;
+
+  line-height:
+    30px;
+
+  cursor:
+    pointer;
+
+  transition:
+    .2s ease;
 }
 
+.close-btn:hover {
+
+  background:
+    rgba(255, 23, 68, .20);
+
+  border-color:
+    var(--red);
+
+  color:
+    white;
+
+  box-shadow:
+    0 0 16px rgba(255,23,68,.18);
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
 .toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: #17211b;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 13px;
-  opacity: 0;
-  transition: .25s;
-  z-index: 30;
-  max-width: calc(100% - 30px);
-  text-align: center;
+
+  position:
+    fixed;
+
+  bottom:
+    20px;
+
+  left:
+    50%;
+
+  transform:
+    translateX(-50%) translateY(100px);
+
+  background:
+    rgba(25, 7, 11, .94);
+
+  color:
+    white;
+
+  padding:
+    12px 18px;
+
+  border:
+    1px solid rgba(255, 23, 68, .60);
+
+  border-radius:
+    14px;
+
+  opacity:
+    0;
+
+  transition:
+    .25s ease;
+
+  z-index:
+    30;
+
+  max-width:
+    calc(100% - 30px);
+
+  text-align:
+    center;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.45),
+    0 0 18px rgba(255,23,68,.12);
+
+  backdrop-filter:
+    blur(15px);
+
+  -webkit-backdrop-filter:
+    blur(15px);
 }
 
 .toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+
+  opacity:
+    1;
+
+  transform:
+    translateX(-50%) translateY(0);
 }
 
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background:
+    #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+
+  background:
+    linear-gradient(
+      180deg,
+      #ff4569,
+      #b00020
+    );
+
+  border-radius:
+    20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:
+    #ff1744;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media (max-width: 650px) {
+
   .stats {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
   }
 
   .topbar {
-    padding: 15px;
+
+    padding:
+      14px 15px;
+  }
+
+  .brand {
+
+    font-size:
+      19px;
   }
 
   .container {
-    width: min(100% - 20px, 1100px);
+
+    width:
+      min(100% - 20px, 1100px);
   }
 
   .details {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
   }
 
   .request-head {
-    align-items: flex-start;
+
+    align-items:
+      flex-start;
+  }
+
+  .login-card {
+
+    padding:
+      28px 20px;
+
+    border-radius:
+      26px;
+  }
+
+  .modal-card {
+
+    padding:
+      23px 18px;
+
+    border-radius:
+      24px;
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .topbar {
+
+    gap:
+      8px;
+  }
+
+  .brand {
+
+    font-size:
+      17px;
+  }
+
+  .logout-btn {
+
+    padding:
+      9px 11px;
+
+    font-size:
+      12px;
+  }
+
+  .request-card {
+
+    padding:
+      15px;
+  }
+
+  .stat-card {
+
+    padding:
+      16px;
   }
 }
