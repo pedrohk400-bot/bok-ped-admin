@@ -1,129 +1,142 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged,
-signOut
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-getDatabase,
-ref,
-onValue,
-update
+    getDatabase,
+    ref,
+    onValue,
+    update
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+
 // ==========================================================
-// Firebase Configuration
+// FIREBASE CONFIGURATION - BOK PEDRO NEW
 // ==========================================================
 
 const firebaseConfig = {
-apiKey: "AIzaSyDnvmRTgZl1p325V3TmCjIH-PnPfjJPPpk",
-authDomain: "bok-ped.firebaseapp.com",
-databaseURL: "https://bok-ped-default-rtdb.firebaseio.com/",
-projectId: "bok-ped",
-storageBucket: "bok-ped.firebasestorage.app",
-messagingSenderId: "812838230843",
-appId: "1:812838230843:web:f3bd5f59343db42b52b51e",
-measurementId: "G-26SMZR0QCC"
+    apiKey: "AIzaSyCRUpWEIvw927UEIjdl_G7ecdgZ_V-oDpo",
+    authDomain: "bok-pedro-new.firebaseapp.com",
+    databaseURL: "https://bok-pedro-new-default-rtdb.firebaseio.com",
+    projectId: "bok-pedro-new",
+    storageBucket: "bok-pedro-new.firebasestorage.app",
+    messagingSenderId: "79997674431",
+    appId: "1:79997674431:web:92c4b0db8d8d5d3863370a",
+    measurementId: "G-HJ3PYMKG5X"
 };
 
+
 // ==========================================================
-// Admin UID
+// ADMIN
 // ==========================================================
 
 const ADMIN_UID =
-"zuwXPgS4TPYF5GyAYEPEOrsYV0z1";
+    "gL1GGUJ7FWS4zRZmzdaf60qqHMD3";
+
+const ADMIN_EMAIL =
+    "website-reader@bok-ped.com";
+
 
 // ==========================================================
-// Firebase
+// FIREBASE INITIALIZATION
 // ==========================================================
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
 
-const db = getDatabase(app);
+const db =
+    getDatabase(app);
+
 
 // ==========================================================
-// Elements
+// ELEMENTS
 // ==========================================================
 
 const loginPage =
-document.getElementById("loginPage");
+    document.getElementById("loginPage");
 
 const adminPage =
-document.getElementById("adminPage");
+    document.getElementById("adminPage");
 
 const emailInput =
-document.getElementById("email");
+    document.getElementById("email");
 
 const passwordInput =
-document.getElementById("password");
+    document.getElementById("password");
 
 const loginBtn =
-document.getElementById("loginBtn");
+    document.getElementById("loginBtn");
 
 const loginError =
-document.getElementById("loginError");
+    document.getElementById("loginError");
 
 const logoutBtn =
-document.getElementById("logoutBtn");
+    document.getElementById("logoutBtn");
 
 const requestsList =
-document.getElementById("requestsList");
+    document.getElementById("requestsList");
 
 const loading =
-document.getElementById("loading");
+    document.getElementById("loading");
 
 const empty =
-document.getElementById("empty");
+    document.getElementById("empty");
 
 const searchInput =
-document.getElementById("searchInput");
+    document.getElementById("searchInput");
 
 const totalCount =
-document.getElementById("totalCount");
+    document.getElementById("totalCount");
 
 const pendingCount =
-document.getElementById("pendingCount");
+    document.getElementById("pendingCount");
 
 const completedCount =
-document.getElementById("completedCount");
+    document.getElementById("completedCount");
 
 const editModal =
-document.getElementById("editModal");
+    document.getElementById("editModal");
 
 const closeModal =
-document.getElementById("closeModal");
+    document.getElementById("closeModal");
 
 const modalAccount =
-document.getElementById("modalAccount");
+    document.getElementById("modalAccount");
 
 const accountNumber16 =
-document.getElementById("accountNumber16");
+    document.getElementById("accountNumber16");
 
 const accountName =
-document.getElementById("accountName");
+    document.getElementById("accountName");
 
 const accountBranch =
-document.getElementById("accountBranch");
+    document.getElementById("accountBranch");
 
 const accountType =
-document.getElementById("accountType");
+    document.getElementById("accountType");
 
 const saveBtn =
-document.getElementById("saveBtn");
+    document.getElementById("saveBtn");
 
 const saveError =
-document.getElementById("saveError");
+    document.getElementById("saveError");
 
 const toast =
-document.getElementById("toast");
+    document.getElementById("toast");
+
 
 // ==========================================================
-// Variables
+// VARIABLES
 // ==========================================================
 
 let currentUser = null;
@@ -132,865 +145,881 @@ let requests = {};
 
 let selectedRequestId = null;
 
+let requestsListenerStarted = false;
+
+
 // ==========================================================
-// Show Login
+// SHOW LOGIN
 // ==========================================================
 
 function showLogin() {
 
-loginPage.classList.remove("hidden");
+    if (loginPage) {
+        loginPage.classList.remove("hidden");
+    }
 
-adminPage.classList.add("hidden");
+    if (adminPage) {
+        adminPage.classList.add("hidden");
+    }
 
 }
 
+
 // ==========================================================
-// Show Admin
+// SHOW ADMIN
 // ==========================================================
 
 function showAdmin() {
 
-loginPage.classList.add("hidden");
+    if (loginPage) {
+        loginPage.classList.add("hidden");
+    }
 
-adminPage.classList.remove("hidden");
-
-}
-
-// ==========================================================
-// Toast
-// ==========================================================
-
-function showToast(message) {
-
-if (!toast) {
-return;
-}
-
-toast.textContent = message;
-
-toast.classList.add("show");
-
-setTimeout(function () {
-
-toast.classList.remove("show");
-
-}, 2500);
+    if (adminPage) {
+        adminPage.classList.remove("hidden");
+    }
 
 }
 
+
 // ==========================================================
-// Escape HTML
+// TOAST
+// ==========================================================
+
+function showToast(text) {
+
+    if (!toast) {
+        return;
+    }
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    setTimeout(function () {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+
+}
+
+
+// ==========================================================
+// ESCAPE HTML
 // ==========================================================
 
 function escapeHtml(value) {
 
-return String(value ?? "")
-
-.replaceAll("&", "&amp;")  
-
-.replaceAll("<", "&lt;")  
-
-.replaceAll(">", "&gt;")  
-
-.replaceAll('"', "&quot;")  
-
-.replaceAll("'", "&#039;");
+    return String(
+        value == null ? "" : value
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
+
 // ==========================================================
-// Format Date
+// FORMAT DATE
 // ==========================================================
 
 function formatDate(timestamp) {
 
-if (!timestamp) {
+    if (!timestamp) {
+        return "غير متوفر";
+    }
 
-return "غير متوفر";
+    const date = new Date(Number(timestamp));
+
+    if (isNaN(date.getTime())) {
+        return "غير متوفر";
+    }
+
+    try {
+
+        return new Intl.DateTimeFormat(
+            "ar",
+            {
+                dateStyle: "medium",
+                timeStyle: "short"
+            }
+        ).format(date);
+
+    } catch (error) {
+
+        return date.toLocaleString();
+
+    }
 
 }
 
-try {
-
-return new Intl.DateTimeFormat(  
-  "ar",  
-  {  
-    dateStyle: "medium",  
-    timeStyle: "short"  
-  }  
-).format(  
-  new Date(  
-    Number(timestamp)  
-  )  
-);
-
-} catch (error) {
-
-return "غير متوفر";
-
-}
-
-}
 
 // ==========================================================
-// Render Requests
+// RENDER REQUESTS
 // ==========================================================
 
 function renderRequests() {
 
-if (!requestsList) {
-return;
+    if (!requestsList) {
+        return;
+    }
+
+    const search =
+        searchInput
+            ? searchInput.value.trim()
+            : "";
+
+    const items =
+        Object.keys(requests)
+        .map(function (id) {
+
+            const data = requests[id] || {};
+
+            return Object.assign(
+                { id: id },
+                data
+            );
+
+        })
+        .sort(function (a, b) {
+
+            return Number(b.createdAt || 0) -
+                   Number(a.createdAt || 0);
+
+        })
+        .filter(function (item) {
+
+            if (!search) {
+                return true;
+            }
+
+            return String(
+                item.accountNumber || item.id || ""
+            ).includes(search);
+
+        });
+
+
+    // ======================================================
+    // STATISTICS
+    // ======================================================
+
+    const all =
+        Object.values(requests);
+
+    if (totalCount) {
+
+        totalCount.textContent =
+            all.length;
+
+    }
+
+    if (pendingCount) {
+
+        pendingCount.textContent =
+            all.filter(function (item) {
+
+                return item.status !== "completed";
+
+            }).length;
+
+    }
+
+    if (completedCount) {
+
+        completedCount.textContent =
+            all.filter(function (item) {
+
+                return item.status === "completed";
+
+            }).length;
+
+    }
+
+    if (loading) {
+
+        loading.classList.add("hidden");
+
+    }
+
+
+    // ======================================================
+    // EMPTY STATE
+    // ======================================================
+
+    if (!items.length) {
+
+        requestsList.innerHTML = "";
+
+        if (empty) {
+            empty.classList.remove("hidden");
+        }
+
+        return;
+
+    }
+
+    if (empty) {
+
+        empty.classList.add("hidden");
+
+    }
+
+
+    // ======================================================
+    // REQUEST CARDS
+    // ======================================================
+
+    requestsList.innerHTML =
+        items.map(function (item) {
+
+            const completed =
+                item.status === "completed";
+
+            return `
+
+                <div class="request-card">
+
+                    <div class="request-head">
+
+                        <div class="account-number">
+
+                            ${escapeHtml(
+                                item.accountNumber || item.id
+                            )}
+
+                        </div>
+
+                        <span class="status ${
+                            completed
+                                ? "completed"
+                                : "pending"
+                        }">
+
+                            ${
+                                completed
+                                    ? "مكتمل"
+                                    : "قيد الانتظار"
+                            }
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="details">
+
+                        <div class="detail">
+
+                            <small>الرقم البنكي</small>
+
+                            <span>
+                                ${escapeHtml(
+                                    item.accountNumber16 ||
+                                    "لم تتم الإضافة"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <small>الاسم</small>
+
+                            <span>
+                                ${escapeHtml(
+                                    item.name ||
+                                    "لم تتم الإضافة"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <small>الفرع</small>
+
+                            <span>
+                                ${escapeHtml(
+                                    item.branch ||
+                                    "لم تتم الإضافة"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <small>نوع الحساب</small>
+
+                            <span>
+                                ${escapeHtml(
+                                    item.accountType ||
+                                    "لم تتم الإضافة"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <small>تاريخ الطلب</small>
+
+                            <span>
+                                ${escapeHtml(
+                                    formatDate(item.createdAt)
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <small>الحالة</small>
+
+                            <span>
+                                ${
+                                    completed
+                                        ? "تم إكمال البيانات"
+                                        : "بانتظار الإدارة"
+                                }
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        data-id="${escapeHtml(item.id)}">
+
+                        ${
+                            completed
+                                ? "تعديل البيانات"
+                                : "إكمال البيانات"
+                        }
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+    // ======================================================
+    // EDIT BUTTONS
+    // ======================================================
+
+    requestsList
+        .querySelectorAll(".edit-btn")
+        .forEach(function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    openEdit(
+                        button.dataset.id
+                    );
+
+                }
+            );
+
+        });
+
 }
 
-const search =
-searchInput
-? searchInput.value.trim()
-: "";
-
-const items =
-Object.entries(requests)
-
-.map(function (entry) {  
-
-    const id = entry[0];  
-
-    const data = entry[1] || {};  
-
-    return {  
-      id: id,  
-      ...data  
-    };  
-
-  })  
-
-  .sort(function (a, b) {  
-
-    return (  
-      Number(b.createdAt || 0) -  
-      Number(a.createdAt || 0)  
-    );  
-
-  })  
-
-  .filter(function (item) {  
-
-    if (!search) {  
-      return true;  
-    }  
-
-    return String(  
-      item.accountNumber || ""  
-    ).includes(search);  
-
-  });
-
-// ========================================================
-// Statistics
-// ========================================================
-
-if (totalCount) {
-
-totalCount.textContent =  
-  Object.keys(requests).length;
-
-}
-
-const all =
-Object.values(requests);
-
-if (pendingCount) {
-
-pendingCount.textContent =  
-  all.filter(function (item) {  
-
-    return item.status !== "completed";  
-
-  }).length;
-
-}
-
-if (completedCount) {
-
-completedCount.textContent =  
-  all.filter(function (item) {  
-
-    return item.status === "completed";  
-
-  }).length;
-
-}
-
-if (loading) {
-
-loading.classList.add("hidden");
-
-}
-
-// ========================================================
-// Empty
-// ========================================================
-
-if (!items.length) {
-
-requestsList.innerHTML = "";  
-
-if (empty) {  
-
-  empty.classList.remove("hidden");  
-
-}  
-
-return;
-
-}
-
-if (empty) {
-
-empty.classList.add("hidden");
-
-}
-
-// ========================================================
-// Cards
-// ========================================================
-
-requestsList.innerHTML =
-items.map(function (item) {
-
-const completed =  
-    item.status === "completed";  
-
-
-  return `  
-
-    <div class="request-card">  
-
-      <div class="request-head">  
-
-        <div class="account-number">  
-
-          ${escapeHtml(  
-            item.accountNumber || item.id  
-          )}  
-
-        </div>  
-
-        <span class="status ${  
-          completed  
-            ? "completed"  
-            : "pending"  
-        }">  
-
-          ${  
-            completed  
-              ? "مكتمل"  
-              : "قيد الانتظار"  
-          }  
-
-        </span>  
-
-      </div>  
-
-
-      <div class="details">  
-
-        <div class="detail">  
-
-          <small>  
-            الرقم البنكي  
-          </small>  
-
-          <span>  
-
-            ${escapeHtml(  
-              item.accountNumber16 ||  
-              "لم تتم الإضافة"  
-            )}  
-
-          </span>  
-
-        </div>  
-
-
-        <div class="detail">  
-
-          <small>  
-            الاسم  
-          </small>  
-
-          <span>  
-
-            ${escapeHtml(  
-              item.name ||  
-              "لم تتم الإضافة"  
-            )}  
-
-          </span>  
-
-        </div>  
-
-
-        <div class="detail">  
-
-          <small>  
-            الفرع  
-          </small>  
-
-          <span>  
-
-            ${escapeHtml(  
-              item.branch ||  
-              "لم تتم الإضافة"  
-            )}  
-
-          </span>  
-
-        </div>  
-
-
-        <div class="detail">  
-
-          <small>  
-            نوع الحساب  
-          </small>  
-
-          <span>  
-
-            ${escapeHtml(  
-              item.accountType ||  
-              "لم تتم الإضافة"  
-            )}  
-
-          </span>  
-
-        </div>  
-
-
-        <div class="detail">  
-
-          <small>  
-            تاريخ الطلب  
-          </small>  
-
-          <span>  
-
-            ${escapeHtml(  
-              formatDate(  
-                item.createdAt  
-              )  
-            )}  
-
-          </span>  
-
-        </div>  
-
-
-        <div class="detail">  
-
-          <small>  
-            الحالة  
-          </small>  
-
-          <span>  
-
-            ${  
-              completed  
-                ? "تم إكمال البيانات"  
-                : "بانتظار الإدارة"  
-            }  
-
-          </span>  
-
-        </div>  
-
-      </div>  
-
-
-      <button  
-        class="edit-btn"  
-        data-id="${escapeHtml(item.id)}"  
-      >  
-
-        ${  
-          completed  
-            ? "تعديل البيانات"  
-            : "إكمال البيانات"  
-        }  
-
-      </button>  
-
-    </div>  
-
-  `;  
-
-}).join("");
-
-// ========================================================
-// Buttons
-// ========================================================
-
-document
-.querySelectorAll(".edit-btn")
-.forEach(function (button) {
-
-button.addEventListener(  
-    "click",  
-    function () {  
-
-      openEdit(  
-        button.dataset.id  
-      );  
-
-    }  
-  );  
-
-});
-
-}
 
 // ==========================================================
-// Open Edit
+// OPEN EDIT
 // ==========================================================
 
 function openEdit(id) {
 
-const item =
-requests[id];
+    const item =
+        requests[id];
 
-if (!item) {
+    if (!item) {
+        return;
+    }
 
-return;
+    selectedRequestId = id;
 
-}
+    if (modalAccount) {
 
-selectedRequestId =
-id;
+        modalAccount.textContent =
+            "رقم الطلب: " +
+            (item.accountNumber || id);
 
-if (modalAccount) {
+    }
 
-modalAccount.textContent =  
-  "رقم الطلب: " +  
-  (item.accountNumber || id);
+    if (accountNumber16) {
 
-}
+        accountNumber16.value =
+            item.accountNumber16 || "";
 
-if (accountNumber16) {
+    }
 
-accountNumber16.value =  
-  item.accountNumber16 || "";
+    if (accountName) {
 
-}
+        accountName.value =
+            item.name || "";
 
-if (accountName) {
+    }
 
-accountName.value =  
-  item.name || "";
+    if (accountBranch) {
 
-}
+        accountBranch.value =
+            item.branch || "";
 
-if (accountBranch) {
+    }
 
-accountBranch.value =  
-  item.branch || "";
+    if (accountType) {
 
-}
+        accountType.value =
+            item.accountType || "";
 
-if (accountType) {
+    }
 
-accountType.value =  
-  item.accountType || "";
+    if (saveError) {
 
-}
+        saveError.textContent = "";
 
-if (saveError) {
+    }
 
-saveError.textContent = "";
+    if (editModal) {
 
-}
+        editModal.classList.remove("hidden");
 
-if (editModal) {
-
-editModal.classList.remove(  
-  "hidden"  
-);
+    }
 
 }
 
-}
 
 // ==========================================================
-// Close Edit
+// CLOSE EDIT
 // ==========================================================
 
 function closeEdit() {
 
-if (editModal) {
+    if (editModal) {
 
-editModal.classList.add(  
-  "hidden"  
-);
+        editModal.classList.add("hidden");
 
-}
+    }
 
-selectedRequestId =
-null;
+    selectedRequestId = null;
 
 }
+
 
 // ==========================================================
-// Login
+// LOGIN
 // ==========================================================
 
 if (loginBtn) {
 
-loginBtn.addEventListener(
-"click",
-async function () {
+    loginBtn.addEventListener(
+        "click",
+        async function () {
 
-if (loginError) {  
-    loginError.textContent = "";  
-  }  
+            if (loginError) {
+                loginError.textContent = "";
+            }
 
+            const email =
+                emailInput
+                    ? emailInput.value.trim()
+                    : "";
 
-  const email =  
-    emailInput  
-      ? emailInput.value.trim()  
-      : "";  
+            const pass =
+                passwordInput
+                    ? passwordInput.value
+                    : "";
 
+            if (!email || !pass) {
 
-  const password =  
-    passwordInput  
-      ? passwordInput.value  
-      : "";  
+                if (loginError) {
 
+                    loginError.textContent =
+                        "أدخل البريد الإلكتروني وكلمة المرور.";
 
-  if (!email || !password) {  
+                }
 
-    if (loginError) {  
+                return;
 
-      loginError.textContent =  
-        "أدخل البريد الإلكتروني وكلمة المرور.";  
+            }
 
-    }  
+            loginBtn.disabled = true;
 
-    return;  
+            loginBtn.textContent =
+                "جاري الدخول...";
 
-  }  
+            try {
 
+                const result =
+                    await signInWithEmailAndPassword(
+                        auth,
+                        email,
+                        pass
+                    );
 
-  loginBtn.disabled = true;  
+                const user = result.user;
 
-  loginBtn.textContent =  
-    "جاري الدخول...";  
+                if (
+                    user.uid !== ADMIN_UID ||
+                    user.email !== ADMIN_EMAIL
+                ) {
 
+                    await signOut(auth);
 
-  try {  
+                    if (loginError) {
 
-    await signInWithEmailAndPassword(  
-      auth,  
-      email,  
-      password  
-    );  
+                        loginError.textContent =
+                            "هذا الحساب غير مصرح له بالدخول.";
 
-  } catch (error) {  
+                    }
 
-    console.error(  
-      "Login error:",  
-      error  
-    );  
+                }
 
-    if (loginError) {  
+            } catch (error) {
 
-      loginError.textContent =  
-        "فشل تسجيل الدخول. تأكد من البيانات.";  
+                console.error(
+                    "Login error:",
+                    error
+                );
 
-    }  
+                let text =
+                    "فشل تسجيل الدخول. تأكد من البيانات.";
 
-  } finally {  
+                if (
+                    error.code ===
+                    "auth/too-many-requests"
+                ) {
 
-    loginBtn.disabled = false;  
+                    text =
+                        "محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.";
 
-    loginBtn.textContent =  
-      "تسجيل الدخول";  
+                } else if (
+                    error.code ===
+                    "auth/network-request-failed"
+                ) {
 
-  }  
+                    text =
+                        "تحقق من اتصال الإنترنت.";
+
+                } else if (
+                    error.code ===
+                    "auth/operation-not-allowed"
+                ) {
+
+                    text =
+                        "فعّل تسجيل الدخول بالبريد وكلمة المرور في Firebase.";
+
+                } else if (
+                    error.code ===
+                    "auth/invalid-email"
+                ) {
+
+                    text =
+                        "البريد الإلكتروني غير صحيح.";
+
+                } else if (
+                    error.code ===
+                    "auth/invalid-credential" ||
+                    error.code ===
+                    "auth/wrong-password" ||
+                    error.code ===
+                    "auth/user-not-found"
+                ) {
+
+                    text =
+                        "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+                }
+
+                if (loginError) {
+                    loginError.textContent = text;
+                }
+
+            } finally {
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent =
+                    "تسجيل الدخول";
+
+            }
+
+        }
+    );
 
 }
 
-);
-
-}
 
 // ==========================================================
-// Enter Login
+// ENTER TO LOGIN
 // ==========================================================
 
 if (passwordInput) {
 
-passwordInput.addEventListener(
-"keydown",
-function (e) {
+    passwordInput.addEventListener(
+        "keydown",
+        function (event) {
 
-if (e.key === "Enter") {  
+            if (event.key === "Enter" && loginBtn) {
+                loginBtn.click();
+            }
 
-    if (loginBtn) {  
-      loginBtn.click();  
-    }  
-
-  }  
-
-}
-
-);
+        }
+    );
 
 }
 
 if (emailInput) {
 
-emailInput.addEventListener(
-"keydown",
-function (e) {
+    emailInput.addEventListener(
+        "keydown",
+        function (event) {
 
-if (e.key === "Enter") {  
+            if (event.key === "Enter" && loginBtn) {
+                loginBtn.click();
+            }
 
-    if (loginBtn) {  
-      loginBtn.click();  
-    }  
-
-  }  
-
-}
-
-);
+        }
+    );
 
 }
+
 
 // ==========================================================
-// Logout
+// LOGOUT
 // ==========================================================
 
 if (logoutBtn) {
 
-logoutBtn.addEventListener(
-"click",
-async function () {
+    logoutBtn.addEventListener(
+        "click",
+        async function () {
 
-try {  
+            try {
 
-    await signOut(auth);  
+                await signOut(auth);
 
-  } catch (error) {  
+            } catch (error) {
 
-    console.error(  
-      "Logout error:",  
-      error  
-    );  
+                console.error(
+                    "Logout error:",
+                    error
+                );
 
-  }  
+            }
+
+        }
+    );
 
 }
 
-);
-
-}
 
 // ==========================================================
-// Close Modal
+// CLOSE MODAL
 // ==========================================================
 
 if (closeModal) {
 
-closeModal.addEventListener(
-"click",
-closeEdit
-);
+    closeModal.addEventListener(
+        "click",
+        closeEdit
+    );
 
 }
 
 if (editModal) {
 
-editModal.addEventListener(
-"click",
-function (e) {
+    editModal.addEventListener(
+        "click",
+        function (event) {
 
-if (e.target === editModal) {  
+            if (event.target === editModal) {
+                closeEdit();
+            }
 
-    closeEdit();  
-
-  }  
-
-}
-
-);
+        }
+    );
 
 }
+
 
 // ==========================================================
-// Search
+// SEARCH
 // ==========================================================
 
 if (searchInput) {
 
-searchInput.addEventListener(
-"input",
-renderRequests
-);
+    searchInput.addEventListener(
+        "input",
+        renderRequests
+    );
 
 }
 
+
 // ==========================================================
-// Save Request
+// SAVE REQUEST
 // ==========================================================
 
 if (saveBtn) {
 
-saveBtn.addEventListener(
-"click",
-async function () {
+    saveBtn.addEventListener(
+        "click",
+        async function () {
 
-if (saveError) {  
-    saveError.textContent = "";  
-  }  
+            if (saveError) {
+                saveError.textContent = "";
+            }
 
+            if (!selectedRequestId) {
+                return;
+            }
 
-  if (!selectedRequestId) {  
+            const user = auth.currentUser;
 
-    return;  
+            if (
+                !user ||
+                user.uid !== ADMIN_UID ||
+                user.email !== ADMIN_EMAIL
+            ) {
 
-  }  
+                if (saveError) {
 
+                    saveError.textContent =
+                        "انتهت جلسة المدير. سجّل الدخول مجدداً.";
 
-  const number16 =  
-    accountNumber16  
-      ? accountNumber16.value.trim()  
-      : "";  
+                }
 
+                return;
 
-  const name =  
-    accountName  
-      ? accountName.value.trim()  
-      : "";  
+            }
 
+            const number16 =
+                accountNumber16
+                    ? accountNumber16.value.trim()
+                    : "";
 
-  const branch =  
-    accountBranch  
-      ? accountBranch.value.trim()  
-      : "";  
+            const name =
+                accountName
+                    ? accountName.value.trim()
+                    : "";
 
+            const branch =
+                accountBranch
+                    ? accountBranch.value.trim()
+                    : "";
 
-  const type =  
-    accountType  
-      ? accountType.value.trim()  
-      : "";  
-
-
-  if (!/^[0-9]{16}$/.test(number16)) {  
-
-    if (saveError) {  
-
-      saveError.textContent =  
-        "الرقم البنكي يجب أن يكون 16 رقمًا.";  
-
-    }  
-
-    return;  
-
-  }  
+            const type =
+                accountType
+                    ? accountType.value.trim()
+                    : "";
 
 
-  if (!name || !branch || !type) {  
+            if (!/^[0-9]{16}$/.test(number16)) {
 
-    if (saveError) {  
+                if (saveError) {
 
-      saveError.textContent =  
-        "أكمل جميع البيانات.";  
+                    saveError.textContent =
+                        "الرقم البنكي يجب أن يكون 16 رقمًا.";
 
-    }  
+                }
 
-    return;  
+                return;
 
-  }  
+            }
 
+            if (!name || !branch || !type) {
 
-  saveBtn.disabled = true;  
+                if (saveError) {
 
-  saveBtn.textContent =  
-    "جاري الحفظ...";  
+                    saveError.textContent =
+                        "أكمل جميع البيانات.";
 
+                }
 
-  try {  
+                return;
 
-    await update(  
-      ref(  
-        db,  
-        "requests/" +  
-        selectedRequestId  
-      ),  
-      {  
+            }
 
-        accountNumber16:  
-          number16,  
+            saveBtn.disabled = true;
 
-        name:  
-          name,  
+            saveBtn.textContent =
+                "جاري الحفظ...";
 
-        branch:  
-          branch,  
+            try {
 
-        accountType:  
-          type,  
+                await update(
+                    ref(
+                        db,
+                        "requests/" +
+                        selectedRequestId
+                    ),
+                    {
+                        accountNumber16: number16,
+                        name: name,
+                        branch: branch,
+                        accountType: type,
+                        status: "completed",
+                        updatedAt: Date.now(),
+                        updatedBy: user.uid
+                    }
+                );
 
-        status:  
-          "completed",  
+                closeEdit();
 
-        updatedAt:  
-          Date.now(),  
+                showToast(
+                    "تم حفظ بيانات الحساب بنجاح"
+                );
 
-        updatedBy:  
-          currentUser.uid  
+            } catch (error) {
 
-      }  
-    );  
+                console.error(
+                    "Save error:",
+                    error
+                );
 
+                if (saveError) {
 
-    closeEdit();  
+                    saveError.textContent =
+                        "تعذر الحفظ: " +
+                        (error.message || "خطأ غير معروف");
 
+                }
 
-    showToast(  
-      "تم حفظ بيانات الحساب بنجاح"  
-    );  
+            } finally {
 
+                saveBtn.disabled = false;
 
-  } catch (error) {  
+                saveBtn.textContent =
+                    "حفظ البيانات";
 
-    console.error(  
-      "Save error:",  
-      error  
-    );  
+            }
 
-
-    if (saveError) {  
-
-      saveError.textContent =  
-        "تعذر الحفظ: " +  
-        (error.message || "خطأ غير معروف");  
-
-    }  
-
-  } finally {  
-
-    saveBtn.disabled = false;  
-
-    saveBtn.textContent =  
-      "حفظ البيانات";  
-
-  }  
+        }
+    );
 
 }
 
-);
-
-}
 
 // ==========================================================
 // LOAD REQUESTS
@@ -998,173 +1027,109 @@ if (saveError) {
 
 function loadRequests() {
 
-if (loading) {
+    if (requestsListenerStarted) {
+        return;
+    }
 
-loading.classList.remove(  
-  "hidden"  
-);  
+    requestsListenerStarted = true;
 
-loading.textContent =  
-  "جاري تحميل الطلبات...";
+    if (loading) {
 
-}
+        loading.classList.remove("hidden");
 
-console.log(
-"بدء قراءة requests..."
-);
+        loading.textContent =
+            "جاري تحميل الطلبات...";
 
-console.log(
-"Admin UID:",
-currentUser
-? currentUser.uid
-: "لا يوجد"
-);
+    }
 
-const requestsRef =
-ref(
-db,
-"requests"
-);
+    const requestsRef =
+        ref(db, "requests");
 
-onValue(
+    onValue(
+        requestsRef,
 
-requestsRef,  
+        function (snapshot) {
 
-function (snapshot) {  
+            requests =
+                snapshot.val() || {};
 
-  console.log(  
-    "تمت قراءة requests بنجاح."  
-  );  
+            renderRequests();
 
+        },
 
-  console.log(  
-    "Snapshot exists:",  
-    snapshot.exists()  
-  );  
+        function (error) {
 
+            console.error(
+                "Firebase requests error:",
+                error.code,
+                error.message
+            );
 
-  const data =  
-    snapshot.val();  
+            requests = {};
 
+            requestsListenerStarted = false;
 
-  console.log(  
-    "Requests:",  
-    data  
-  );  
+            if (loading) {
 
+                loading.classList.remove("hidden");
 
-  if (data === null) {  
+                loading.textContent =
+                    "تعذر تحميل الطلبات. تحقق من صلاحيات Firebase.";
 
-    requests = {};  
+            }
 
-  } else {  
-
-    requests = data;  
-
-  }  
-
-
-  renderRequests();  
-
-},  
-
-
-function (error) {  
-
-  console.error(  
-    "Firebase requests error:",  
-    error.code,  
-    error.message  
-  );  
-
-
-  requests = {};  
-
-
-  if (loading) {  
-
-    loading.classList.remove(  
-      "hidden"  
-    );  
-
-    loading.textContent =  
-      "تعذر تحميل الطلبات: " +  
-      error.message;  
-
-  }  
+        }
+    );
 
 }
 
-);
-
-}
 
 // ==========================================================
 // AUTH STATE
 // ==========================================================
 
 onAuthStateChanged(
+    auth,
 
-auth,
+    function (user) {
 
-function (user) {
+        currentUser = user;
 
-currentUser =  
-  user;  
+        if (!user) {
 
+            requestsListenerStarted = false;
 
-console.log(  
-  "Auth state:",  
-  user  
-    ? user.uid  
-    : "لا يوجد مستخدم"  
-);  
+            requests = {};
 
+            showLogin();
 
-if (!user) {  
+            return;
 
-  showLogin();  
+        }
 
-  return;  
+        if (
+            user.uid !== ADMIN_UID ||
+            user.email !== ADMIN_EMAIL
+        ) {
 
-}  
+            signOut(auth);
 
+            if (loginError) {
 
-if (user.uid !== ADMIN_UID) {  
+                loginError.textContent =
+                    "هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.";
 
-  console.error(  
-    "الحساب ليس Admin"  
-  );  
+            }
 
+            showLogin();
 
-  signOut(auth);  
+            return;
 
+        }
 
-  if (loginError) {  
+        showAdmin();
 
-    loginError.textContent =  
-      "هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.";  
+        loadRequests();
 
-  }  
-
-
-  showLogin();  
-
-  return;  
-
-}  
-
-
-console.log(  
-  "تم تسجيل دخول الأدمن بنجاح"  
-);  
-
-
-showAdmin();  
-
-
-loadRequests();
-
-}
-
+    }
 );
